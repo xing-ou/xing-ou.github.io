@@ -6,17 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives: 2017 | fa的学习之路</title>
+  <title>rxswift30天从入门到精通_1 | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前的blog在换电脑时丢失了,没办法另起一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fa的学习之路">
-<meta property="og:url" content="http://yoursite.com/archives/2017/index.html">
+  <meta name="description" content="当然首先第一个资源是raywenderlich的Reactive programming with swift。  什么是rxswift?12RxSwift is a library for composing asynchronous and event-based code by using observable sequences and functional style operators">
+<meta name="keywords" content="rxswift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rxswift30天从入门到精通_1">
+<meta property="og:url" content="http://yoursite.com/2017/05/31/rxswift30天从入门到精通-1/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta property="og:description" content="当然首先第一个资源是raywenderlich的Reactive programming with swift。  什么是rxswift?12RxSwift is a library for composing asynchronous and event-based code by using observable sequences and functional style operators">
+<meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-31%20%E4%B8%8B%E5%8D%887.47.22.png">
+<meta property="og:updated_time" content="2017-05-31T13:19:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fa的学习之路">
-<meta name="twitter:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta name="twitter:title" content="rxswift30天从入门到精通_1">
+<meta name="twitter:description" content="当然首先第一个资源是raywenderlich的Reactive programming with swift。  什么是rxswift?12RxSwift is a library for composing asynchronous and event-based code by using observable sequences and functional style operators">
+<meta name="twitter:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-31%20%E4%B8%8B%E5%8D%887.47.22.png">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -156,36 +160,89 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-rxswift30天从入门到精通-1" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/31/rxswift30天从入门到精通-1/" class="archive-article-date">
-  	<time datetime="2017-05-31T11:41:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/31/rxswift30天从入门到精通-1/">rxswift30天从入门到精通_1</a>
+    <h1 class="article-title" itemprop="name">
+      rxswift30天从入门到精通_1
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/05/31/rxswift30天从入门到精通-1/" class="archive-article-date">
+  	<time datetime="2017-05-31T11:41:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当然首先第一个资源是raywenderlich的<strong>Reactive programming with swift</strong>。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-31%20%E4%B8%8B%E5%8D%887.47.22.png" alt=""></p>
+<h4 id="什么是rxswift"><a href="#什么是rxswift" class="headerlink" title="什么是rxswift?"></a>什么是rxswift?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RxSwift is a library for composing asynchronous and event-based code by using observable sequences and functional style operators, allowing for parameterized execution via schedulers.</div><div class="line">rxswift是一个用observable序列和函数式操作符让你编写异步的基于事件的代码的一个库，。。。</div></pre></td></tr></table></figure>
+<p>不大懂，没关系，一步一步来,竟然提到了异步，那么先来看看异步编程的术语，rxswift和异步，响应式，函数式编程等紧紧相关，所以如果你知道一些术语，能够帮助你更好的理解rxswift。</p>
+<h4 id="异步编程术语"><a href="#异步编程术语" class="headerlink" title="异步编程术语"></a>异步编程术语</h4><h5 id="1-状态-state-特别是共享的可变状态-shared-mutable-state"><a href="#1-状态-state-特别是共享的可变状态-shared-mutable-state" class="headerlink" title="1. 状态(state) ,特别是共享的可变状态(shared mutable state)"></a>1. 状态(state) ,特别是共享的可变状态(shared mutable state)</h5><p>状态比较难定义，我们看下面的例子：</p>
+<p>当你打开你的笔记本电脑，他正常运行。但是你用了几天或者几周后，他可能就变得有些异常，突然卡顿或者拒绝响应等。硬件和软件都是一样的，但是<strong>状态</strong>变了。只要你重启，同样的软件和硬件又能正常工作。</p>
+<p>内存中的数据，磁盘上的数据，用户输入的响应以及所有从服务器拉取数据后残留的痕迹等，—-他们的总和就是你笔记本的<strong>状态</strong>。</p>
+<h5 id="2-命令式编程-Imperative-programming"><a href="#2-命令式编程-Imperative-programming" class="headerlink" title="2. 命令式编程(Imperative programming)"></a>2. 命令式编程(Imperative programming)</h5><p>Imperative programming是一种 用陈述式语句来改变程序状态的一种范式。就像你和你的狗狗玩耍时说的：“过来” “躺下” “装死”。你也通过命令式的代码告诉你的app什么时候做什么事。不过这种命令式的代码会给我们带来许多问题，特别是在处理复杂的，异步的逻辑时。比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidAppear</span><span class="params">(<span class="number">_</span> animated: Bool)</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.viewDidAppear(animated)</div><div class="line">  setupUI()</div><div class="line">  connectUIControls()</div><div class="line">  createDataSource()</div><div class="line">  listenForChanges()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里并不知道这些方法到底干了什么，会改变viewcontroller的某个属性么？更让人不安的是，他们调用的顺序对么？如果某个人交换了他们的顺序并提交到git上。那么app可能因为函数的交换就不能正常运行了。</p>
+<h5 id="3-副作用（side-effects）"><a href="#3-副作用（side-effects）" class="headerlink" title="3.副作用（side effects）"></a>3.副作用（side effects）</h5><p>副作用是当前作用域外的状态的改变。比如上面例子中的connectUIControls。他可能会为UI绑定时间，这就产生了副作用，因为view的状态改变了：函数调用前的行为和调用后的行为不一样了。任何时候你存储数据到磁盘或者更新label的text都引起了副作用。</p>
+<p>副作用并不是指坏的影响。总之，我们的最终目的就是产生副作用。你的程序运行后需要改变状态。</p>
+<p>副作用的问题在于是否已一种可控的方式执行(doing it in a controlled way)。你必须能够确定哪部分代码产生副作用，哪些是仅仅处理和输出数据。</p>
+<p>Rxswift会解决上面的问题，我们看看下面的rxswift的一些概念。</p>
+<h5 id="4-描述式的代码（declarative-code）"><a href="#4-描述式的代码（declarative-code）" class="headerlink" title="4.描述式的代码（declarative code）"></a>4.描述式的代码（declarative code）</h5><p>描述式的代码定义了一坨行为(behavior)，rxswift会在相关的事件到达时运行这些behavior，并且提供给behavior的输入是可以确定不变的。</p>
+<p>这种方式也适用于异步代码。你不用再怀疑你的代码是否是按顺序，确定的执行的了。</p>
+<h5 id="5-响应式系统-reactive-system"><a href="#5-响应式系统-reactive-system" class="headerlink" title="5.响应式系统(reactive system)"></a>5.响应式系统(reactive system)</h5><p>他具有以下特性：</p>
+<ul>
+<li>Responsive: 总是保持UI是最新的。</li>
+<li>resilient：每种行为(behavior)都是隔离的，而且有一定的错误恢复机制</li>
+<li>Elastic：代码能够处理各种负载，这些特性包括：event throttling ，resource sharing等。</li>
+<li>Message driven：各个组件都通过事件来交流，从而实现重用和隔离，将类的生命周期和实现解耦。</li>
+</ul>
+<p>rxswift的代码由三部分组成：Observables,operators，schedulers。</p>
+<h4 id="Observales"><a href="#Observales" class="headerlink" title="Observales"></a>Observales</h4><p>一个Observale能够发射三种类型的值：</p>
+<ul>
+<li>.next : 带有最新值得事件</li>
+<li>.completed：表示生命周期正常结束，不会再产生其他事件</li>
+<li>.error: 产生了错误退出，不会再产生任何事件</li>
+</ul>
+<h4 id="Operator"><a href="#Operator" class="headerlink" title="Operator"></a>Operator</h4><p>Rxswift提供了许多操作符：map,flatmap,zip,timer等，能让我们用描述的方式编写代码，以后再看</p>
+<h4 id="schedulers"><a href="#schedulers" class="headerlink" title="schedulers"></a>schedulers</h4><p>scheduler等价于rx的dispatch queue实现。能帮助我们处理各种异步事件。</p>
+<p>这一章主要就是介绍了rxswift想要解决的问题，对rxswift有个大概的了解，明天继续看Observables。</p>
+<p>​<br>​<br>​    </p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -197,57 +254,89 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/05/31/rxswift30天从入门到精通-1/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/31/first/" class="archive-article-date">
-  	<time datetime="2017-05-31T11:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/31/first/">换电脑，老blog被删了，新起炉灶继续怼</a>
-    </h1>
+  
+    <a href="/2017/05/31/first/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">换电脑，老blog被删了，新起炉灶继续怼</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">闲聊</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
   
 
-    
+  
 
 
           </div>
@@ -270,8 +359,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
