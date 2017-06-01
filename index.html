@@ -158,6 +158,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-rxswift30天从入门到精通-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/01/rxswift30天从入门到精通-2/">rxswift30天从入门到精通-2</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/01/rxswift30天从入门到精通-2/" class="archive-article-date">
+  	<time datetime="2017-06-01T11:39:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：</p>
+<ul>
+<li>消息的产生(对应着observable的create相关函数)<ul>
+<li>既能产生消息又能处理消息的对象(subjects相关)</li>
+</ul>
+</li>
+<li>消息的转换(对应着各种operation)</li>
+<li>消息的传递(对应着observableType的subscribe方法)</li>
+<li>消息的处理(对应着observer)</li>
+<li>资源的清理(对应着disposable)</li>
+<li>如果还希望控制线程相关（schedule）。</li>
+</ul>
+<p>这基本上包含了rxswift的大多数类了。</p>
+<p>Ok，先从相关性小的学起。</p>
+<h3 id="Disposable"><a href="#Disposable" class="headerlink" title="Disposable"></a>Disposable</h3><p>他是对资源清理这一步的抽象。抽象也很简单，就是一个dispose方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">dispose</span><span class="params">()</span></span> <span class="comment">///销毁</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Cancelable</span> : <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> isDisposed: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125; <span class="comment">//是否被销毁了。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是具体要怎么清理呢？先看看大部分disposable的基类：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DisposeBase</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>() &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.incrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.decrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到基类什么也没干，ok，我们又看看具体的子类。都是继承自DisposeBase，并实现了Cancelable接口</p>
+<h5 id="AnonymousDisposable"><a href="#AnonymousDisposable" class="headerlink" title="AnonymousDisposable"></a>AnonymousDisposable</h5><p>代表着一个 会在销毁时执行某个action的disposable。</p>
+<h5 id="BinaryDisposable"><a href="#BinaryDisposable" class="headerlink" title="BinaryDisposable"></a>BinaryDisposable</h5><p>将两个disposable包裹为一个，在BinaryDisposable销毁时，同时释放两个包含的disposable。</p>
+<h5 id="BooleanDisposable"><a href="#BooleanDisposable" class="headerlink" title="BooleanDisposable"></a>BooleanDisposable</h5><p>代表一个可以检查dispose状态的disposable.</p>
+<h5 id="CompositeDisposavle"><a href="#CompositeDisposavle" class="headerlink" title="CompositeDisposavle"></a>CompositeDisposavle</h5><p>包裹了 一组disposables，在CompositeDisposable销毁时同时销毁所有的disposable。</p>
+<h5 id="RefCountDisposable"><a href="#RefCountDisposable" class="headerlink" title="RefCountDisposable"></a>RefCountDisposable</h5><p>与某个disposable绑定，只有当绑定的disposable销毁时，才销毁自己。</p>
+<h5 id="ScheduledDisposable"><a href="#ScheduledDisposable" class="headerlink" title="ScheduledDisposable"></a>ScheduledDisposable</h5><p>让销毁操作在某个线程上执行。</p>
+<h5 id="SerialDisposable"><a href="#SerialDisposable" class="headerlink" title="SerialDisposable"></a>SerialDisposable</h5><p>底层的disposable是可替换的，当替换时，会自动dispose前一个disposable。</p>
+<h5 id="SingleAssignmentDisposable"><a href="#SingleAssignmentDisposable" class="headerlink" title="SingleAssignmentDisposable"></a>SingleAssignmentDisposable</h5><p>只能对底层的disposabel赋值一次，再次赋值将抛出异常。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="disposeBag"><a href="#disposeBag" class="headerlink" title="disposeBag"></a>disposeBag</h5><p>相当于一个disposables的容器，当bag释放时，会自动dispose其包含的disposable。</p>
+<h5 id="NopDisposable"><a href="#NopDisposable" class="headerlink" title="NopDisposable"></a>NopDisposable</h5><p>代表销毁时什么也不执行的disposable。</p>
+<h5 id="Disposables"><a href="#Disposables" class="headerlink" title="Disposables"></a>Disposables</h5><p>相当于一个公共方法结构体。包含一些常用的创建disposable方法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ok，上面的类基本是disposable所有的类了。我们看到，他的类主要抽象了销毁时我们应该执行什么操作以及处理需要销毁多个disposable的类。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/01/rxswift30天从入门到精通-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-rxswift30天从入门到精通-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
