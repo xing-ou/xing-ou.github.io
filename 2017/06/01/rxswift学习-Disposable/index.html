@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Archives | fa的学习之路</title>
+  <title>rxswift学习-Disposable | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前的blog在换电脑时丢失了,没办法另起一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fa的学习之路">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：  消息的产生(对应着observable的create相关函数) 既能产生消息又能处理消息的对象(subjects相关)   消息的转换(对应着各种operation) 消息的传递(对应着observableType的subscribe方法) 消息的处理(对应着observer) 资源的清理(对应着dis">
+<meta name="keywords" content="rxswift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rxswift学习-Disposable">
+<meta property="og:url" content="http://yoursite.com/2017/06/01/rxswift学习-Disposable/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta property="og:description" content="我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：  消息的产生(对应着observable的create相关函数) 既能产生消息又能处理消息的对象(subjects相关)   消息的转换(对应着各种operation) 消息的传递(对应着observableType的subscribe方法) 消息的处理(对应着observer) 资源的清理(对应着dis">
+<meta property="og:updated_time" content="2017-06-07T07:05:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fa的学习之路">
-<meta name="twitter:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta name="twitter:title" content="rxswift学习-Disposable">
+<meta name="twitter:description" content="我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：  消息的产生(对应着observable的create相关函数) 既能产生消息又能处理消息的对象(subjects相关)   消息的转换(对应着各种operation) 消息的传递(对应着observableType的subscribe方法) 消息的处理(对应着observer) 资源的清理(对应着dis">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -156,150 +158,86 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-rxswift学习-Disposable" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/06/rxswift学习-Observable初探/" class="archive-article-date">
-  	<time datetime="2017-06-06T03:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/06/rxswift学习-Observable初探/">rxswift学习-Observable初探</a>
+    <h1 class="article-title" itemprop="name">
+      rxswift学习-Disposable
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/06/rxswift学习-Observer/" class="archive-article-date">
-  	<time datetime="2017-06-06T02:35:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/06/rxswift学习-Observer/">rxswift学习-Observer</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/05/rxswift学习-scheduler/" class="archive-article-date">
-  	<time datetime="2017-06-05T09:39:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/05/rxswift学习-scheduler/">rxswift学习-scheduler</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/01/rxswift学习-Disposable/" class="archive-article-date">
+        
+        <a href="/2017/06/01/rxswift学习-Disposable/" class="archive-article-date">
   	<time datetime="2017-06-01T11:39:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-01</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/01/rxswift学习-Disposable/">rxswift学习-Disposable</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：</p>
+<ul>
+<li>消息的产生(对应着observable的create相关函数)<ul>
+<li>既能产生消息又能处理消息的对象(subjects相关)</li>
+</ul>
+</li>
+<li>消息的转换(对应着各种operation)</li>
+<li>消息的传递(对应着observableType的subscribe方法)</li>
+<li>消息的处理(对应着observer)</li>
+<li>资源的清理(对应着disposable)</li>
+<li>如果还希望控制线程相关（schedule）。</li>
+</ul>
+<p>这基本上包含了rxswift的大多数类了。</p>
+<p>Ok，先从相关性小的学起。</p>
+<h3 id="Disposable"><a href="#Disposable" class="headerlink" title="Disposable"></a>Disposable</h3><p>他是对资源清理这一步的抽象。抽象也很简单，就是一个dispose方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">dispose</span><span class="params">()</span></span> <span class="comment">///销毁</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Cancelable</span> : <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> isDisposed: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125; <span class="comment">//是否被销毁了。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是具体要怎么清理呢？先看看大部分disposable的基类：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DisposeBase</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>() &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.incrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.decrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到基类什么也没干，ok，我们又看看具体的子类。都是继承自DisposeBase，并实现了Cancelable接口</p>
+<h5 id="AnonymousDisposable"><a href="#AnonymousDisposable" class="headerlink" title="AnonymousDisposable"></a>AnonymousDisposable</h5><p>代表着一个 会在销毁时执行某个action的disposable。</p>
+<h5 id="BinaryDisposable"><a href="#BinaryDisposable" class="headerlink" title="BinaryDisposable"></a>BinaryDisposable</h5><p>将两个disposable包裹为一个，在BinaryDisposable销毁时，同时释放两个包含的disposable。</p>
+<h5 id="BooleanDisposable"><a href="#BooleanDisposable" class="headerlink" title="BooleanDisposable"></a>BooleanDisposable</h5><p>代表一个可以检查dispose状态的disposable.</p>
+<h5 id="CompositeDisposavle"><a href="#CompositeDisposavle" class="headerlink" title="CompositeDisposavle"></a>CompositeDisposavle</h5><p>包裹了 一组disposables，在CompositeDisposable销毁时同时销毁所有的disposable。</p>
+<h5 id="RefCountDisposable"><a href="#RefCountDisposable" class="headerlink" title="RefCountDisposable"></a>RefCountDisposable</h5><p>与某个disposable绑定，只有当绑定的disposable销毁时，才销毁自己。</p>
+<h5 id="ScheduledDisposable"><a href="#ScheduledDisposable" class="headerlink" title="ScheduledDisposable"></a>ScheduledDisposable</h5><p>让销毁操作在某个线程上执行。</p>
+<h5 id="SerialDisposable"><a href="#SerialDisposable" class="headerlink" title="SerialDisposable"></a>SerialDisposable</h5><p>底层的disposable是可替换的，当替换时，会自动dispose前一个disposable。</p>
+<h5 id="SingleAssignmentDisposable"><a href="#SingleAssignmentDisposable" class="headerlink" title="SingleAssignmentDisposable"></a>SingleAssignmentDisposable</h5><p>只能对底层的disposabel赋值一次，再次赋值将抛出异常。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="disposeBag"><a href="#disposeBag" class="headerlink" title="disposeBag"></a>disposeBag</h5><p>相当于一个disposables的容器，当bag释放时，会自动dispose其包含的disposable。</p>
+<h5 id="NopDisposable"><a href="#NopDisposable" class="headerlink" title="NopDisposable"></a>NopDisposable</h5><p>代表销毁时什么也不执行的disposable。</p>
+<h5 id="Disposables"><a href="#Disposables" class="headerlink" title="Disposables"></a>Disposables</h5><p>相当于一个公共方法结构体。包含一些常用的创建disposable方法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ok，上面的类基本是disposable所有的类了。我们看到，他的类主要抽象了销毁时我们应该执行什么操作以及处理需要销毁多个disposable的类。</p>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -311,95 +249,98 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/06/01/rxswift学习-Disposable/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/31/rxswift学习_先看看/" class="archive-article-date">
-  	<time datetime="2017-05-31T11:41:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/31/rxswift学习_先看看/">rxswift学习_先看看</a>
-    </h1>
+    <a href="/2017/06/05/rxswift学习-scheduler/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          rxswift学习-scheduler
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/31/rxswift学习_先看看/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">rxswift学习_先看看</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/31/first/" class="archive-article-date">
-  	<time datetime="2017-05-31T11:06:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/31/first/">换电脑，老blog被删了，新起炉灶继续怼</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">闲聊</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -422,8 +363,8 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
