@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: rxswift | fa的学习之路</title>
+  <title>rxswift学习-Observable之创建 | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前的blog在换电脑时丢失了,没办法另起一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fa的学习之路">
-<meta property="og:url" content="http://yoursite.com/tags/rxswift/index.html">
+  <meta name="description" content="create操作符123456789101112131415161718192021222324public static func create(_ subscribe: @escaping (AnyObserver&amp;lt;E&amp;gt;) -&amp;gt; Disposable) -&amp;gt; Observable&amp;lt;E&amp;gt; &amp;#123;        return AnonymousObserv">
+<meta name="keywords" content="rxswift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="rxswift学习-Observable之创建">
+<meta property="og:url" content="http://yoursite.com/2017/06/07/rxswift学习-Observable之创建/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta property="og:description" content="create操作符123456789101112131415161718192021222324public static func create(_ subscribe: @escaping (AnyObserver&amp;lt;E&amp;gt;) -&amp;gt; Disposable) -&amp;gt; Observable&amp;lt;E&amp;gt; &amp;#123;        return AnonymousObserv">
+<meta property="og:updated_time" content="2017-06-08T01:35:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fa的学习之路">
-<meta name="twitter:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta name="twitter:title" content="rxswift学习-Observable之创建">
+<meta name="twitter:description" content="create操作符123456789101112131415161718192021222324public static func create(_ subscribe: @escaping (AnyObserver&amp;lt;E&amp;gt;) -&amp;gt; Disposable) -&amp;gt; Observable&amp;lt;E&amp;gt; &amp;#123;        return AnonymousObserv">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -156,36 +158,77 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
+            <article id="post-rxswift学习-Observable之创建" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 class="article-title" itemprop="name">
+      rxswift学习-Observable之创建
+    </h1>
   
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/07/rxswift学习-Observable之创建/" class="archive-article-date">
+
+        
+        <a href="/2017/06/07/rxswift学习-Observable之创建/" class="archive-article-date">
   	<time datetime="2017-06-07T07:11:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-07</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/07/rxswift学习-Observable之创建/">rxswift学习-Observable之创建</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="create操作符"><a href="#create操作符" class="headerlink" title="create操作符"></a>create操作符</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">create</span><span class="params">(<span class="number">_</span> subscribe: @escaping <span class="params">(AnyObserver&lt;E&gt;)</span></span></span> -&gt; <span class="type">Disposable</span>) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">AnonymousObservable</span>(subscribe)</div><div class="line">&#125;</div><div class="line"><span class="comment">//----------------------------------------</span></div><div class="line"><span class="keyword">let</span> myObservable =  <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.create &#123; (observer) -&gt; <span class="type">Disposable</span> <span class="keyword">in</span></div><div class="line">            observer.onNext(<span class="number">1</span>)</div><div class="line">            observer.onNext(<span class="number">2</span>)</div><div class="line">            observer.onNext(<span class="number">3</span>)</div><div class="line">            observer.onNext(<span class="number">4</span>)</div><div class="line">            observer.onNext(<span class="number">5</span>)</div><div class="line">            observer.onCompleted()</div><div class="line">            <span class="keyword">return</span> <span class="type">Disposables</span>.create()</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        myObservable.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">            <span class="built_in">print</span>(event)</div><div class="line">        &#125;.disposed(by: bag)</div><div class="line"><span class="comment">//--------------------------------------------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">next(<span class="number">5</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="Empty-Error-Never操作符"><a href="#Empty-Error-Never操作符" class="headerlink" title="Empty, Error, Never操作符"></a>Empty, Error, Never操作符</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">Empty</span>: 只收到一个.completed </div><div class="line"><span class="type">Error</span>: 只收到一个.error </div><div class="line"><span class="type">Never</span>: 永远也不会结束。</div></pre></td></tr></table></figure>
+<h4 id="just"><a href="#just" class="headerlink" title="just"></a>just</h4><p>返回一个只包含一个element的sequnce。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(<span class="number">_</span> element: E)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(<span class="number">_</span> element: E, </span></span></div><div class="line">scheduler: ImmediateSchedulerType) <span class="comment">//这个element需要在哪个scheduler上emit。</span></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="of"><a href="#of" class="headerlink" title="of"></a>of</h4><p>返回一个包含elements的sequence,并在scheduler上emit他们。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">of</span><span class="params">(<span class="number">_</span> elements: E ..., scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//--------</span></div><div class="line"><span class="keyword">let</span> never = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><p>返回一个observable sequence，每当有人subscribe他时，就会调用observableFactory生成一个observable，并subscribe他。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">deferred</span><span class="params">(<span class="number">_</span> observableFactory: @escaping <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;)</div><div class="line">        -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//------------------example----------</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> value:<span class="type">String</span> = <span class="string">""</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">valueObservable</span><span class="params">()</span></span>-&gt;<span class="type">Observable</span>&lt;<span class="type">String</span>&gt; &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Observable</span>.deferred(&#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] () -&gt; <span class="type">Observable</span>&lt;<span class="type">String</span>&gt; <span class="keyword">in</span></div><div class="line">            <span class="keyword">let</span> value = <span class="keyword">self</span> == <span class="literal">nil</span> ? <span class="string">""</span> : <span class="keyword">self</span>!.value</div><div class="line">            <span class="keyword">return</span> <span class="type">Observable</span>&lt;<span class="type">String</span>&gt;.just(value)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//-------------------</span></div><div class="line"><span class="keyword">let</span> someType = <span class="type">SomeType</span>()</div><div class="line">someType.value = <span class="string">"helloworld"</span></div><div class="line">someType.valueObservable()</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"></div><div class="line">someType.value = <span class="string">"happyNewYear"</span></div><div class="line">someType.valueObservable()</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-------------结果-------</span></div><div class="line">next(helloworld)</div><div class="line">completed</div><div class="line">next(happyNewYear)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h4><p>通过条件循环来生成elements。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">generate</span><span class="params">(</span></span></div><div class="line">  initialState: E, //初始状态</div><div class="line">  condition: @escaping <span class="params">(E)</span> <span class="keyword">throws</span> -&gt; <span class="type">Bool</span>, <span class="comment">//循环条件，为false时结束生成</span></div><div class="line">  scheduler: <span class="type">ImmediateSchedulerType</span> = <span class="type">CurrentThreadScheduler</span>.instance, <span class="comment">//emit的scheduler</span></div><div class="line">  iterate: @escaping (<span class="type">E</span>) <span class="keyword">throws</span> -&gt; <span class="type">E</span>) <span class="comment">//迭代函数</span></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//---------------------</span></div><div class="line"><span class="keyword">let</span> numObservable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.generate(initialState: <span class="number">1</span>,</div><div class="line">condition: &#123; $<span class="number">0</span> &lt; <span class="number">100</span> &#125;, </div><div class="line">iterate: &#123; $<span class="number">0</span> + <span class="number">10</span> &#125;)</div><div class="line"></div><div class="line">numObservable</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">            <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-----------------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">11</span>)</div><div class="line">next(<span class="number">21</span>)</div><div class="line">next(<span class="number">31</span>)</div><div class="line">next(<span class="number">41</span>)</div><div class="line">next(<span class="number">51</span>)</div><div class="line">next(<span class="number">61</span>)</div><div class="line">next(<span class="number">71</span>)</div><div class="line">next(<span class="number">81</span>)</div><div class="line">next(<span class="number">91</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="repeat"><a href="#repeat" class="headerlink" title="repeat"></a>repeat</h4><p>生成一个observable sequence无限重复某个element。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">repeatElement</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> element: E, //重复的element</div><div class="line">  scheduler: ImmediateSchedulerType = //在哪个schduler上emit</div><div class="line">  CurrentThreadScheduler.instance) </div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="using"><a href="#using" class="headerlink" title="using"></a>using</h4><p>将resource的生命周期和observable的生命周期绑定。当你调用subscribe时，using会调用这两个factory method。当sequence退出的时候，resource会dispose掉。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">using</span>&lt;Resource: Disposable&gt;<span class="params">(</span></span></div><div class="line"><span class="number">_</span> resourceFactory: @escaping <span class="params">()</span> <span class="keyword">throws</span> -&gt; <span class="type">Resource</span>, observableFactory: @escaping (<span class="type">Resource</span>) <span class="keyword">throws</span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;) </div><div class="line"></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><p>对整数的扩展,返回一个包含某个范围内的elements的sequence</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">range</span><span class="params">(</span></span></div><div class="line">  start: E,//起始值</div><div class="line">  <span class="built_in">count</span>: E,//总共element的个数</div><div class="line">  scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//-----------</span></div><div class="line"><span class="keyword">let</span> range = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.range(start: <span class="number">10</span>, <span class="built_in">count</span>: <span class="number">3</span>)</div><div class="line">range.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//------------        </span></div><div class="line">next(<span class="number">10</span>)</div><div class="line">next(<span class="number">11</span>)</div><div class="line">next(<span class="number">12</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="from"><a href="#from" class="headerlink" title="from"></a>from</h4><p>将一个数组转换为observable dequence。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> array: [E], </div><div class="line">  scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; </div><div class="line"><span class="comment">//------</span></div><div class="line"> <span class="keyword">let</span> from = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.from([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</div><div class="line">from.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">next(<span class="number">5</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<p>将一个sequence转换为observable sequence。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span>&lt;S: Sequence&gt;<span class="params">(</span></span></div><div class="line"><span class="number">_</span> sequence: S, </div><div class="line">scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; <span class="keyword">where</span> <span class="type">S</span>.<span class="type">Iterator</span>.<span class="type">Element</span> == <span class="type">E</span> </div><div class="line"><span class="comment">//-----</span></div><div class="line"><span class="keyword">let</span> from = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.from(<span class="type">Set</span>.<span class="keyword">init</span>(arrayLiteral: <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>))</div><div class="line">from.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//---</span></div><div class="line">next(<span class="number">5</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<p>将某个optional值转化为一个observable sequence。如果为nil，那么直接发送.completed否则发送value和.completed。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(<span class="number">_</span> <span class="keyword">optional</span>: E?)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> <span class="keyword">optional</span>: E?, </div><div class="line">  scheduler: ImmediateSchedulerType</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
 
-        <div class="article-info info-on-right">
-          
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -197,209 +240,89 @@
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/06/07/rxswift学习-Observable之创建/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/06/rxswift学习-Observable初探/" class="archive-article-date">
-  	<time datetime="2017-06-06T03:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
-</a>
-        </div>
-    	 
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/06/rxswift学习-Observable初探/">rxswift学习-Observable初探</a>
-    </h1>
+  
+    <a href="/2017/06/06/rxswift学习-Observable初探/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">rxswift学习-Observable初探</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/06/rxswift学习-Observer/" class="archive-article-date">
-  	<time datetime="2017-06-06T02:35:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/06/rxswift学习-Observer/">rxswift学习-Observer</a>
-    </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/05/rxswift学习-scheduler/" class="archive-article-date">
-  	<time datetime="2017-06-05T09:39:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/05/rxswift学习-scheduler/">rxswift学习-scheduler</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/01/rxswift学习-Disposable/" class="archive-article-date">
-  	<time datetime="2017-06-01T11:39:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-01</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/01/rxswift学习-Disposable/">rxswift学习-Disposable</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/05/31/rxswift学习_先看看/" class="archive-article-date">
-  	<time datetime="2017-05-31T11:41:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/05/31/rxswift学习_先看看/">rxswift学习_先看看</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
 
 
           </div>
@@ -422,9 +345,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
