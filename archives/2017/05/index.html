@@ -1,42 +1,62 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
 
-block title
-  if page.category
-     title= page.category + " | " + config.title
-  if page.tag
-     title= page.tag + " | " + config.title
-  if page.archive
-     title= __('archive') + " | " + config.title
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
 
-block main
-  article
-    .container
-      if page.category || page.tag
-          h1.label-title=  (page.category || page.tag)
-      .post
-        // show all categories and tags
-        if !(page.category || page.tag)
-            .all-categories
-              ul.tag-box.list-unstyled
-                for category in site.categories.sort('name').toArray()
-                  li
-                    a(href=url_for(category.path))= category.name
-                      span= category.length
-            .all-tags
-              ul.tag-box.list-unstyled
-                for tag in site.tags.sort('name').toArray()
-                  li
-                    a(href=url_for(tag.path))= tag.name
-                      span= tag.length
+  <main class="archive">
+  
+    <article class="grid">
+  <h1 class="article-title grid-item">
+    <a href="/2017/05/31/rxswift学习_先看看/">rxswift学习_先看看</a>
+  </h1>
 
-        .post-archive
-            //Use lodash to classify posts. See https://lodash.com/docs#groupBy
-            each posts, year in _.groupBy(page.posts.toArray(), function(p){return -p.date.format('YYYY')})
-              h2= -year
-              ul.listing
-                for post in posts
-                  li
-                    span.date= post.date.format('YYYY/MM/DD')
-                    a(href=url_for(post.path), title=post.title)
-                      = post.title
-  include _partial/paginator.jade
+  <div class="article-meta">
+    <span class="article-date">May 31 2017</span>
+  </div>
+</article>
+
+  
+    <article class="grid">
+  <h1 class="article-title grid-item">
+    <a href="/2017/05/31/first/">换电脑，老blog被删了，新起炉灶继续怼</a>
+  </h1>
+
+  <div class="article-meta">
+    <span class="article-date">May 31 2017</span>
+  </div>
+</article>
+
+  
+
+  <nav class="page-nav">
+  <span class="page-number current">1</span>
+</nav>
+
+</main>
+
+</body>
+</html>

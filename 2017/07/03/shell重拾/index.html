@@ -1,40 +1,126 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>shell重拾 | lyyourc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/app.css">
+  <!-- <link rel='stylesheet' href='http://fonts.useso.com/css?family=Source+Code+Pro'> -->
+  
+</head>
 
-block title
-  title= page.title + " | " + config.title
+<body>
+  <nav class="app-nav">
+  
+    
+      <a href="/.">home</a>
+    
+  
+    
+      <a href="/archives">archive</a>
+    
+  
+    
+      <a href="/atom.xml">rss</a>
+    
+  
+</nav>
 
-block main
+  <main class="post">
+  <article>
+  <h1 class="article-title">
+    <a href="/2017/07/03/shell重拾/">shell重拾</a>
+  </h1>
 
-  // gallery that comes before the header
-  if page.photos
-     if page.photos.length
-      .article-gallery
-        .article-gallery-photos.container
-          for photo in page.photos
-            a.article-gallery-img.fancybox(href=url_for(photo), rel="gallery_" + page._id)
-              img(src=url_for(photo), itemprop="image")
+  <section class="article-meta">
+    <p class="article-date">July 03 2017</p>
+  </section>
 
-  .wrapper
-    .container.post-header
-      h1: = page.title
+  <section class="article-entry">
+    <h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>以字母或下划线开头</div><div class="line"><span class="meta">#</span>=前后不能有空格</div><div class="line"><span class="meta">#</span>值中有空格用引号</div><div class="line">first=hello</div><div class="line">second=world</div><div class="line">full="$first lalala $second"</div><div class="line">echo $full</div><div class="line"><span class="meta">#</span>显示hello lalala worldn</div><div class="line"><span class="meta">#</span>printf命令用法和标准库函数的用法一致</div><div class="line">printf "hello is %s int is %d other str is %s" hello 123 world</div></pre></td></tr></table></figure>
+<h5 id="访问shell脚本的参数"><a href="#访问shell脚本的参数" class="headerlink" title="访问shell脚本的参数"></a>访问shell脚本的参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>/bin/bash</div><div class="line">echo "arg is $0 $1 $2 $3"</div><div class="line"></div><div class="line"></div><div class="line">./test.sh first second third</div><div class="line">输出</div><div class="line">arg is ./test.sh first second third</div></pre></td></tr></table></figure>
+<h3 id="查找与替换"><a href="#查找与替换" class="headerlink" title="查找与替换"></a>查找与替换</h3><h4 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-E : 使用扩展正则表达式</div><div class="line">-F ：使用固定字符串进行匹配</div><div class="line">-e ；正则表达式</div><div class="line">-f :将file中的内容作为正则表达式</div><div class="line">-i : 匹配时忽略大小写</div><div class="line">-l :列出匹配的文件的名称而不是行</div><div class="line">-q :静默模式，不会显示结果到标准输出</div><div class="line">-s:不显示错误信息</div><div class="line">-v :反转，显示不匹配的行</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>正则表达,注意区分bre和ere</div><div class="line">^xyz  : 以xyz开头的行</div><div class="line"><span class="meta">xyz$</span>  :以xyz结束的行</div><div class="line">. : 匹配任意一个字符</div><div class="line">？ ：匹配0个或者1个字符</div><div class="line">+ : 1个或者多个前面的字符</div><div class="line">* ：0个或者任意多个字符</div><div class="line">[] ：匹配括号内的任意一个字符</div><div class="line">\&#123;n,m\&#125; :匹配前一个字符出现n到m次。</div><div class="line">\(\)：标识()内的内容</div><div class="line">[:alpha:]  : 任意字母</div><div class="line">[:alnum:]  :任意数字</div><div class="line">[:lower:]</div><div class="line">[:upper:]</div><div class="line">|:或者 优先级最低</div><div class="line"></div><div class="line">ere</div><div class="line">&#123;n,m&#125;</div><div class="line">()</div><div class="line">\&lt;:单词开头</div><div class="line">\&gt;：单词结束</div><div class="line">\w: [[:alnum:]_]</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tr 命令</div><div class="line">-d 删除后面的字符串出现的字符</div><div class="line">-s 浓缩为1个后面字符集中出现的连续的字符</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-04%20%E4%B8%8A%E5%8D%889.53.55.png" alt=""></p>
+<h4 id="Sed命令"><a href="#Sed命令" class="headerlink" title="Sed命令"></a>Sed命令</h4><p>通常用于处理输入流的文本替换</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>删除行</div><div class="line">cat exampleFile | sed '1,5d' #删除1到5行  ‘2d’删除第二行</div><div class="line">sed '2,$d' xxx 删除第二行到文件末尾</div><div class="line">sed '$d'删除最后一行</div><div class="line">cat ls |sed '/^hel/'d 删除匹配正则的行</div><div class="line">cat ls |sed 's/hel/yyy/g' 替换每一行的hel为ggg，不加g只替换第一个</div><div class="line"><span class="meta">#</span> &amp;代表匹配的字符串，将开头192.168.0.1替换为192.168.0.1localhost</div><div class="line">sed 's/^192.168.0.1/&amp;localhost/' example </div><div class="line">sed -n 's/^test/mytest/p' example 只打印发生替换的行</div><div class="line">sed -n 's/\(love\)able/\1rs/p' example-----love被标记为1，所有loveable会被替换成lovers，而且替换的行会被打印出来。 </div><div class="line">sed 's#10#100#g' example-----不论什么字符，紧跟着s命令的都被认为是新的分隔符，所以，“#”在这里是分隔符，代替了默认的“/”分隔符。表示把所有10替换成100。</div><div class="line">sed -e '1,5d' -e 's/test/check/' example-----(-e)选项允许在同一行里执行多条命令。如例子所示，第一条命令删除1至5行，第二条命令用check替换test。命令的执 行顺序对结果有影响。如果两个命令都是替换命令，那么第一个替换命令将影响第二个替换命令的结果。  </div><div class="line">sed '/test/r file' example-----file里的内容被读进来，显示在与test匹配的行后面，如果匹配多行，每个匹配行下面都将添加</div><div class="line">sed -n '/test/w file' 将匹配的行写到file中</div><div class="line">/test/! 匹配不满足模式的行</div></pre></td></tr></table></figure>
+<h4 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cut -c 1-10 获取每行的前10个字符</div><div class="line">echo 12:00:01 | cut -d ':' -f 2 以冒号为分隔符，取第二列</div></pre></td></tr></table></figure>
+<h4 id="awk命令"><a href="#awk命令" class="headerlink" title="awk命令"></a>awk命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">-F'-' 修改默认分隔符为-,多余1个字符才会视为正则表达式</div><div class="line">字符串连接并不需要额外的运算符，多个连续的字符串会自动拼接，所以</div><div class="line">awk '&#123;print "str1" "str2" $2 $3&#125;' 打印的东西会自动拼接在一起</div><div class="line">ENVIRON["HOME"]访问Home环境变量</div><div class="line"></div><div class="line">m模式匹配 $1 ~ /jones/ 第一个字段包含jones的</div><div class="line"></div><div class="line">print时如果用,分割，那么显示的分隔符是OFS</div><div class="line">echo "one two three four five" |awk '&#123;print $1,$2,$3,$4&#125;'</div><div class="line">one two three four</div><div class="line"></div><div class="line">for循环</div><div class="line">for(name in array) name是key值，要取真正的值用array[name]</div><div class="line"></div><div class="line">数组成员测试(key in array)，为真时返回1</div><div class="line">测试元素不会如果不存在也不会建立，但是如果你是引用了，那么就会建立</div><div class="line">if("hell" in array)&#123; print "hell in array" &#125;</div><div class="line">if(array["hell"] != "")&#123; print "hell in array" &#125;//会建立</div><div class="line"></div><div class="line">awk '&#123;system("ls -al")&#125;'' 执行系统命令</div></pre></td></tr></table></figure>
 
-  .wrapper
-    .container.meta
-      .post-time= page.date.format(config.date_format)
-      if (page.categories && page.categories.length)
-        .post-categories
-          != list_categories(page.categories, {show_count: false, class: 'post-category', style: 'none', separator: '>'})
-      if (page.tags && page.tags.length)
-        .post-tags
-          != list_tags(page.tags, {show_count: false, class: 'post-tag', style:'none', separator:'/'})
+  </section>
+</article>
+
+  <div class="sharing grid">
+  <section class="profile grid-item grid">
+    <img class="avatar" src="http://7xrcp8.com1.z0.glb.clouddn.com/avatar.png" alt="avatar" />
+    <div class="grid-item">
+      <p class="title"> lyyourc </p>
+      <p class="subtitle"> You Are The JavaScript In My HTML </p>
+    <div>
+  </section>
+
+  <section class="share-btns">
+    <!-- <p> share it if you like it~ </p> -->
+    <a
+  class="twitter-share-button"
+  data-size="large"
+  data-via="DrakeLeung"
+  href="https://twitter.com/intent/tweet?text= id="语法"><a href="#语"
+>
+  Tweet
+</a>
+
+<script>
+  window.twttr = (function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+  if (d.getElementById(id)) return t;
+  js = d.createElement(s);
+  js.id = id;
+  js.src = "https://platform.twitter.com/widgets.js";
+  js.async = true;
+  fjs.parentNode.insertBefore(js, fjs);
+
+  t._e = [];
+  t.ready = function(f) {
+    t._e.push(f);
+  };
+
+  return t;
+}(document, "script", "twitter-wjs"));
+</script>
+
+  </section>
+</div>
 
 
-  article
-    .container.post
-      != page.content
+  
+    
+<section class="article-comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
 
-    // comment system
-    .container
-      hr
-      include _partial/comments
+<script>
+  var disqus_shortname = 'drakeleung';
+  
+  var disqus_url = 'http://yoursite.com/2017/07/03/shell重拾/';
+  
+  (function(){
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
 
+
+  
+</main>
+
+</body>
+</html>
