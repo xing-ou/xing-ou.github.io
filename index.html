@@ -158,6 +158,77 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-shell复习-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/16/shell复习-2/">shell复习-2</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/16/shell复习-2/" class="archive-article-date">
+  	<time datetime="2017-10-16T02:57:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="文本处理工具"><a href="#文本处理工具" class="headerlink" title="文本处理工具"></a>文本处理工具</h2><h4 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-b:忽略行开头的空格</div><div class="line">-u:相同行去重</div><div class="line">-n:将string作为数字排序</div><div class="line">-t:指定field分割符</div><div class="line">-k fStart.cstart,fend,cend  某个域第第cstart个字符开始到某个域的cend</div><div class="line">-r:反转排序</div><div class="line">data.txt:</div><div class="line">hello:123:world</div><div class="line">happy:456:newyear</div><div class="line">cat data.txt | sort -t: -nk 2,2 只对第二个域，将他作为数字排序</div><div class="line">cat data.txt | sort -t: -k 1.2,1对第一个域从第二个字符开始排序</div></pre></td></tr></table></figure>
+<h4 id="uniq命令"><a href="#uniq命令" class="headerlink" title="uniq命令"></a>uniq命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">行去重</div><div class="line">-c : 在每行旁边显示重复次数</div><div class="line">-d : 仅显示重复出现的行</div><div class="line">-f : 忽略比较指定的field</div><div class="line">-i :忽略大小写</div><div class="line">-s 字符位置 ：忽略从某个字符位置开始之前的部分</div></pre></td></tr></table></figure>
+<h4 id="wc命令"><a href="#wc命令" class="headerlink" title="wc命令"></a>wc命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">统计行、字符、单词</div><div class="line">wc -l 行</div><div class="line">wc -c  字符</div><div class="line">wc -w :统计单词</div></pre></td></tr></table></figure>
+<h4 id="查看部分行"><a href="#查看部分行" class="headerlink" title="查看部分行"></a>查看部分行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tail -n</div><div class="line">head -n</div></pre></td></tr></table></figure>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h5 id="readonly"><a href="#readonly" class="headerlink" title="readonly"></a>readonly</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">只读变量</div><div class="line">readonly var=123 #var是只读的不能为他赋值</div></pre></td></tr></table></figure>
+<h5 id="export"><a href="#export" class="headerlink" title="export"></a>export</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">设置环境变量</div><div class="line">export PATH=$PATH:/var/lib/</div></pre></td></tr></table></figure>
+<h5 id="参数展开"><a href="#参数展开" class="headerlink" title="参数展开"></a>参数展开</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span>&#123;&#125;用于参数展开。</div><div class="line"></div><div class="line">替换运算符</div><div class="line"><span class="meta">$</span>&#123;var:-word&#125; var存在且非空返回其值，否则返回word</div><div class="line"><span class="meta">$</span>&#123;var:=word&#125; var存在且非空返回其值，否则设置var为word，并返回word</div><div class="line"><span class="meta">$</span>&#123;var:?message&#125;var存在且非空返回其值,否则生成一条错误信息</div><div class="line"><span class="meta">$</span>&#123;var:+word&#125;var存在且非空返回word，否则返回null。用于测试变量是否存在并有值</div><div class="line">上面的：都是可选的，如果去掉，那么就不是“存在且非空"而是"存在”</div><div class="line"></div><div class="line">模式匹配删除运算符</div><div class="line">删除左边的字符 ，%删除右边的字符(助记：键盘上#在$左边，%在右边)</div><div class="line"><span class="meta">$</span>&#123;varname#pattern&#125; 删除第一个匹配字符串左边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname##pattern&#125; 删除最后一个匹配字符串左边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname%pattern&#125; 删除第一个匹配字符串右边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname%%pattern&#125; 删除最后一个匹配字符串右边的字符串</div><div class="line"><span class="meta"></span></div><div class="line">$&#123;#varname&#125;计算varname字符数量</div></pre></td></tr></table></figure>
+<h5 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">./my.sh arg1 arg2</div><div class="line"><span class="meta">$</span>0       $1  $2</div><div class="line">当位置参数大于10也需要用括号括起来$&#123;10&#125;</div><div class="line"></div><div class="line">"$@" 等价于 "$1" "$2" "$3"</div><div class="line">"$*" 等价于 "$1 $2 $3"</div><div class="line"><span class="meta">$</span>#总的参数个数</div></pre></td></tr></table></figure>
+<h5 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h5><h6 id="if"><a href="#if" class="headerlink" title="if"></a>if</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">if pattern(test 命令 等价于[])</div><div class="line">then</div><div class="line">   xxx</div><div class="line">elif pattern </div><div class="line">then</div><div class="line"></div><div class="line">else </div><div class="line"></div><div class="line">fi</div><div class="line">test命令只能做整数比较不能做浮点数比较，字符串比较时多加字符以防止为空的字符串。</div></pre></td></tr></table></figure>
+<h6 id="case"><a href="#case" class="headerlink" title="case"></a>case</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">case xx in</div><div class="line">  1)</div><div class="line">     ...</div><div class="line">     ;;</div><div class="line">  -d | --directory)</div><div class="line">     ..</div><div class="line">     ;;</div><div class="line">  *)</div><div class="line">   ;;</div><div class="line">esac</div></pre></td></tr></table></figure>
+<h6 id="for"><a href="#for" class="headerlink" title="for"></a>for</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for x in xxx</div><div class="line">do</div><div class="line"></div><div class="line">done</div><div class="line">break contine</div></pre></td></tr></table></figure>
+<h6 id="while"><a href="#while" class="headerlink" title="while"></a>while</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">while xx </div><div class="line">do</div><div class="line"></div><div class="line">done</div><div class="line">break contine</div></pre></td></tr></table></figure>
+<h6 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">my_func() &#123;</div><div class="line">  访问参数 $1 $2</div><div class="line">  return 0</div><div class="line">&#125;</div><div class="line">调用和使用命令一样</div><div class="line">my_func arg1 arg2</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/16/shell复习-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-shell复习-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -924,121 +995,6 @@
 
 
   
-    <article id="post-rxswift学习-scheduler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/05/rxswift学习-scheduler/">rxswift学习-scheduler</a>
-    </h1>
-  
-
-        
-        <a href="/2017/06/05/rxswift学习-scheduler/" class="archive-article-date">
-  	<time datetime="2017-06-05T09:39:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="什么是scheduler"><a href="#什么是scheduler" class="headerlink" title="什么是scheduler?"></a>什么是scheduler?</h3><p>在开始使用scheduler之前，首先要明白他是什么。</p>
-<p>总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。</p>
-<p>一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程,或者一个scheduler构建在多个线程上(虽然比较奇怪,但确实可以)。</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%885.47.01.png" alt=""></p>
-<p>总之，scheduler并不是线程，他和线程并没有一对一的关系。</p>
-<h3 id="关于scheduler的两个操作符"><a href="#关于scheduler的两个操作符" class="headerlink" title="关于scheduler的两个操作符"></a>关于scheduler的两个操作符</h3><p>Rx最重要的能力之一就是能够在任何时间切换scheduler。</p>
-<h4 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h4><p>有时你希望改变 observable 生成element的代码的执行上下文环境( 比如：对于Observable.create{ … }，就是闭包中的那段代码 )。这个时候就可以使用subscribeOn操作符。</p>
-<h4 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h4><p>如果你希望改变subscribe函数执行的上下文，那么你可以使用observeOn操作符。</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%886.03.12.png" alt=""></p>
-<h3 id="Hot-and-Cold-Observable"><a href="#Hot-and-Cold-Observable" class="headerlink" title="Hot and Cold Observable"></a>Hot and Cold Observable</h3><p>一个Observable什么时候开始发送他的elements呢？这取决于Observable。一个“Hot Observable”会在他创建完成后就开始emit elements，这样之后subscribe他的observer就能够在中间开始接收elements。一个“Cold Observable”会等到有Observer subscribe他时才开始emit elements，这样就保证了observer能够收到从头开始的所有elements。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Hot Observales</th>
-<th style="text-align:left">ColdObservables</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">都是sequence</td>
-<td style="text-align:left">都是sequence</td>
-</tr>
-<tr>
-<td style="text-align:left">不管有没有Observer subscribe他，都会使用资源</td>
-<td style="text-align:left">不会使用资源，直到有Observer subscribe他。</td>
-</tr>
-<tr>
-<td style="text-align:left">Variables / properties / constants, tap coordinates, mouse coordinates, UI control values, current time</td>
-<td style="text-align:left">Async operations, HTTP Connections, TCP connections, streams</td>
-</tr>
-<tr>
-<td style="text-align:left">通常包含N个element</td>
-<td style="text-align:left">通常包含1个element</td>
-</tr>
-<tr>
-<td style="text-align:left">不管有没有observer subscribe他都会产生sequence element</td>
-<td style="text-align:left">有observer subscribe他才产生sequence elements。</td>
-</tr>
-<tr>
-<td style="text-align:left">sequence的计算资源通常是所有observer共享的</td>
-<td style="text-align:left">sequence的计算资源通常是每个Observer分配一份</td>
-</tr>
-<tr>
-<td style="text-align:left">通常都是有状态的</td>
-<td style="text-align:left">通常都是无状态的</td>
-</tr>
-</tbody>
-</table>
-<h5 id="陷阱"><a href="#陷阱" class="headerlink" title="陷阱"></a>陷阱</h5><p>对于cold observable我们确实可以通过subscibeOn操作符来控制element在哪个线程上产生，因为他是在subscribe时才去生成elements的。但是对于一些Hot Observable，如果你想通过subscibeOn去切换scheduler，你会发现并不起作用，因为elements的生成在Observable创建时就会生成，之后我们就不能控制他的scheduler。</p>
-<h3 id="内置的scheduler"><a href="#内置的scheduler" class="headerlink" title="内置的scheduler"></a>内置的scheduler</h3><h5 id="CurrentThreadScheduler"><a href="#CurrentThreadScheduler" class="headerlink" title="CurrentThreadScheduler"></a>CurrentThreadScheduler</h5><p>抽象了在当前线程上执行的任务。如果你没有执行scheduler，那么这个就是默认的scheduler。</p>
-<h5 id="SerialDispatchQueueScheduler"><a href="#SerialDispatchQueueScheduler" class="headerlink" title="SerialDispatchQueueScheduler"></a>SerialDispatchQueueScheduler</h5><p>抽象了某个需要在    serial DispatchQueue上执行某个任务。他能够保证即使你传入的是一个Concurrent queue，他也会把他转化成serial。</p>
-<p>非常重要的一点是这个scheduler是serial的，因为某些操作符会根据这个进行优化。</p>
-<p>因为不能够检测到传入的是concurrent的还是serial的，所以在内部都会创建一个serail queue，然后所有的任务都是在这个内部的serail queue上执行。</p>
-<h5 id="MainScheduler"><a href="#MainScheduler" class="headerlink" title="MainScheduler"></a>MainScheduler</h5><p>抽象了在主线程上执行任务，这个scheduler通常用于执行某些UI操作。继承自SerialDispatchQueueScheduler。这个scheduler对ObserveOn操作符有优化，所以如果你想要subscribe函数在主线程上执行，那么用MainScheduler。另外还有一个ConcurrentMainScheduler，这个scheduler对subscibeOn操作符有优化，所以，你如果希望element的产生在主线程上，那么用ConcurrentMainScheduler。</p>
-<h5 id="ConcurrentDispatchQueueScheduler"><a href="#ConcurrentDispatchQueueScheduler" class="headerlink" title="ConcurrentDispatchQueueScheduler"></a>ConcurrentDispatchQueueScheduler</h5><p>抽象了在某个concurrent dispatchqueue上执行的任务。这个scheduler通常用于某些需要在后台执行的任务。</p>
-<h5 id="OperationQueueScheduler"><a href="#OperationQueueScheduler" class="headerlink" title="OperationQueueScheduler"></a>OperationQueueScheduler</h5><p>抽象了在某个OperationQueue上执行的任务。这个sechulder适合当你想要控制并发数量时用。</p>
-<p>​    </p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/06/05/rxswift学习-scheduler/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1135,11 +1091,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
