@@ -6,23 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>rxswift学习-Observable初探 | fa的学习之路</title>
+  <title>android学习-应用基础知识 | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是Observable? observable sequence也是一个sequence。  Observable等价于sequence Observable的subscribe方法等价于sequence的makeIterator方法 传入subscribe方法的observer用来接收elements 等价于 sequence的iterator的next()方法来获取elements。  1">
-<meta name="keywords" content="rxswift">
+  <meta name="description" content="应用基础知识 Android 应用在系统内存在方式 java代码+数据+资源 编译到一个APK中。安装到设备后，每个android应用都运行在自己的安全沙箱内。  android系统是一种多用户Linux系统，其中每个应用都是一个不同的用户。 默认情况下，系统会为每个应用分配一个唯一的linux用户id。系统为应用中的所有文件设置权限，使得只有分配给该应用的用户id才能访问。 每个进程都有自己的虚">
+<meta name="keywords" content="android">
 <meta property="og:type" content="article">
-<meta property="og:title" content="rxswift学习-Observable初探">
-<meta property="og:url" content="http://yoursite.com/2017/06/06/rxswift学习-Observable初探/index.html">
+<meta property="og:title" content="android学习-应用基础知识">
+<meta property="og:url" content="http://yoursite.com/2017/10/17/android学习-应用基础知识/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="什么是Observable? observable sequence也是一个sequence。  Observable等价于sequence Observable的subscribe方法等价于sequence的makeIterator方法 传入subscribe方法的observer用来接收elements 等价于 sequence的iterator的next()方法来获取elements。  1">
-<meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.00.png">
-<meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.09.png">
-<meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8811.10.31.png">
-<meta property="og:updated_time" content="2017-06-07T07:07:14.000Z">
+<meta property="og:description" content="应用基础知识 Android 应用在系统内存在方式 java代码+数据+资源 编译到一个APK中。安装到设备后，每个android应用都运行在自己的安全沙箱内。  android系统是一种多用户Linux系统，其中每个应用都是一个不同的用户。 默认情况下，系统会为每个应用分配一个唯一的linux用户id。系统为应用中的所有文件设置权限，使得只有分配给该应用的用户id才能访问。 每个进程都有自己的虚">
+<meta property="og:updated_time" content="2017-10-17T07:16:03.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="rxswift学习-Observable初探">
-<meta name="twitter:description" content="什么是Observable? observable sequence也是一个sequence。  Observable等价于sequence Observable的subscribe方法等价于sequence的makeIterator方法 传入subscribe方法的observer用来接收elements 等价于 sequence的iterator的next()方法来获取elements。  1">
-<meta name="twitter:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.00.png">
+<meta name="twitter:title" content="android学习-应用基础知识">
+<meta name="twitter:description" content="应用基础知识 Android 应用在系统内存在方式 java代码+数据+资源 编译到一个APK中。安装到设备后，每个android应用都运行在自己的安全沙箱内。  android系统是一种多用户Linux系统，其中每个应用都是一个不同的用户。 默认情况下，系统会为每个应用分配一个唯一的linux用户id。系统为应用中的所有文件设置权限，使得只有分配给该应用的用户id才能访问。 每个进程都有自己的虚">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -162,47 +158,63 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-rxswift学习-Observable初探" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-android学习-应用基础知识" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      rxswift学习-Observable初探
+      android学习-应用基础知识
     </h1>
   
 
         
-        <a href="/2017/06/06/rxswift学习-Observable初探/" class="archive-article-date">
-  	<time datetime="2017-06-06T03:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
+        <a href="/2017/10/17/android学习-应用基础知识/" class="archive-article-date">
+  	<time datetime="2017-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3>什么是Observable?</h3>
-<p>observable sequence也是一个sequence。</p>
+        <h2>应用基础知识</h2>
+<h3>Android 应用在系统内存在方式</h3>
+<p>java代码+数据+资源 编译到一个APK中。安装到设备后，每个android应用都运行在自己的安全沙箱内。</p>
 <ul>
-<li>Observable等价于sequence</li>
-<li>Observable的subscribe方法等价于sequence的makeIterator方法</li>
-<li>传入subscribe方法的observer用来接收elements 等价于 sequence的iterator的next()方法来获取elements。</li>
+<li>android系统是一种多用户Linux系统，其中每个应用都是一个不同的用户。</li>
+<li>默认情况下，系统会为每个应用分配一个唯一的linux用户id。系统为应用中的所有文件设置权限，使得只有分配给该应用的用户id才能访问。</li>
+<li>每个进程都有自己的虚拟机，因此应用代码是在与其他应用隔离的环境运行</li>
+<li>默认情况下，每个应用都在自己的linux进程内运行。</li>
 </ul>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sequence = <span class="number">0</span>..&lt;<span class="number">3</span></div><div class="line"><span class="keyword">var</span> iterator = sequence.makeIterator()</div><div class="line"><span class="keyword">while</span> <span class="keyword">let</span> n = iterator.next() &#123;</div><div class="line">	<span class="built_in">print</span>(n)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> one = <span class="number">1</span></div><div class="line"><span class="keyword">let</span> two = <span class="number">2</span></div><div class="line"><span class="keyword">let</span> three = <span class="number">3</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(one, two, three)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">	<span class="built_in">print</span>(event)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>如果遇到.completed和.error将不会再emit elements。</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.00.png" alt=""></p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.09.png" alt=""></p>
-<p>这些都比较官方话，现在还是没什么概念。先看看关系图：</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8811.10.31.png" alt=""></p>
-<p>先选一个详细看看</p>
-<h4>Just操作符</h4>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(</span></span></div><div class="line"><span class="number">_</span> element: E, </div><div class="line">scheduler: ImmediateSchedulerType) </div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">JustScheduled</span>(element: element, scheduler: scheduler)</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>再看看JustScheduled</p>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JustScheduled</span>&lt;<span class="title">Element</span>&gt; : <span class="title">Producer</span>&lt;<span class="title">Element</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> _scheduler: <span class="type">ImmediateSchedulerType</span></div><div class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> _element: <span class="type">Element</span></div><div class="line">    <span class="comment">///由于just的emit一个element，所以传入需要emit的element</span></div><div class="line">    <span class="keyword">init</span>(element: <span class="type">Element</span>, scheduler: <span class="type">ImmediateSchedulerType</span>) &#123;</div><div class="line">        _scheduler = scheduler</div><div class="line">        _element = element</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">run</span>&lt;O : ObserverType&gt;<span class="params">(<span class="number">_</span> observer: O, cancel: Cancelable)</span></span> -&gt; (sink: <span class="type">Disposable</span>, subscription: <span class="type">Disposable</span>) <span class="keyword">where</span> <span class="type">O</span>.<span class="type">E</span> == <span class="type">E</span> &#123;</div><div class="line">   <span class="comment">///关于这段代码，有些不是太懂，除了这个操作符，很多其他的操作符都会先创建一个sink对象，然后调用他的run方法，然后返回。至于为什么要将observer、cancelable封装成sink对象？不大明白，只能理解为是对流程的一个抽象，将具体的emit操作交给sink完成，然后统一暴露一个run方法来执行emit，这样其他操作符也可以统一按照这个抽象执行。如果要新增一个操作符，那么可以创建一个对应的sink对象，然后调用run方法，具体的逻辑已经被封装到了sink对象中,这里的run方法就能够保证有统一的行为。</span></div><div class="line">      <span class="keyword">let</span> sink = <span class="type">JustScheduledSink</span>(parent: <span class="keyword">self</span>, observer: observer, cancel: cancel)</div><div class="line">      <span class="keyword">let</span> subscription = sink.run()</div><div class="line">      <span class="keyword">return</span> (sink: sink, subscription: subscription)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JustScheduledSink</span>&lt;<span class="title">O</span>: <span class="title">ObserverType</span>&gt; : <span class="title">Sink</span>&lt;<span class="title">O</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">typealias</span> <span class="type">Parent</span> = <span class="type">JustScheduled</span>&lt;<span class="type">O</span>.<span class="type">E</span>&gt;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">let</span> _parent: <span class="type">Parent</span></div><div class="line">    <span class="comment">/**</span></div><div class="line">    将所有emit需要的东西作为参数传入,</div><div class="line">    parent包含了需要emit的element和scheduler</div><div class="line">    observer包含了处理element的eventHanlder,</div><div class="line">    cancel:是一个SinkDisposer，不太明白为什么要传入这个，用到它的地方是sink的dispose方法。因为本来就是SinkDisposer的dispose方法会调用sink的dispose方法。现在sink的dispose方法又调用了SinkDisposer的dispose方法。还好SinkDisposer的dispose方法中有判断，不然就是一个循环调用了。</div><div class="line">    */</div><div class="line">    <span class="keyword">init</span>(parent: <span class="type">Parent</span>, observer: <span class="type">O</span>, cancel: <span class="type">Cancelable</span>) &#123;</div><div class="line">        _parent = parent</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(observer: observer, cancel: cancel)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">///再来看看sink的run方法，通过parent拿到scheduler，在sheduler中调用forwardOn将element emite出去。最后返回一个disposable。</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">run</span><span class="params">()</span></span> -&gt; <span class="type">Disposable</span> &#123;</div><div class="line">        <span class="keyword">let</span> scheduler = _parent._scheduler</div><div class="line">        <span class="keyword">return</span> scheduler.schedule(_parent._element) &#123; element <span class="keyword">in</span></div><div class="line">            <span class="keyword">self</span>.forwardOn(.next(element))</div><div class="line">            <span class="keyword">return</span> scheduler.schedule(()) &#123; <span class="number">_</span> <span class="keyword">in</span></div><div class="line">                <span class="keyword">self</span>.forwardOn(.completed)</div><div class="line">                <span class="keyword">self</span>.dispose()</div><div class="line">                <span class="keyword">return</span> <span class="type">Disposables</span>.create()</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>实际上很多操作符都是这种模式。创建对应的sink类，在run方法中去emit element，再返回一个disposable。我们在学习操作符时就可以猜测他怎么实现的，在看源码进行比较，这样记忆会深刻一点。</p>
+<p>不过，仍然可以通过其他途径与其他应用共享数据及访问系统服务</p>
+<ul>
+<li>可以安排两个应用共享同一个linux用户id，这样就可以彼此访问文件。</li>
+<li>可以请求访问权限(相机，通信录等)。</li>
+</ul>
+<h3>应用组件</h3>
+<p>应用组件是android应用的基本构建基块。每个组件都是一个不同的点，系统通过他进入应用。</p>
+<p>共有四种不同的应用组件类型：</p>
+<ul>
+<li>Activity：代表具有用户界面的单一屏幕。</li>
+<li>Service: 不提供界面，在后台长时间运行。</li>
+<li>contentProvider:管理一组共享数据。其他应用通过contentprovider访问，修改。</li>
+<li>Broadcast:用于响应系统范围广播通知的组件。许多广播都是由系统发起的 — 例如，通知屏幕已关闭、电池电量不足或已拍摄照片的广播。应用也可以发起广播 — 例如，通知其他应用某些数据已下载至设备，并且可供其使用。 尽管广播接收器不会显示用户界面，但它们可以创建状态栏通知，在发生广播事件时提醒用户。 但广播接收器更常见的用途只是作为通向其他组件的“通道”，设计用于执行极少量的工作。</li>
+</ul>
+<p>没有main函数的概念，只有组件的概念，任何应用都可以启动其他应用的组件。之前提到每个应用都有自己的用户id，不能访问其他应用的文件，不过android系统却可以，所以如果你想启动另一个应用的组件，需要传递一个Intent给系统。</p>
+<h4>启动组件</h4>
+<p>Activity、服务和广播接收器 — 通过名为 <em>Intent</em> 的异步消息进行启动。</p>
+<p>Intent 不会启动另一个组件类型 - 内容提供程序，后者会在成为 <code>ContentResolver</code> 的请求目标时启动。</p>
+<p>每种类型的组件有不同的启动方法：</p>
+<ul>
+<li>您可以通过将 <code>Intent</code> 传递到 <code>startActivity()</code> 或 <code>startActivityForResult()</code>（当您想让 Activity 返回结果时）来启动 Activity（或为其安排新任务）。</li>
+<li>您可以通过将　<code>Intent</code> 传递到 <code>startService()</code> 来启动服务（或对执行中的服务下达新指令）。 或者，您也可以通过将 <code>Intent</code> 传递到 <code>bindService()</code> 来绑定到该服务。</li>
+<li>您可以通过将 <code>Intent</code> 传递到 <code>sendBroadcast()</code>、<code>sendOrderedBroadcast()</code> 或 <code>sendStickyBroadcast()</code> 等方法来发起广播；</li>
+<li>您可以通过在 <code>ContentResolver</code> 上调用 <code>query()</code> 来对内容提供程序执行查询。</li>
+</ul>
+<h3>清单文件</h3>
+<p>在 Android 系统启动应用组件之前，系统必须通过读取应用的 <code>AndroidManifest.xml</code> 文件（“清单”文件）确认组件存在。 您的应用必须在此文件中声明其所有组件，该文件必须位于应用项目目录的根目录中。</p>
+<p>还有权限，特性等也在manifest文件中声明。</p>
 
       
 
@@ -237,7 +249,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
         		</li>
       		
 		</ul>
@@ -293,7 +305,7 @@
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/06/06/rxswift学习-Observable初探/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/10/17/android学习-应用基础知识/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -307,18 +319,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2017/06/07/rxswift学习-Observable之创建/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          rxswift学习-Observable之创建
-        
-      </div>
-    </a>
   
-  
-    <a href="/2017/06/06/rxswift学习-Observer/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">rxswift学习-Observer</div>
+    <a href="/2017/10/16/shell复习-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">shell复习-2</div>
       <i class="icon-circle-right"></i>
     </a>
   

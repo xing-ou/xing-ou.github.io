@@ -8,19 +8,19 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>rxswift学习-scheduler | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是scheduler?在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程">
+  <meta name="description" content="什么是scheduler? 在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线">
 <meta name="keywords" content="rxswift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rxswift学习-scheduler">
 <meta property="og:url" content="http://yoursite.com/2017/06/05/rxswift学习-scheduler/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="什么是scheduler?在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程">
+<meta property="og:description" content="什么是scheduler? 在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线">
 <meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%885.47.01.png">
 <meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%886.03.12.png">
 <meta property="og:updated_time" content="2017-06-07T07:05:55.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rxswift学习-scheduler">
-<meta name="twitter:description" content="什么是scheduler?在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程">
+<meta name="twitter:description" content="什么是scheduler? 在开始使用scheduler之前，首先要明白他是什么。 总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。 一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线">
 <meta name="twitter:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%885.47.01.png">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
@@ -181,16 +181,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="什么是scheduler"><a href="#什么是scheduler" class="headerlink" title="什么是scheduler?"></a>什么是scheduler?</h3><p>在开始使用scheduler之前，首先要明白他是什么。</p>
+        <h3>什么是scheduler?</h3>
+<p>在开始使用scheduler之前，首先要明白他是什么。</p>
 <p>总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。</p>
 <p>一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程,或者一个scheduler构建在多个线程上(虽然比较奇怪,但确实可以)。</p>
 <p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%885.47.01.png" alt=""></p>
 <p>总之，scheduler并不是线程，他和线程并没有一对一的关系。</p>
-<h3 id="关于scheduler的两个操作符"><a href="#关于scheduler的两个操作符" class="headerlink" title="关于scheduler的两个操作符"></a>关于scheduler的两个操作符</h3><p>Rx最重要的能力之一就是能够在任何时间切换scheduler。</p>
-<h4 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h4><p>有时你希望改变 observable 生成element的代码的执行上下文环境( 比如：对于Observable.create{ … }，就是闭包中的那段代码 )。这个时候就可以使用subscribeOn操作符。</p>
-<h4 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h4><p>如果你希望改变subscribe函数执行的上下文，那么你可以使用observeOn操作符。</p>
+<h3>关于scheduler的两个操作符</h3>
+<p>Rx最重要的能力之一就是能够在任何时间切换scheduler。</p>
+<h4>subscribeOn</h4>
+<p>有时你希望改变 observable 生成element的代码的执行上下文环境( 比如：对于Observable.create{ … }，就是闭包中的那段代码 )。这个时候就可以使用subscribeOn操作符。</p>
+<h4>observeOn</h4>
+<p>如果你希望改变subscribe函数执行的上下文，那么你可以使用observeOn操作符。</p>
 <p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%886.03.12.png" alt=""></p>
-<h3 id="Hot-and-Cold-Observable"><a href="#Hot-and-Cold-Observable" class="headerlink" title="Hot and Cold Observable"></a>Hot and Cold Observable</h3><p>一个Observable什么时候开始发送他的elements呢？这取决于Observable。一个“Hot Observable”会在他创建完成后就开始emit elements，这样之后subscribe他的observer就能够在中间开始接收elements。一个“Cold Observable”会等到有Observer subscribe他时才开始emit elements，这样就保证了observer能够收到从头开始的所有elements。</p>
+<h3>Hot and Cold Observable</h3>
+<p>一个Observable什么时候开始发送他的elements呢？这取决于Observable。一个“Hot Observable”会在他创建完成后就开始emit elements，这样之后subscribe他的observer就能够在中间开始接收elements。一个“Cold Observable”会等到有Observer subscribe他时才开始emit elements，这样就保证了observer能够收到从头开始的所有elements。</p>
 <table>
 <thead>
 <tr>
@@ -229,15 +234,22 @@
 </tr>
 </tbody>
 </table>
-<h5 id="陷阱"><a href="#陷阱" class="headerlink" title="陷阱"></a>陷阱</h5><p>对于cold observable我们确实可以通过subscibeOn操作符来控制element在哪个线程上产生，因为他是在subscribe时才去生成elements的。但是对于一些Hot Observable，如果你想通过subscibeOn去切换scheduler，你会发现并不起作用，因为elements的生成在Observable创建时就会生成，之后我们就不能控制他的scheduler。</p>
-<h3 id="内置的scheduler"><a href="#内置的scheduler" class="headerlink" title="内置的scheduler"></a>内置的scheduler</h3><h5 id="CurrentThreadScheduler"><a href="#CurrentThreadScheduler" class="headerlink" title="CurrentThreadScheduler"></a>CurrentThreadScheduler</h5><p>抽象了在当前线程上执行的任务。如果你没有执行scheduler，那么这个就是默认的scheduler。</p>
-<h5 id="SerialDispatchQueueScheduler"><a href="#SerialDispatchQueueScheduler" class="headerlink" title="SerialDispatchQueueScheduler"></a>SerialDispatchQueueScheduler</h5><p>抽象了某个需要在    serial DispatchQueue上执行某个任务。他能够保证即使你传入的是一个Concurrent queue，他也会把他转化成serial。</p>
+<h5>陷阱</h5>
+<p>对于cold observable我们确实可以通过subscibeOn操作符来控制element在哪个线程上产生，因为他是在subscribe时才去生成elements的。但是对于一些Hot Observable，如果你想通过subscibeOn去切换scheduler，你会发现并不起作用，因为elements的生成在Observable创建时就会生成，之后我们就不能控制他的scheduler。</p>
+<h3>内置的scheduler</h3>
+<h5>CurrentThreadScheduler</h5>
+<p>抽象了在当前线程上执行的任务。如果你没有执行scheduler，那么这个就是默认的scheduler。</p>
+<h5>SerialDispatchQueueScheduler</h5>
+<p>抽象了某个需要在	serial DispatchQueue上执行某个任务。他能够保证即使你传入的是一个Concurrent queue，他也会把他转化成serial。</p>
 <p>非常重要的一点是这个scheduler是serial的，因为某些操作符会根据这个进行优化。</p>
 <p>因为不能够检测到传入的是concurrent的还是serial的，所以在内部都会创建一个serail queue，然后所有的任务都是在这个内部的serail queue上执行。</p>
-<h5 id="MainScheduler"><a href="#MainScheduler" class="headerlink" title="MainScheduler"></a>MainScheduler</h5><p>抽象了在主线程上执行任务，这个scheduler通常用于执行某些UI操作。继承自SerialDispatchQueueScheduler。这个scheduler对ObserveOn操作符有优化，所以如果你想要subscribe函数在主线程上执行，那么用MainScheduler。另外还有一个ConcurrentMainScheduler，这个scheduler对subscibeOn操作符有优化，所以，你如果希望element的产生在主线程上，那么用ConcurrentMainScheduler。</p>
-<h5 id="ConcurrentDispatchQueueScheduler"><a href="#ConcurrentDispatchQueueScheduler" class="headerlink" title="ConcurrentDispatchQueueScheduler"></a>ConcurrentDispatchQueueScheduler</h5><p>抽象了在某个concurrent dispatchqueue上执行的任务。这个scheduler通常用于某些需要在后台执行的任务。</p>
-<h5 id="OperationQueueScheduler"><a href="#OperationQueueScheduler" class="headerlink" title="OperationQueueScheduler"></a>OperationQueueScheduler</h5><p>抽象了在某个OperationQueue上执行的任务。这个sechulder适合当你想要控制并发数量时用。</p>
-<p>​    </p>
+<h5>MainScheduler</h5>
+<p>抽象了在主线程上执行任务，这个scheduler通常用于执行某些UI操作。继承自SerialDispatchQueueScheduler。这个scheduler对ObserveOn操作符有优化，所以如果你想要subscribe函数在主线程上执行，那么用MainScheduler。另外还有一个ConcurrentMainScheduler，这个scheduler对subscibeOn操作符有优化，所以，你如果希望element的产生在主线程上，那么用ConcurrentMainScheduler。</p>
+<h5>ConcurrentDispatchQueueScheduler</h5>
+<p>抽象了在某个concurrent dispatchqueue上执行的任务。这个scheduler通常用于某些需要在后台执行的任务。</p>
+<h5>OperationQueueScheduler</h5>
+<p>抽象了在某个OperationQueue上执行的任务。这个sechulder适合当你想要控制并发数量时用。</p>
+<p>​</p>
 
       
 
@@ -459,6 +471,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">android</a>
+              </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
