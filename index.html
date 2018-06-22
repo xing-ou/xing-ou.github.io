@@ -158,6 +158,111 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-SpringMVC-初始化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/22/SpringMVC-初始化/">SpringMVC-初始化</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/22/SpringMVC-初始化/" class="archive-article-date">
+  	<time datetime="2018-06-22T12:34:23.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-22</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>springMVC是讲spring应用到web开发中。因此要明白springmvc我们得先看看spring和web这两部分。</p>
+<h2 id="spring"><a href="#spring" class="headerlink" title="spring"></a>spring</h2><p>spring是一个IoC容器，帮助我们处理类的依赖，web开发中应该也有许多的类，他们的控制由spring来反转。</p>
+<h2 id="web"><a href="#web" class="headerlink" title="web"></a>web</h2><h4 id="web中的servlet"><a href="#web中的servlet" class="headerlink" title="web中的servlet"></a>web中的servlet</h4><p>先来看看最原始的，不使用任何框架的情况下，我们是怎么处理请求的。java的web开发，实际上是处理servlet。web服务器比如Tomcat是一个servlet容器。我们并不直接和client的request打交道。client的request都先由servlet容器处理，然后生成request和response交给我们处理，我们从request中解析数据，将处理的结果写入response中，这就是大概的流程，可以参照下面的图片。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-06-22-105517.png" alt="image-20180622185514719"></p>
+<h4 id=""><a href="#" class="headerlink" title=""></a><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-06-22-105534.png" alt="image-20180622185532385"></h4><p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-06-22-105604.png" alt="image-20180622185601805"></p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-06-22-105632.png" alt="image-20180622185630290"></p>
+<p><img src="/var/folders/49/n1n9hcx93zj_rh5nwm93bzkh0000gn/T/abnerworks.Typora/image-20180622185649046.png" alt="image-20180622185649046"></p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-06-22-105659.png" alt="image-20180622185658445"></p>
+<p>下面是一个简单的例子：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">web-app</span> <span class="attr">xmlns</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee"</span></span></div><div class="line">         <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">         <span class="attr">xsi:schemaLocation</span>=<span class="string">"http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"</span></div><div class="line">         <span class="attr">version</span>=<span class="string">"3.1"</span>&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">servlet</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>home<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-class</span>&gt;</span>com.gx.HomeServlet<span class="tag">&lt;/<span class="name">servlet-class</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet</span>&gt;</span></div><div class="line">    </div><div class="line">    <span class="tag">&lt;<span class="name">servlet-mapping</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">servlet-name</span>&gt;</span>home<span class="tag">&lt;/<span class="name">servlet-name</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">url-pattern</span>&gt;</span>/<span class="tag">&lt;/<span class="name">url-pattern</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">servlet-mapping</span>&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">web-app</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HomeServlet</span> <span class="keyword">extends</span> <span class="title">HttpServlet</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">doGet</span><span class="params">(HttpServletRequest req, HttpServletResponse resp)</span> <span class="keyword">throws</span> ServletException, IOException </span>&#123;</div><div class="line">        PrintWriter writer = resp.getWriter();</div><div class="line">        writer.print(<span class="string">"&lt;html&gt;  &lt;body&gt;  &lt;h1&gt; hello home &lt;/h1&gt; &lt;/body&gt;  &lt;/html&gt;"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>我们定义了一个servlet叫做home，home绑定了url : /。当我们访问<a href="http://localhost:8080时，servlet容器就从web.xml中找到这个映射，再找到对应的servlet交给HomeServlet处理，HomeServlet向response中写入一个html。" target="_blank" rel="external">http://localhost:8080时，servlet容器就从web.xml中找到这个映射，再找到对应的servlet交给HomeServlet处理，HomeServlet向response中写入一个html。</a></p>
+<h4 id="web中的servletcontex"><a href="#web中的servletcontex" class="headerlink" title="web中的servletcontex"></a>web中的servletcontex</h4><p>servletcontext是什么呢？每个web应用都有一个servletcontext和 至少一个servlet。servletcontex用于访问web应用参数、访问服务器信息、全局共享一些信息等。比如：可能所有servlet都会用到的一些对象，我们可以将其设置为servletcontext的属性。</p>
+<h2 id="如何将spring应用到web上"><a href="#如何将spring应用到web上" class="headerlink" title="如何将spring应用到web上"></a>如何将spring应用到web上</h2><p>spring是IoC容器，将各种类的控制反转。而web开发中的类，我觉的大致分为两类：</p>
+<ol>
+<li>servletcontext相关的用于全局的一些类</li>
+<li>servlet相关的，只和这个servlet相关的类</li>
+</ol>
+<p>好了再看看springmvc。他主要有两个WebApplicationContex。以我目前的理解，他们其实正是和上面两个方面的类对应。</p>
+<p>我们有一些全局共享的类，我们将他们的控制交给root applicationcontext来管理。</p>
+<p>另一些只有和servlet相关的类:Controller等，我们将其交给某个DispatchServlet创建的webapplicationcontext来管理。</p>
+<p>再来看看dispatchservlet，为什么要有他呢，目前我的理解是为了简化web开发，因为按照最原始的方式开发，我们每增加一个接口就添加一个servlet，这样就需要频繁的配置web.xml。为了解决这个问题，创建一个前端控制器DispatchServlet,他统一接收然后分发给controller。而注解的方式来映射请求和controller，更简单一点。</p>
+<p>ok,将他们结合起来，就是在适当的时机创建适当的WebApplicationContex，在用ApplicationContext来管理Beans。这样就将spring应用到了web开发中。</p>
+<h2 id="适当的时机"><a href="#适当的时机" class="headerlink" title="适当的时机"></a>适当的时机</h2><p>那应该什么时候创建WebApplicationContext呢？</p>
+<h3 id="RootApplicationContext"><a href="#RootApplicationContext" class="headerlink" title="RootApplicationContext"></a>RootApplicationContext</h3><p>RootApplicationContex是一个带有公共色彩的IoC。我们很容易想到生成一个IoC，将他放到全局的servletcontext，那么这个IoC不就可以全局为我们使用了么。</p>
+<p>既然他需要依赖全局的servletcontext，那么就容易联想到应该在全局的servletcontext初始化完成后，就创建这个IoC，然后再将他作为属性添加到servletcontext中。</p>
+<p>那么怎么监听servletcontext初始化完成呢？当然是在web.xml中配置一个listener，并指定一个实现了servletcontextlistener的类来监听啦。springmvc也确实是这么做的，他提供一个ContextLoaderListener，这个类实现了servletcontextlistener接口，因此servletcontext初始化完成后会通知ContextLoaderListener，ContextLoaderListener会在这个回调中去初始化Root WebApplicationContext，然后作为属性添加到servletcontext中。</p>
+<p>明白了上面的流程，我们就知道了，如果我希望创建一个Root ApplicationContext来管理一些公用的Beans，那么需要在wen.xml中配置一个Listener:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">listener</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">listener-class</span>&gt;</span></div><div class="line">            org.springframework.web.context.ContextLoaderListener</div><div class="line">    <span class="tag">&lt;/<span class="name">listener-class</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">listener</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>不过只配置这个还不够，我们还需要指定这个IoC需要管理的Beans。默认springmvc是创建一个xmlWebApplicationContext，因此需要一个xml的路径，这个路径默认是：WEB-INF/application.xml。不过你可以在web.xml中改变：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">context-param</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextConfigLocation<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>WEB-INF/application.xml<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">context-param</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>创建WebApplication的参数还有几个，下面介绍下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">    默认是xmlWebApplicationContext,不过我们可以通过contextClass来改变，比如下面指定为AnnotationConfigWebApplicationContext，由于他需要一个Config class，所以我们的contextConfigLocation就不再是指定xml而是指定某个类。</div><div class="line">       <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextClass<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">       <span class="tag">&lt;<span class="name">param-value</span>&gt;</span></div><div class="line">        org.springframework.web.context.support.AnnotationConfigWebApplicationContext</div><div class="line">    <span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">init-param</span>&gt;</span></div><div class="line">    在WebApplicationContext生成前，还允许我们对他进行些设置，我们可以通过这个参数来指定一个实现了ApplicationContextInitializer接口的类来做些额外的初始化。</div><div class="line">     <span class="tag">&lt;<span class="name">param-name</span>&gt;</span>contextInitializerClasses<span class="tag">&lt;/<span class="name">param-name</span>&gt;</span></div><div class="line">     <span class="tag">&lt;<span class="name">param-value</span>&gt;</span>xxx<span class="tag">&lt;/<span class="name">param-value</span>&gt;</span></div><div class="line"> <span class="tag">&lt;/<span class="name">init-param</span>&gt;</span></div></pre></td></tr></table></figure>
+<p>最后我们可能会想，如果我并没有全局公共的类，因此也不需要一个Root IoC，可以么？是可以的，我们可以不用生成他，方法也就是不配置listener。</p>
+<h3 id="WebApplocationContext"><a href="#WebApplocationContext" class="headerlink" title="WebApplocationContext"></a>WebApplocationContext</h3><p>这个既然描述的是管理某个Servlet的Bean的IoC，那么他的创建时机也就是这个servlet初始化的时候。springmvc提供了DispatchServlet来作为前端控制器，并生成一个IoC。</p>
+<p>DispatchServlet–&gt;FrameworkServlet–&gt;HttpServletBean–&gt;HttpServlet。这是继承关系。</p>
+<p>HttpServletBean负责将初始化参数设置到该组件上(contextClass,contextConfigLocation等)。并提供一个initServletBean交给子类实现。</p>
+<p>FramworkServlet重写了这个方法。通过contextclass找到对应的class初始化。然后config他。然后如果提供了contextInitializerClasses，那么调用initializer方法。提供onRefresh方法供重载。</p>
+<p>DispatchServlet重写了onRefresh，实现了对DispatchServlet的初始化:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">initMultipartResolver(context);  </div><div class="line"></div><div class="line">initLocaleResolver(context);   </div><div class="line"></div><div class="line">initThemeResolver(context);   </div><div class="line"></div><div class="line">initHandlerMappings(context);   </div><div class="line"></div><div class="line">initHandlerAdapters(context);   </div><div class="line"></div><div class="line">initHandlerExceptionResolvers(context);   </div><div class="line"></div><div class="line">initRequestToViewNameTranslator(context);   </div><div class="line"></div><div class="line">initViewResolvers(context);   </div><div class="line"></div><div class="line">initFlashMapManager(context);</div></pre></td></tr></table></figure>
+<h2 id="通过WebApplicationInitializer代替web-xml"><a href="#通过WebApplicationInitializer代替web-xml" class="headerlink" title="通过WebApplicationInitializer代替web.xml"></a>通过WebApplicationInitializer代替web.xml</h2><p>Servlet3.0+之后可以通过代码来配置。主要是因为servlet容器会查找实现了ServletContainerInitailizer接口的类，如果能发现的话就会用它来配置容器。SpringMvc为这个接口提供了实现类：SpringServletContainerInitializer.这个类又会去找实现了WebApplicationInitializer的类。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> org.springframework.web.WebApplicationInitializer;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebApplicationInitializer</span> <span class="keyword">implements</span> <span class="title">WebApplicationInitializer</span> </span>&#123;</div><div class="line">	<span class="comment">//没有创建root ApplicaitonContext</span></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStartup</span><span class="params">(ServletContext container)</span> </span>&#123;</div><div class="line">        XmlWebApplicationContext appContext = <span class="keyword">new</span> XmlWebApplicationContext();</div><div class="line">        appContext.setConfigLocation(<span class="string">"/WEB-INF/spring/dispatcher-config.xml"</span>);</div><div class="line"></div><div class="line">        ServletRegistration.Dynamic registration = container.addServlet(<span class="string">"dispatcher"</span>, <span class="keyword">new</span> DispatcherServlet(appContext));</div><div class="line">        registration.setLoadOnStartup(<span class="number">1</span>);</div><div class="line">        registration.addMapping(<span class="string">"/"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>当然spring 也提供了一些实现类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//用它来提供RootConfig.class和AppConfig.class</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebAppInitializer</span> <span class="keyword">extends</span> </span></div><div class="line">    <span class="title">AbstractAnnotationConfigDispatcherServletInitializer</span> &#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getRootConfigClasses() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> Class&lt;?&gt;[] getServletConfigClasses() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> Class&lt;?&gt;[] &#123; MyWebConfig.class &#125;;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123; <span class="string">"/"</span> &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果你更喜欢xml,可以参照：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyWebAppInitializer</span> <span class="keyword">extends</span> <span class="title">AbstractDispatcherServletInitializer</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> WebApplicationContext <span class="title">createRootApplicationContext</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="function"><span class="keyword">protected</span> WebApplicationContext <span class="title">createServletApplicationContext</span><span class="params">()</span> </span>&#123;</div><div class="line">        XmlWebApplicationContext cxt = <span class="keyword">new</span> XmlWebApplicationContext();</div><div class="line">        cxt.setConfigLocation(<span class="string">"/WEB-INF/spring/dispatcher-config.xml"</span>);</div><div class="line">        <span class="keyword">return</span> cxt;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@Override</span></div><div class="line">    <span class="keyword">protected</span> String[] getServletMappings() &#123;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">new</span> String[] &#123; <span class="string">"/"</span> &#125;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">springmvc</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/22/SpringMVC-初始化/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-UIImagePickerController和ActionSheet在ipad上的问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -803,85 +908,6 @@
 
 
   
-    <article id="post-rxcocoa学习-DelegateProxy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/13/rxcocoa学习-DelegateProxy/">rxcocoa学习-DelegateProxy</a>
-    </h1>
-  
-
-        
-        <a href="/2017/06/13/rxcocoa学习-DelegateProxy/" class="archive-article-date">
-  	<time datetime="2017-06-13T03:12:29.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-13</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>DelegateProxy是对 ios中delegate的封装，能够将delegate的方法调用转换为一个observable sequence。先来看几张图。</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-13%20%E4%B8%8A%E5%8D%8811.24.45.png" alt=""></p>
-<p>从文档上的这个图可以看出：我们的DelegateProxy充当的是一个中间转换角色。uiscrollview的delegate设置为delegateProxy。然后有两种情况：</p>
-<ul>
-<li>delegateProxy实现了delegate的方法，那么直接在对应方法里on event</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// delegate proxy part (RxScrollViewDelegateProxy)</span></div><div class="line"></div><div class="line"><span class="keyword">let</span> internalSubject = <span class="type">PublishSubject</span>&lt;<span class="type">CGPoint</span>&gt;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">func</span> <span class="title">requiredDelegateMethod</span><span class="params">(scrollView: UIScrollView, arg1: CGPoint)</span></span> -&gt; <span class="type">Bool</span> &#123;</div><div class="line">    internalSubject.on(.next(arg1))</div><div class="line">    <span class="keyword">return</span> <span class="keyword">self</span>._forwardToDelegate?.requiredDelegateMethod?(scrollView, arg1: arg1) ?? defaultReturnValue</div><div class="line">&#125;</div><div class="line"></div><div class="line">....</div><div class="line"></div><div class="line"><span class="comment">// reactive property implementation in a real class (`UIScrollView`)</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">var</span> property: <span class="type">Observable</span>&lt;<span class="type">CGPoint</span>&gt; &#123;</div><div class="line">    <span class="keyword">let</span> proxy = <span class="type">RxScrollViewDelegateProxy</span>.proxyForObject(base)</div><div class="line">    <span class="keyword">return</span> proxy.internalSubject.asObservable()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>如果delegateProxy没有实现对应的方法，那么就会触发NSObject的forwardInvocation来将message转发。所以在_RxDelegateProxy中重载了这个方法。</li>
-</ul>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">-(void)forwardInvocation:(<span class="type">NSInvocation</span> *)anInvocation &#123;</div><div class="line">    <span class="type">BOOL</span> isVoid = <span class="type">RX_is_method_signature_void</span>(anInvocation.methodSignature);</div><div class="line">    <span class="type">NSArray</span> *arguments = <span class="literal">nil</span>;</div><div class="line">    <span class="comment">//让其他对象响应前，先调用_sentMessage</span></div><div class="line">    <span class="keyword">if</span> (isVoid) &#123;</div><div class="line">        arguments = <span class="type">RX_extract_arguments</span>(anInvocation);</div><div class="line">        [<span class="keyword">self</span> _sentMessage:anInvocation.selector withArguments:arguments];</div><div class="line">    &#125;</div><div class="line">    <span class="comment">///让_forwardToDelegate去响应</span></div><div class="line">    <span class="keyword">if</span> (<span class="keyword">self</span>._forwardToDelegate &amp;&amp; [<span class="keyword">self</span>._forwardToDelegate respondsToSelector:anInvocation.selector]) &#123;</div><div class="line">        [anInvocation invokeWithTarget:<span class="keyword">self</span>._forwardToDelegate];</div><div class="line">    &#125;</div><div class="line">	<span class="comment">//让其他对象响应后，调用_methodInvoked</span></div><div class="line">    <span class="keyword">if</span> (isVoid) &#123;</div><div class="line">        [<span class="keyword">self</span> _methodInvoked:anInvocation.selector withArguments:arguments];</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>_sentMessage和_methodInvoked方法都是从一个[Selector:PublishSubject]的字典中查找对应的subject，找到后调用on方法。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">_sentMessage</span><span class="params">(<span class="number">_</span> selector: Selector, withArguments arguments: [Any])</span></span> &#123;</div><div class="line">        sentMessageForSelector[selector]?.on(.next(arguments))</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">_methodInvoked</span><span class="params">(<span class="number">_</span> selector: Selector, withArguments arguments: [Any])</span></span> &#123;</div><div class="line">        methodInvokedForSelector[selector]?.on(.next(arguments))</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>那selector又是什么时候加入到了sentMessageForSelector中的呢？</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//注意只能是返回为void的selector</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">methodInvoked</span><span class="params">(<span class="number">_</span> selector: Selector)</span></span> -&gt; <span class="type">Observable</span>&lt;[<span class="type">Any</span>]&gt; &#123;</div><div class="line">        <span class="type">MainScheduler</span>.ensureExecutingOnScheduler()</div><div class="line">        checkSelectorIsObservable(selector)</div><div class="line"></div><div class="line">        <span class="keyword">let</span> subject = methodInvokedForSelector[selector]</div><div class="line"></div><div class="line">        <span class="keyword">if</span> <span class="keyword">let</span> subject = subject &#123;</div><div class="line">            <span class="keyword">return</span> subject.asObservable()</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">else</span> &#123;</div><div class="line">          <span class="comment">// 不存在，添加，构建一个subject的wrapperMessageDispatcher 添加到字典中</span></div><div class="line">            <span class="keyword">let</span> subject =  <span class="type">MessageDispatcher</span>(delegateProxy: <span class="keyword">self</span>)</div><div class="line">            methodInvokedForSelector[selector] = subject</div><div class="line">            <span class="keyword">return</span> subject.asObservable()</div><div class="line">        &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">///另一个函数类似</span></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">sentMessage</span><span class="params">(<span class="number">_</span> selector: Selector)</span></span> -&gt; <span class="type">Observable</span>&lt;[<span class="type">Any</span>]&gt;</div></pre></td></tr></table></figure>
-<p>了解了个大概，还是从具体的例子开始：</p>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-13%20%E4%B8%8B%E5%8D%882.41.01.png" alt=""></p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">///didEndDecelerating delegate方法时会调用Observer的方法</span></div><div class="line">scrollView</div><div class="line">.rx</div><div class="line">.didEndDecelerating</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(<span class="string">"didEndDecelerating"</span>)</div><div class="line">&#125;.disposed(by: bag)</div></pre></td></tr></table></figure>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//再来看看didEndDecelerating的实现</span></div><div class="line"><span class="comment">/**</span></div><div class="line">先创建一个RxScrollViewDelegateProxy，注意proxyForObject方法中做了很多事情。</div><div class="line">之后可以看到RxScrollViewDelegateProxy虽然遵循了UIScrollViewDelegate协议，但是并未实现里面的方法(只有一个didscroll)。这样按照上面的说明，就要进入forwardInvocation的流程，所以，我们得调用sendMessage或者methodInvoked来对selector和subject进行绑定。</div><div class="line"></div><div class="line">最后将其封装为ControlEvent返回。(为了ControlEvent的特性：保证主线程上执行)</div><div class="line">*/</div><div class="line"><span class="keyword">var</span> didEndDecelerating: <span class="type">ControlEvent</span>&lt;<span class="type">Void</span>&gt; &#123;</div><div class="line">    <span class="keyword">let</span> source = delegate.methodInvoked(#selector(<span class="type">UIScrollViewDelegate</span>.scrollViewDidEndDecelerating(<span class="number">_</span>:))).<span class="built_in">map</span> &#123; <span class="number">_</span> <span class="keyword">in</span> &#125;</div><div class="line">    <span class="keyword">return</span> <span class="type">ControlEvent</span>(events: source)</div><div class="line">&#125;</div><div class="line"><span class="comment">//-------------------------</span></div><div class="line"><span class="keyword">var</span> delegate: <span class="type">DelegateProxy</span> &#123;</div><div class="line">            <span class="keyword">return</span> <span class="type">RxScrollViewDelegateProxy</span>.proxyForObject(base)</div><div class="line">&#125;</div><div class="line"><span class="comment">//-------------------------</span></div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">proxyForObject</span><span class="params">(<span class="number">_</span> object: AnyObject)</span></span> -&gt; <span class="type">Self</span> &#123;</div><div class="line">    <span class="type">MainScheduler</span>.ensureExecutingOnScheduler()</div><div class="line"></div><div class="line">    <span class="keyword">let</span> maybeProxy = <span class="type">Self</span>.assignedProxyFor(object) <span class="keyword">as</span>? <span class="type">Self</span></div><div class="line"></div><div class="line">    <span class="keyword">let</span> proxy: <span class="type">Self</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> existingProxy = maybeProxy &#123;</div><div class="line">        proxy = existingProxy</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> &#123;</div><div class="line">        <span class="comment">///创建delegateProxy对象</span></div><div class="line">        proxy = <span class="type">Self</span>.createProxyForObject(object) <span class="keyword">as</span>! <span class="type">Self</span></div><div class="line">        <span class="comment">//关联delegateProxy和Scrollview</span></div><div class="line">        <span class="type">Self</span>.assignProxy(proxy, toObject: object)</div><div class="line">        <span class="built_in">assert</span>(<span class="type">Self</span>.assignedProxyFor(object) === proxy)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">let</span> currentDelegate: <span class="type">AnyObject</span>? = <span class="type">Self</span>.currentDelegateFor(object)</div><div class="line"></div><div class="line">    <span class="keyword">if</span> currentDelegate !== proxy &#123;</div><div class="line">       <span class="comment">//设置forwardDelegate</span></div><div class="line">        proxy.setForwardToDelegate(currentDelegate, retainDelegate: <span class="literal">false</span>)</div><div class="line">        <span class="built_in">assert</span>(proxy.forwardToDelegate() === currentDelegate)</div><div class="line">        <span class="comment">//将scrollview的delegate设置为delegateProxy</span></div><div class="line">        <span class="type">Self</span>.setCurrentDelegate(proxy, toObject: object)</div><div class="line">        <span class="built_in">assert</span>(<span class="type">Self</span>.currentDelegateFor(object) === proxy)</div><div class="line">        <span class="built_in">assert</span>(proxy.forwardToDelegate() === currentDelegate)</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> proxy</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>可以看到在实现didEndDecelerating时，拿到subject后执行了map操作，这样我们subscribe时的event里面就什么信息也没有，如果我们想event里包含参数信息，那么我们可以去掉map操作。</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//自己实现对scrollViewDidEndDecelerating的封装。</span></div><div class="line">scrollView</div><div class="line">.rx</div><div class="line">.delegate</div><div class="line">.sentMessage(#selector(<span class="type">UIScrollViewDelegate</span>.scrollViewDidEndDecelerating(<span class="number">_</span>:)))</div><div class="line">.subscribeOn(<span class="type">ConcurrentMainScheduler</span>.instance)</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="keyword">if</span> <span class="keyword">let</span> scrollView = event.element?[<span class="number">0</span>] <span class="keyword">as</span>? <span class="type">UIScrollView</span> &#123;</div><div class="line">        <span class="built_in">print</span>(scrollView.contentOffset)</div><div class="line">    &#125;</div><div class="line">&#125;.disposed(by: bag)</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">rxswift,rxcocoa</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/06/13/rxcocoa学习-DelegateProxy/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -978,6 +1004,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">springmvc</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
@@ -986,15 +1016,15 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
               </li>
              
               <li class="article-tag-list-item">
