@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: iOS | fa的学习之路</title>
+  <title>swift之Mirror | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="之前的blog在换电脑时丢失了,没办法另起一个">
-<meta property="og:type" content="website">
-<meta property="og:title" content="fa的学习之路">
-<meta property="og:url" content="http://yoursite.com/tags/iOS/index.html">
+  <meta name="description" content="Mirror用于获取任意类型的结构。 12345678910111213class Foo &amp;#123;    var x: Int = 0    var y: String = &quot;&quot;    func doSomething() &amp;#123;        print(&quot;Hello, world!&quot;)    &amp;#125;&amp;#125;let foo = Foo()let mirror = Mirro">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="swift之Mirror">
+<meta property="og:url" content="http://yoursite.com/2018/08/07/swift之Mirror/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta property="og:description" content="Mirror用于获取任意类型的结构。 12345678910111213class Foo &amp;#123;    var x: Int = 0    var y: String = &quot;&quot;    func doSomething() &amp;#123;        print(&quot;Hello, world!&quot;)    &amp;#125;&amp;#125;let foo = Foo()let mirror = Mirro">
+<meta property="og:updated_time" content="2018-08-07T11:40:51.591Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="fa的学习之路">
-<meta name="twitter:description" content="之前的blog在换电脑时丢失了,没办法另起一个">
+<meta name="twitter:title" content="swift之Mirror">
+<meta name="twitter:description" content="Mirror用于获取任意类型的结构。 12345678910111213class Foo &amp;#123;    var x: Int = 0    var y: String = &quot;&quot;    func doSomething() &amp;#123;        print(&quot;Hello, world!&quot;)    &amp;#125;&amp;#125;let foo = Foo()let mirror = Mirro">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -156,60 +158,170 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-swift之Mirror" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2018" class="archive-year">2018</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2018/05/24/UIImagePickerController和ActionSheet在ipad上的问题/" class="archive-article-date">
-  	<time datetime="2018-05-24T02:05:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-24</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2018/05/24/UIImagePickerController和ActionSheet在ipad上的问题/">UIImagePickerController和ActionSheet在ipad上的问题.md</a>
+    <h1 class="article-title" itemprop="name">
+      swift之Mirror
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2018/08/07/swift之Mirror/" class="archive-article-date">
+  	<time datetime="2018-08-07T11:40:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mirror用于获取任意类型的结构。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> x: <span class="type">Int</span> = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> y: <span class="type">String</span> = <span class="string">""</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">doSomething</span><span class="params">()</span></span> &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"Hello, world!"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">let</span> foo = <span class="type">Foo</span>()</div><div class="line"><span class="keyword">let</span> mirror = <span class="type">Mirror</span>(reflecting: foo)</div><div class="line"><span class="keyword">for</span> property <span class="keyword">in</span> mirror.children &#123;</div><div class="line">    <span class="built_in">print</span>(<span class="string">"<span class="subst">\(property.label!)</span>: <span class="subst">\(property.value)</span>"</span>)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用很简单，ok让我们看看他做了些什么</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">init</span>(reflecting subject: <span class="type">Any</span>) &#123;</div><div class="line">    <span class="keyword">if</span> <span class="keyword">case</span> <span class="keyword">let</span> customized <span class="keyword">as</span> <span class="type">CustomReflectable</span> = subject &#123;</div><div class="line">      <span class="keyword">self</span> = customized.customMirror</div><div class="line">    &#125; <span class="keyword">else</span> &#123;</div><div class="line">      <span class="keyword">self</span> = <span class="type">Mirror</span>(internalReflecting: subject)</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到调用了<code>Mirror(internalReflecting: subject)</code>进行初始化。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">  <span class="keyword">internal</span> <span class="keyword">init</span>(internalReflecting subject: <span class="type">Any</span>,</div><div class="line">              subjectType: <span class="type">Any</span>.<span class="type">Type</span>? = <span class="literal">nil</span>,</div><div class="line">              customAncestor: <span class="type">Mirror</span>? = <span class="literal">nil</span>)</div><div class="line">  &#123;</div><div class="line">     <span class="comment">//从typemeta中取出subjectType</span></div><div class="line">    <span class="keyword">let</span> subjectType = subjectType ?? _getNormalizedType(subject, type: type(of: subject))</div><div class="line">    <span class="comment">//从typemeta中取出childCount</span></div><div class="line">    <span class="keyword">let</span> childCount = _getChildCount(subject, type: subjectType)</div><div class="line">    <span class="comment">//从typemeta中取出所有value，组成children</span></div><div class="line">    <span class="keyword">let</span> children = (<span class="number">0</span> ..&lt; childCount).<span class="built_in">lazy</span>.<span class="built_in">map</span>(&#123;</div><div class="line">      getChild(of: subject, type: subjectType, index: $<span class="number">0</span>)</div><div class="line">    &#125;)</div><div class="line">    <span class="keyword">self</span>.children = <span class="type">Children</span>(children)</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>._makeSuperclassMirror = &#123;</div><div class="line">      <span class="keyword">guard</span> <span class="keyword">let</span> subjectClass = subjectType <span class="keyword">as</span>? <span class="type">AnyClass</span>,</div><div class="line">            <span class="keyword">let</span> superclass = _getSuperclass(subjectClass) <span class="keyword">else</span> &#123;</div><div class="line">        <span class="keyword">return</span> <span class="literal">nil</span></div><div class="line">      &#125;</div><div class="line">      </div><div class="line">      <span class="comment">// 处理custom ancestors</span></div><div class="line">      <span class="keyword">if</span> <span class="keyword">let</span> customAncestor = customAncestor &#123;</div><div class="line">        <span class="keyword">if</span> superclass == customAncestor.subjectType &#123;</div><div class="line">          <span class="keyword">return</span> customAncestor</div><div class="line">        &#125;</div><div class="line">        <span class="keyword">if</span> customAncestor._defaultDescendantRepresentation == .suppressed &#123;</div><div class="line">          <span class="keyword">return</span> customAncestor</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      <span class="keyword">return</span> <span class="type">Mirror</span>(internalReflecting: subject,</div><div class="line">                    subjectType: superclass,</div><div class="line">                    customAncestor: customAncestor)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">//取出DisplayStyle</span></div><div class="line">    <span class="keyword">let</span> rawDisplayStyle = _getDisplayStyle(subject)</div><div class="line">    <span class="keyword">switch</span> <span class="type">UnicodeScalar</span>(<span class="type">Int</span>(rawDisplayStyle)) &#123;</div><div class="line">    <span class="keyword">case</span> <span class="string">"c"</span>: <span class="keyword">self</span>.displayStyle = .<span class="keyword">class</span></div><div class="line">    <span class="keyword">case</span> <span class="string">"e"</span>: <span class="keyword">self</span>.displayStyle = .<span class="keyword">enum</span></div><div class="line">    <span class="keyword">case</span> <span class="string">"s"</span>: <span class="keyword">self</span>.displayStyle = .<span class="keyword">struct</span></div><div class="line">    <span class="keyword">case</span> <span class="string">"t"</span>: <span class="keyword">self</span>.displayStyle = .tuple</div><div class="line">    <span class="keyword">case</span> <span class="string">"\0"</span>: <span class="keyword">self</span>.displayStyle = <span class="literal">nil</span></div><div class="line">    <span class="keyword">default</span>: <span class="built_in">preconditionFailure</span>(<span class="string">"Unknown raw display style '<span class="subst">\(rawDisplayStyle)</span>'"</span>)</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">self</span>.subjectType = subjectType</div><div class="line">    <span class="keyword">self</span>._defaultDescendantRepresentation = .generated</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>Ok，再来看看其中的几个函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">_getNormalizedType</div><div class="line">_getChildCount</div><div class="line">getChild</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// func _getNormalizedType&lt;T&gt;(_: T, type: Any.Type) -&gt; Any.Type</span></div><div class="line">SWIFT_CC(swift) <span class="function">SWIFT_RUNTIME_STDLIB_INTERFACE</span></div><div class="line"><span class="keyword">const</span> Metadata *<span class="title">swift_reflectionMirror_normalizedType</span><span class="params">(OpaqueValue *value,</span></div><div class="line">                                                      <span class="keyword">const</span> Metadata *type,</div><div class="line">                                                      <span class="keyword">const</span> Metadata *T) &#123;</div><div class="line">  <span class="keyword">return</span> call(value, T, type, [](ReflectionMirrorImpl *impl) &#123; <span class="keyword">return</span> impl-&gt;type; &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// func _getChildCount&lt;T&gt;(_: T, type: Any.Type) -&gt; Int</span></div><div class="line">SWIFT_CC(swift) <span class="function">SWIFT_RUNTIME_STDLIB_INTERFACE</span></div><div class="line">intptr_t <span class="title">swift_reflectionMirror_count</span><span class="params">(OpaqueValue *value,</span></div><div class="line">                                      <span class="keyword">const</span> Metadata *type,</div><div class="line">                                      <span class="keyword">const</span> Metadata *T) &#123;</div><div class="line">  <span class="keyword">return</span> call(value, T, type, [](ReflectionMirrorImpl *impl) &#123;</div><div class="line">    <span class="keyword">return</span> impl-&gt;count();</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">// func _getChild&lt;T&gt;(</div><div class="line">//   of: T,</div><div class="line">//   type: Any.Type,</div><div class="line">//   index: Int,</div><div class="line">//   outName: UnsafeMutablePointer&lt;UnsafePointer&lt;CChar&gt;?&gt;,</div><div class="line">//   outFreeFunc: UnsafeMutablePointer&lt;NameFreeFunc?&gt;</div><div class="line">// ) -&gt; Any</div><div class="line">SWIFT_CC(swift) SWIFT_RUNTIME_STDLIB_INTERFACE</div><div class="line">AnyReturn swift_reflectionMirror_subscript(OpaqueValue *value, const Metadata *type,</div><div class="line">                                           intptr_t index,</div><div class="line">                                           const char **outName,</div><div class="line">                                           void (**outFreeFunc)(const char *),</div><div class="line">                                           const Metadata *T) &#123;</div><div class="line">  return call(value, T, type, [&amp;](ReflectionMirrorImpl *impl) &#123;</div><div class="line">    return impl-&gt;subscript(index, outName, outFreeFunc);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>他们都是调用call，并把我们需要mirror的value，以及value的type传入，最后调用个闭包之类的。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line">template&lt;typename F&gt;</div><div class="line">auto call(OpaqueValue *passedValue, const Metadata *T, const Metadata *passedType,</div><div class="line">          const F &amp;f) -&gt; decltype(f(nullptr))</div><div class="line">&#123;</div><div class="line">  const Metadata *type;</div><div class="line">  OpaqueValue *value;</div><div class="line">  /**还记得Mirror初始化函数是一个Any，所以我们的对象被封装为一个ExistentialContainer，先从ExistentialContainer中拿到我们的type和value</div><div class="line">   如果对ExistentialContainer不清楚可参见我的swift之内存模型</div><div class="line">  */</div><div class="line">  std::tie(type, value) = unwrapExistential(T, passedValue);</div><div class="line">  </div><div class="line">  if (passedType != nullptr) &#123;</div><div class="line">    type = passedType;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  /** 定义了函数call和callclass */</div><div class="line">  auto call = [&amp;](ReflectionMirrorImpl *impl) &#123;</div><div class="line">    impl-&gt;type = type;</div><div class="line">    impl-&gt;value = value;</div><div class="line">    auto result = f(impl);</div><div class="line">    return result;</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  auto callClass = [&amp;] &#123;</div><div class="line">    if (passedType == nullptr) &#123;</div><div class="line">      // Get the runtime type of the object.</div><div class="line">      const void *obj = *reinterpret_cast&lt;const void * const *&gt;(value);</div><div class="line">      auto isa = _swift_getClass(obj);</div><div class="line"></div><div class="line">      // Look through artificial subclasses.</div><div class="line">      while (isa-&gt;isTypeMetadata() &amp;&amp; isa-&gt;isArtificialSubclass()) &#123;</div><div class="line">        isa = isa-&gt;Superclass;</div><div class="line">      &#125;</div><div class="line">      passedType = isa;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  #if SWIFT_OBJC_INTEROP</div><div class="line">    // If this is a pure ObjC class, reflect it using ObjC's runtime facilities.</div><div class="line">    // ForeignClass (e.g. CF classes) manifests as a NULL class object.</div><div class="line">    auto *classObject = passedType-&gt;getClassObject();</div><div class="line">    if (classObject == nullptr || !classObject-&gt;isTypeMetadata()) &#123;</div><div class="line">      ObjCClassImpl impl;</div><div class="line">      return call(&amp;impl);</div><div class="line">    &#125;</div><div class="line">  #endif</div><div class="line"></div><div class="line">    // Otherwise, use the native Swift facilities.</div><div class="line">    ClassImpl impl;</div><div class="line">    return call(&amp;impl);</div><div class="line">  &#125;;</div><div class="line">  </div><div class="line">  /*** 根据不同的type生成不同impl类，然后调用call，为这个impl设置type和value，然后根据我们传入的f，获取不同的信息 **/</div><div class="line">  switch (type-&gt;getKind()) &#123;</div><div class="line">    case MetadataKind::Tuple: &#123;</div><div class="line">      TupleImpl impl;</div><div class="line">      return call(&amp;impl);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    case MetadataKind::Struct: &#123;</div><div class="line">      StructImpl impl;</div><div class="line">      return call(&amp;impl);</div><div class="line">    &#125;</div><div class="line">    </div><div class="line"></div><div class="line">    case MetadataKind::Enum:</div><div class="line">    case MetadataKind::Optional: &#123;</div><div class="line">      EnumImpl impl;</div><div class="line">      return call(&amp;impl);</div><div class="line">    &#125;</div><div class="line">     /** 如果是class的话，调用call class */</div><div class="line">    case MetadataKind::ObjCClassWrapper:</div><div class="line">    case MetadataKind::ForeignClass:</div><div class="line">    case MetadataKind::Class: &#123;</div><div class="line">      return callClass();</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    case MetadataKind::Metatype:</div><div class="line">    case MetadataKind::ExistentialMetatype: &#123;</div><div class="line">      MetatypeImpl impl;</div><div class="line">      return call(&amp;impl);</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    case MetadataKind::Opaque: &#123;</div><div class="line">#if SWIFT_OBJC_INTEROP</div><div class="line">      // If this is the Builtin.UnknownObject type, use the dynamic type of the</div><div class="line">      // object reference.</div><div class="line">      if (type == &amp;METADATA_SYM(BO).base) &#123;</div><div class="line">        return callClass();</div><div class="line">      &#125;</div><div class="line">#endif</div><div class="line">      // If this is the Builtin.NativeObject type, and the heap object is a</div><div class="line">      // class instance, use the dynamic type of the object reference.</div><div class="line">      if (type == &amp;METADATA_SYM(Bo).base) &#123;</div><div class="line">        const HeapObject *obj</div><div class="line">          = *reinterpret_cast&lt;const HeapObject * const*&gt;(value);</div><div class="line">        if (obj-&gt;metadata-&gt;getKind() == MetadataKind::Class) &#123;</div><div class="line">          return callClass();</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">      LLVM_FALLTHROUGH;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    /// TODO: Implement specialized mirror witnesses for all kinds.</div><div class="line">    default:</div><div class="line">      break;</div><div class="line"></div><div class="line">    // Types can't have these kinds.</div><div class="line">    case MetadataKind::HeapLocalVariable:</div><div class="line">    case MetadataKind::HeapGenericLocalVariable:</div><div class="line">    case MetadataKind::ErrorObject:</div><div class="line">      swift::crash("Swift mirror lookup failure");</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    // 未知类型，默认当做Opaque</div><div class="line">    OpaqueImpl impl;</div><div class="line">    return call(&amp;impl);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ok，从上可以看到，关键在于各种RelectionImple类的实现，我们找一个看看：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StructImpl</span> : <span class="title">ReflectionMirrorImpl</span> </span>&#123;</div><div class="line">  bool isReflectable() &#123;</div><div class="line">    const auto *<span class="type">Struct</span> = static_cast&lt;const <span class="type">StructMetadata</span> *&gt;(type);</div><div class="line">    const auto &amp;<span class="type">Description</span> = <span class="type">Struct</span>-&gt;getDescription();</div><div class="line">    <span class="keyword">return</span> <span class="type">Description</span>-&gt;getTypeContextDescriptorFlags().isReflectable();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  char displayStyle() &#123;</div><div class="line">    <span class="keyword">return</span> 's';</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">   <span class="comment">/** 返回成员变量数量 */</span></div><div class="line">  intptr_t <span class="built_in">count</span>() &#123;</div><div class="line">    <span class="keyword">if</span> (!isReflectable()) &#123;</div><div class="line">      <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">    &#125;</div><div class="line">    <span class="comment">/** 可以看到，这里将我们的传入的type，转为StructMetadata，然后再从中获取信息 */</span></div><div class="line">    auto *<span class="type">Struct</span> = static_cast&lt;const <span class="type">StructMetadata</span> *&gt;(type);</div><div class="line">    <span class="keyword">return</span> <span class="type">Struct</span>-&gt;getDescription()-&gt;<span class="type">NumFields</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">   <span class="comment">/** 返回成员变量值 */</span></div><div class="line">  <span class="type">AnyReturn</span> <span class="keyword">subscript</span>(intptr_t i, const char **outName,</div><div class="line">                      void (**outFreeFunc)(const char *)) &#123;</div><div class="line">     <span class="comment">/**   这里也是一样   */</span> </div><div class="line">    auto *<span class="type">Struct</span> = static_cast&lt;const <span class="type">StructMetadata</span> *&gt;(type);</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (i &lt; <span class="number">0</span> || (size_t)i &gt; <span class="type">Struct</span>-&gt;getDescription()-&gt;<span class="type">NumFields</span>)</div><div class="line">      swift::crash(<span class="string">"Swift mirror subscript bounds check failure"</span>);</div><div class="line"></div><div class="line">    <span class="comment">// Load the offset from its respective vector.</span></div><div class="line">    auto fieldOffset = <span class="type">Struct</span>-&gt;getFieldOffsets()[i];</div><div class="line"></div><div class="line">    <span class="type">Any</span> result;</div><div class="line">    </div><div class="line">    _swift_getFieldAt(type, i, [&amp;](llvm::<span class="type">StringRef</span> name, <span class="type">FieldType</span> fieldInfo) &#123;</div><div class="line">      <span class="built_in">assert</span>(!fieldInfo.isIndirect() &amp;&amp; <span class="string">"indirect struct fields not implemented"</span>);</div><div class="line">      </div><div class="line">      *outName = name.data();</div><div class="line">      *outFreeFunc = nullptr;</div><div class="line">      </div><div class="line">      auto *bytes = reinterpret_cast&lt;char*&gt;(value);</div><div class="line">      auto *fieldData = reinterpret_cast&lt;<span class="type">OpaqueValue</span> *&gt;(bytes + fieldOffset);</div><div class="line">      </div><div class="line">      bool didLoad = loadSpecialReferenceStorage(fieldData, fieldInfo, &amp;result);</div><div class="line">      <span class="keyword">if</span> (!didLoad) &#123;</div><div class="line">        result.<span class="type">Type</span> = fieldInfo.getType();</div><div class="line">        auto *opaqueValueAddr = result.<span class="type">Type</span>-&gt;allocateBoxForExistentialIn(&amp;result.<span class="type">Buffer</span>);</div><div class="line">        result.<span class="type">Type</span>-&gt;vw_initializeWithCopy(opaqueValueAddr,</div><div class="line">                                           const_cast&lt;<span class="type">OpaqueValue</span> *&gt;(fieldData));</div><div class="line">      &#125;</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    <span class="keyword">return</span> <span class="type">AnyReturn</span>(result);</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>从上可以看出关键点在于我们的Meta信息，我们继续看下去：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">using</span> StructMetadata = TargetStructMetadata&lt;InProcess&gt;;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TargetMetadata</span> </span>&#123;</div><div class="line">   <span class="type">StoredPointer</span> <span class="type">Kind</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TargetValueMetadata</span> :</span> <span class="keyword">public</span> TargetMetadata&lt;Runtime&gt; &#123;</div><div class="line">    ConstTargetMetadataPointer&lt;Runtime, TargetValueTypeDescriptor&gt;</div><div class="line">    Description;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> Runtime&gt;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">TargetStructMetadata</span> :</span> <span class="keyword">public</span> TargetValueMetadata&lt;Runtime&gt; &#123;</div><div class="line"></div><div class="line">  <span class="keyword">const</span> TargetStructDescriptor&lt;Runtime&gt; *getDescription() <span class="keyword">const</span> &#123;</div><div class="line">    <span class="keyword">return</span> llvm::cast&lt;TargetStructDescriptor&lt;Runtime&gt;&gt;(<span class="keyword">this</span>-&gt;Description);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// The first trailing field of struct metadata is always the generic</span></div><div class="line">  <span class="comment">// argument array.</span></div><div class="line"></div><div class="line">  <span class="comment">/// Get a pointer to the field offset vector, if present, or null.</span></div><div class="line">  <span class="function"><span class="keyword">const</span> uint32_t *<span class="title">getFieldOffsets</span><span class="params">()</span> <span class="keyword">const</span> </span>&#123;</div><div class="line">    <span class="keyword">auto</span> offset = getDescription()-&gt;FieldOffsetVectorOffset;</div><div class="line">    <span class="keyword">if</span> (offset == <span class="number">0</span>)</div><div class="line">      <span class="keyword">return</span> <span class="literal">nullptr</span>;</div><div class="line">    <span class="keyword">auto</span> asWords = <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">void</span> * <span class="keyword">const</span>*&gt;(<span class="keyword">this</span>);</div><div class="line">    <span class="keyword">return</span> <span class="keyword">reinterpret_cast</span>&lt;<span class="keyword">const</span> <span class="keyword">uint32_t</span> *&gt;(asWords + offset);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">constexpr</span> int32_t <span class="title">getGenericArgumentOffset</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> <span class="keyword">sizeof</span>(TargetStructMetadata&lt;Runtime&gt;) / <span class="keyword">sizeof</span>(<span class="keyword">void</span>*);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">static</span> <span class="keyword">bool</span> <span class="title">classof</span><span class="params">(<span class="keyword">const</span> TargetMetadata&lt;Runtime&gt; *metadata)</span> </span>&#123;</div><div class="line">    <span class="keyword">return</span> metadata-&gt;getKind() == MetadataKind::Struct;</div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们编译时，会为每种类型生成他们的typemetadata。我们定义的每种类型都能找到他的typemetadata。反射就是从这些metadata中拿到成员变量数量，成员变量的offset等，然后根据这些信息，从我们传入的subject中获取到对应的value，然后组装成Mirror返回给我们。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">swift</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2018/08/07/swift之Mirror/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2018/08/07/swift之ARC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">swift之ARC</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -232,9 +344,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		root: "/",
