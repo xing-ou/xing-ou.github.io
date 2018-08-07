@@ -158,6 +158,682 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-test" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/07/test/">test</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/07/test/" class="archive-article-date">
+  	<time datetime="2018-08-07T02:01:18.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/07/test/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-swift之typelayout" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/06/swift之typelayout/">swift之typelayout</a>
+    </h1>
+  
+
+        
+        <a href="/2018/08/06/swift之typelayout/" class="archive-article-date">
+  	<time datetime="2018-08-06T02:03:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-08-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="struct和tuple内存布局"><a href="#struct和tuple内存布局" class="headerlink" title="struct和tuple内存布局"></a>struct和tuple内存布局</h2><p>结构体和元组当前共享相同的布局算法，在编译器实现中称为“通用”布局算法。算法如下：</p>
+<ul>
+<li>一开始设置size为0，alignment为1</li>
+<li>遍历字段，对于每个字段：<ul>
+<li>先根据这个字段的alignment来更新size，让这个字段能够对齐</li>
+<li>size增加这个字段的大小</li>
+<li>更新alignment为 Max(alignment,这个字段的alignment)</li>
+</ul>
+</li>
+<li>最终拿到总的size和alignment，然后size根据alignment对其，得到strip。</li>
+</ul>
+<p>比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> age:<span class="type">Int64</span> = <span class="number">0</span> </div><div class="line">    <span class="keyword">var</span> sex:<span class="type">UInt16</span> = <span class="number">0</span></div><div class="line">    <span class="keyword">var</span> address:<span class="type">Double</span> = <span class="number">0.0</span></div><div class="line">    <span class="keyword">var</span> name:<span class="type">UInt8</span> = <span class="number">0</span></div><div class="line">&#125;</div><div class="line">开始设置size = <span class="number">0</span> ，alignment = <span class="number">1</span></div><div class="line">age是<span class="number">8</span>字节对其，size为<span class="number">0</span>，没问题，不需要调整。</div><div class="line">age是<span class="number">8</span>字节，size增加<span class="number">8</span></div><div class="line">age的alignment为<span class="number">8</span>，更新alignment为<span class="type">Max</span>(<span class="number">1</span>,<span class="number">8</span>)</div><div class="line">sex为<span class="number">2</span>字节对其,size为<span class="number">8</span>，没问题，不用调整。</div><div class="line">sex是<span class="number">2</span>字节，size增加<span class="number">2</span>，为<span class="number">10</span></div><div class="line">sex的alignment为<span class="number">2</span>，更新alignment为<span class="type">Max</span>(<span class="number">8</span>,<span class="number">2</span>)</div><div class="line">address为<span class="number">8</span>字节对其,size为<span class="number">10</span>，需调整size为<span class="number">16</span>，来保证对其。</div><div class="line">address是<span class="number">8</span>字节，size增加<span class="number">8</span>，为<span class="number">24</span></div><div class="line">address的alignment为<span class="number">8</span>，更新alignment为<span class="type">Max</span>(<span class="number">8</span>,<span class="number">8</span>)</div><div class="line">name为<span class="number">1</span>字节对其,size为<span class="number">24</span>，不用调整。</div><div class="line">name是<span class="number">1</span>字节，size增加<span class="number">1</span>，为<span class="number">25</span></div><div class="line">name的alignment为<span class="number">1</span>，更新alignment为<span class="type">Max</span>(<span class="number">8</span>,<span class="number">1</span>)</div><div class="line">所以size为<span class="number">25</span>， alignment为<span class="number">8</span>， 调整strip为<span class="number">32</span>，保证对其。</div></pre></td></tr></table></figure>
+<h2 id="Class-Layout"><a href="#Class-Layout" class="headerlink" title="Class Layout"></a>Class Layout</h2><p>参考<a href="https://academy.realm.io/posts/goto-mike-ash-exploring-swift-memory-layout/" target="_blank" rel="external">https://academy.realm.io/posts/goto-mike-ash-exploring-swift-memory-layout/</a>, 里面有一个探索内存的工具<a href="https://github.com/mikeash/memorydumper2。我们传一个变量给他，他能分析出这个是一个指针还是其他东西，并给出关系图谱，不过需要安装Graphviz。" target="_blank" rel="external">https://github.com/mikeash/memorydumper2。我们传一个变量给他，他能分析出这个是一个指针还是其他东西，并给出关系图谱，不过需要安装Graphviz。</a></p>
+<p>class是引用类型，因此，我们定义一个变量拿到的是这个实例变量在内存中的引用。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> age = <span class="number">0x0101010101010101</span></div><div class="line">    <span class="keyword">var</span> money =  <span class="number">0x0202020202020202</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> p = <span class="type">Person</span>()</div></pre></td></tr></table></figure>
+<p>那么p指向的实例对象的内存模式大概长什么样呢？</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-062753.png" alt="image-20180806142751503"></p>
+<p>现在还看不懂，我们先介绍下swift源码中的一些数据结构。</p>
+<h4 id="HeapObject"><a href="#HeapObject" class="headerlink" title="HeapObject"></a>HeapObject</h4><p>swift中所有分配在堆上的东西都是一个HeapObject。我们看看HeapObject的定义：</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/** 我们看到其实就两个变量，一个metadata，和一个InlineRefCounts */</span></div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">HeapObject</span> &#123;</span></div><div class="line">  <span class="comment">/// This is always a valid pointer to a metadata object.</span></div><div class="line">  HeapMetadata <span class="keyword">const</span> *metadata;</div><div class="line"></div><div class="line">  InlineRefCounts refCounts;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h4 id="HeapMetadata"><a href="#HeapMetadata" class="headerlink" title="HeapMetadata"></a>HeapMetadata</h4><p>HeapMetadata是类结构体的指针。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div></pre></td><td class="code"><pre><div class="line">//===============HeapMetadata=============</div><div class="line">template &lt;typename Target&gt; struct TargetHeapMetadata;</div><div class="line">using HeapMetadata = TargetHeapMetadata&lt;InProcess&gt;;</div><div class="line">//================TargetHeapMetadata==============</div><div class="line">//继承自TargetMetadata，并且有两个初始化方法，通过Kind初始化和通过TargetAnyClassMetadata初始化</div><div class="line">template &lt;typename Runtime&gt; </div><div class="line">struct TargetHeapMetadata : TargetMetadata&lt;Runtime&gt; &#123;</div><div class="line">  using HeaderType = TargetHeapMetadataHeader&lt;Runtime&gt;;</div><div class="line"></div><div class="line">  TargetHeapMetadata() = default;</div><div class="line">  constexpr TargetHeapMetadata(MetadataKind kind)</div><div class="line">    : TargetMetadata&lt;Runtime&gt;(kind) &#123;&#125;</div><div class="line">#if SWIFT_OBJC_INTEROP</div><div class="line">  constexpr TargetHeapMetadata(TargetAnyClassMetadata&lt;Runtime&gt; *isa)</div><div class="line">    : TargetMetadata&lt;Runtime&gt;(isa) &#123;&#125;</div><div class="line">#endif</div><div class="line">&#125;;</div><div class="line">//=================Kind==========</div><div class="line">enum class MetadataKind : uint32_t &#123;</div><div class="line">#define METADATAKIND(name, value) name = value,</div><div class="line">#define ABSTRACTMETADATAKIND(name, start, end)                                 \</div><div class="line">  name##_Start = start, name##_End = end,</div><div class="line">#include "MetadataKind.def"</div><div class="line">    /** 这是从MetadataKind.def截取的一段，可以看到就是声明了各种Kind的枚举</div><div class="line">NOMINALTYPEMETADATAKIND(Struct, 1)</div><div class="line">NOMINALTYPEMETADATAKIND(Enum, 2)</div><div class="line">NOMINALTYPEMETADATAKIND(Optional, 3)</div><div class="line">METADATAKIND(Opaque, 8)</div><div class="line">METADATAKIND(Tuple, 9)</div><div class="line">METADATAKIND(Function, 10)</div><div class="line">METADATAKIND(Existential, 12)</div><div class="line">METADATAKIND(Metatype, 13)</div><div class="line">METADATAKIND(ObjCClassWrapper, 14)*/</div><div class="line">  LastEnumerated = 2047,</div><div class="line">&#125;;</div><div class="line">//================TargetAnyClassMetadata==========</div><div class="line">//</div><div class="line">template &lt;typename Runtime&gt;</div><div class="line">struct TargetAnyClassMetadata : public TargetHeapMetadata&lt;Runtime&gt; &#123;</div><div class="line">  ....</div><div class="line">  ConstTargetMetadataPointer&lt;Runtime, swift::TargetClassMetadata&gt; Superclass;</div><div class="line">  TargetPointer&lt;Runtime, void&gt; CacheData[2];</div><div class="line">  StoredSize Data;</div><div class="line">  .....</div><div class="line">&#125;;</div><div class="line">struct TargetHeapMetadata : TargetMetadata&lt;Runtime&gt; &#123;</div><div class="line">  ....</div><div class="line">&#125;;</div><div class="line">struct TargetMetadata &#123;</div><div class="line">    //StoredPointer是不同平台上指针大小的类型，32位上相当于int32，64位上为int64，他要么是一个MetaKind枚举，要么是一个isa指针。</div><div class="line">	StoredPointer Kind;</div><div class="line">&#125;</div><div class="line">综上我们再看看TargetAnyClassMetadata都有些什么：</div><div class="line">&#123;</div><div class="line">  StoredPointer Kind;</div><div class="line">  ConstTargetMetadataPointer&lt;Runtime, swift::TargetClassMetadata&gt; Superclass;</div><div class="line">  TargetPointer&lt;Runtime, void&gt; CacheData[2];</div><div class="line">  StoredSize Data;</div><div class="line">&#125;</div><div class="line">熟悉么？没什么感觉的话，我们再看看oc的class的定义：</div><div class="line">struct objc_class  &#123;</div><div class="line">    Class ISA;//对应Kind</div><div class="line">    Class superclass;//对应Superclass</div><div class="line">    cache_t cache;   //对应cachedata</div><div class="line">    class_data_bits_t bits; //对应Data</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<blockquote>
+<p>综上，我们看到HeapMetadata就是一个类结构体。代表这个实例的Class。HeapObject中的第一个变量<code>HeapMetadata const *metadata</code>就是一个指向Class对象的指针。</p>
+</blockquote>
+<h4 id="InlineRefCounts"><a href="#InlineRefCounts" class="headerlink" title="InlineRefCounts"></a>InlineRefCounts</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> RefCounts&lt;InlineRefCountBits&gt; InlineRefCounts;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;<span class="keyword">typename</span> RefCountBits&gt;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefCounts</span> &#123;</span></div><div class="line">  <span class="built_in">std</span>::atomic&lt;RefCountBits&gt; refCounts;</div><div class="line">  <span class="comment">/** 各种操作引用计数的方法 */</span></div><div class="line">  incrementSlow()</div><div class="line">  tryIncrementAndPinSlow</div><div class="line">  decrementShouldDeinit</div><div class="line">  .....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上可以看出InlineRefCounts就是InlineRefCountBits，并提供了各种操作引用计数的方法。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">typedef</span> RefCountBitsT&lt;RefCountIsInline&gt; InlineRefCountBits;</div><div class="line"></div><div class="line"><span class="keyword">template</span> &lt;RefCountInlinedness refcountIsInline&gt;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">RefCountBitsT</span> &#123;</span></div><div class="line">  <span class="comment">//可能包含的是引用计数，也可能包含的是sidetable的指针</span></div><div class="line">  BitsType bits;</div><div class="line">  RefCountBitsT(HeapObjectSideTableEntry* side)</div><div class="line">  RefCountBitsT(<span class="keyword">uint32_t</span> strongExtraCount, <span class="keyword">uint32_t</span> unownedCount)；</div><div class="line">  <span class="comment">//封装了对各个bit的存储的操作</span></div><div class="line">  getUnownedRefCount</div><div class="line">  getIsPinned</div><div class="line">  getIsDeiniting</div><div class="line">  。。。。。</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从上可以看到，refCounts是一个RefCountBitsT类，类中有一个bits。如果没有sidetable的情况，那么引用计数会记录在这里面，如果有sidetable，那么包含的是HeapObjectSideTableEntry的指针。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//看看每一位表示什么(64位情况)</span></div><div class="line">template &lt;&gt;</div><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">RefCountBitOffsets</span>&lt;8&gt; </span>&#123;</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">IsPinnedShift</span> = <span class="number">0</span>;</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">IsPinnedBitCount</span> = <span class="number">1</span>; </div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">IsPinnedMask</span> = maskForField(<span class="type">IsPinned</span>);</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">UnownedRefCountShift</span> = shiftAfterField(<span class="type">IsPinned</span>);</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">UnownedRefCountBitCount</span> = <span class="number">31</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">UnownedRefCountMask</span> = maskForField(<span class="type">UnownedRefCount</span>);</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">IsDeinitingShift</span> = shiftAfterField(<span class="type">UnownedRefCount</span>);</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">IsDeinitingBitCount</span> = <span class="number">1</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">IsDeinitingMask</span> = maskForField(<span class="type">IsDeiniting</span>);</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">StrongExtraRefCountShift</span> = shiftAfterField(<span class="type">IsDeiniting</span>);</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">StrongExtraRefCountBitCount</span> = <span class="number">30</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">StrongExtraRefCountMask</span> = maskForField(<span class="type">StrongExtraRefCount</span>);</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">UseSlowRCShift</span> = shiftAfterField(<span class="type">StrongExtraRefCount</span>);</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">UseSlowRCBitCount</span> = <span class="number">1</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">UseSlowRCMask</span> = maskForField(<span class="type">UseSlowRC</span>);</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">SideTableShift</span> = <span class="number">0</span>;</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">SideTableBitCount</span> = <span class="number">62</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">SideTableMask</span> = maskForField(<span class="type">SideTable</span>);</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">SideTableUnusedLowBits</span> = <span class="number">3</span>;</div><div class="line"></div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">SideTableMarkShift</span> = <span class="type">SideTableBitCount</span>;</div><div class="line">  <span class="keyword">static</span> const size_t <span class="type">SideTableMarkBitCount</span> = <span class="number">1</span>;</div><div class="line">  <span class="keyword">static</span> const uint64_t <span class="type">SideTableMarkMask</span> = maskForField(<span class="type">SideTableMark</span>);</div><div class="line">&#125;;</div><div class="line">===============================</div><div class="line">低位---》高位</div><div class="line"><span class="number">1</span>位         <span class="type">IsPinned</span></div><div class="line"><span class="number">31</span>位        <span class="type">UnownedRefCountBit</span></div><div class="line"><span class="number">1</span>位         <span class="type">IsDeiniting</span></div><div class="line"><span class="number">30</span>位        <span class="type">StrongExtraRefCount</span></div><div class="line"><span class="number">1</span>位         <span class="type">UseSlowRC</span></div><div class="line">如果是有sidetable的情况，各个bit表示如下：</div><div class="line"><span class="number">62</span>位        <span class="type">SideTable</span>指针</div><div class="line"><span class="number">1</span>位         <span class="type">SideTableMark</span></div><div class="line"><span class="number">1</span>位         <span class="type">UseSlowRC</span></div></pre></td></tr></table></figure>
+<h4 id="再看对象内存布局"><a href="#再看对象内存布局" class="headerlink" title="再看对象内存布局"></a>再看对象内存布局</h4><p>再看看一开始的图：</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-062753.png" alt="image-20180806142751503"></p>
+<p>E87b5600100000：是Class的地址。</p>
+<p>02000000000000：是inlineref。引用计数，不过怎么都和看到的offset对不上😆。02那个是00000010，其中的1是代表unowned ref的数量，我们可以验证下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> age = <span class="number">0x0102030405060708</span></div><div class="line">    <span class="keyword">var</span> money =  <span class="number">0x0202020202020202</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">sayHello</span><span class="params">()</span></span>  &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"hello"</span>)</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">sayWorld</span><span class="params">()</span></span>  &#123;</div><div class="line">        <span class="built_in">print</span>(<span class="string">"world"</span>)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> p1 = <span class="type">Person</span>()</div><div class="line"><span class="keyword">let</span> p2 = p1</div><div class="line"><span class="keyword">let</span> p3 = p1</div><div class="line"><span class="keyword">let</span> p4 = p1</div><div class="line"><span class="keyword">let</span> p5 = p1</div><div class="line"><span class="keyword">unowned</span> <span class="keyword">var</span> p6 = p1</div><div class="line"><span class="keyword">unowned</span> <span class="keyword">var</span> p7 = p1</div><div class="line">dumpAndOpenGraph(dumping: p1, maxDepth: <span class="number">10</span>, filename: <span class="string">"SimpleClassPerson"</span>)</div></pre></td></tr></table></figure>
+<p>上面有5个额外强引用，2个额外无主引用(总数为2+1，因为初始值为1)，虽然不知道具体的offset规则，不过我们可以肯定，一定有一个1010和一个11子序列，代表5个额外强引用和3个无主引用：</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-104643.png" alt="image-20180806184642107"></p>
+<p>可以看到06(00000110)，其中11位无主引用数3，0a(00001010),其中101为额外强引用计数。</p>
+<p>ok,我们在试试定义一个weak，让对象有sidetable(因为weak引用计数在sidetable的SideTableRefCountBits中)。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">weak</span> <span class="keyword">var</span> p8 = p1</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-105548.png" alt="image-20180806185546375"></p>
+<p>可以看到ref已经变味一个指针+flag。</p>
+<h4 id="Class的layout"><a href="#Class的layout" class="headerlink" title="Class的layout"></a>Class的layout</h4><p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-111612.png" alt="image-20180806191610275"></p>
+<p>这是Person这个Class中的信息，读取的信息描述也不是很清晰，我们大概可以认为他是一个特殊的vtable，混杂了一些oc类结构体中的一些信息。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="type">Class</span> &#123;</div><div class="line">    isa</div><div class="line">    supperclass</div><div class="line">    cache</div><div class="line">    各种method指针</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-113027.png" alt="image-20180806193025560"></p>
+<p>这是放大的部分，128字节开始是sayHello函数，136字节开始是sayWorld函数，还有各种getter和setter等。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-113245.png" alt="image-20180806193243284"><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-113434.png" alt="image-20180806193430161"></p>
+<p>第8字节开始，也就数superclass，可以看到，我们定义的Person是SwiftObject的子类。SwiftObject是一个实现了NSObject协议的OC类。</p>
+<h2 id="枚举的内存布局"><a href="#枚举的内存布局" class="headerlink" title="枚举的内存布局"></a>枚举的内存布局</h2><p>在layout枚举时，ABI为了避免浪费空间，会从以下的5种策略中选择。</p>
+<h3 id="Empty-Enums"><a href="#Empty-Enums" class="headerlink" title="Empty Enums"></a>Empty Enums</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">Empty</span> </span>&#123;&#125; <span class="comment">// =&gt; empty type</span></div><div class="line">此时size为<span class="number">0</span>， alignment为<span class="number">1</span>， 为了对齐strip为<span class="number">1</span></div></pre></td></tr></table></figure>
+<h3 id="Single-Case-Enums"><a href="#Single-Case-Enums" class="headerlink" title="Single-Case Enums"></a>Single-Case Enums</h3><p>如果enum只有一个case，那么关联了什么data就怎么布局，如果没有关联，那么为empty(因为只有一个case不需要区分)。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EmptyCase</span> </span>&#123; <span class="keyword">case</span> <span class="type">X</span> &#125;             <span class="comment">// =&gt; empty type</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">DataCase</span> </span>&#123; <span class="keyword">case</span> <span class="type">Y</span>(<span class="type">Int</span>, <span class="type">Double</span>) &#125; <span class="comment">// =&gt; LLVM &lt;&#123; i64, double &#125;&gt;</span></div><div class="line"><span class="type">EmptyCase</span> size为<span class="number">0</span> ，alignment 为<span class="number">1</span>，strip为<span class="number">1</span></div><div class="line"><span class="type">DataCase</span> 布局就是<span class="number">1</span>个<span class="type">Int</span>,<span class="type">Double</span>。所以size为<span class="number">16</span>，alignment为<span class="number">8</span>，strip为<span class="number">16</span></div></pre></td></tr></table></figure>
+<h3 id="C-Like-Enums"><a href="#C-Like-Enums" class="headerlink" title="C-Like Enums"></a>C-Like Enums</h3><p>如果所有case都没有关联data type,那么这就是一个c-like enum。enum布局就是一个整数tag，用最少的bit来描述所有case。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumLike2</span> </span>&#123; <span class="comment">// =&gt; LLVM i1</span></div><div class="line">  <span class="keyword">case</span> <span class="type">A</span>         <span class="comment">// =&gt; i1 0</span></div><div class="line">  <span class="keyword">case</span> <span class="type">B</span>         <span class="comment">// =&gt; i1 1</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">EnumLike8</span> </span>&#123; <span class="comment">// =&gt; LLVM i3</span></div><div class="line">  <span class="keyword">case</span> <span class="type">A</span>         <span class="comment">// =&gt; i3 0</span></div><div class="line">  <span class="keyword">case</span> <span class="type">B</span>         <span class="comment">// =&gt; i3 1</span></div><div class="line">  <span class="keyword">case</span> <span class="type">C</span>         <span class="comment">// =&gt; i3 2</span></div><div class="line">  <span class="keyword">case</span> <span class="type">D</span>         <span class="comment">// etc.</span></div><div class="line">  <span class="keyword">case</span> <span class="type">E</span></div><div class="line">  <span class="keyword">case</span> <span class="type">F</span></div><div class="line">  <span class="keyword">case</span> <span class="type">G</span></div><div class="line">  <span class="keyword">case</span> <span class="type">H</span></div><div class="line">&#125;</div><div class="line">size为<span class="number">1</span>， alignment为<span class="number">1</span>，strip为<span class="number">1</span>。为什么是<span class="number">1</span>呢，因为<span class="number">1</span>个字节可以表示<span class="number">2</span>的<span class="number">8</span>次方种情况，足够表示这么多<span class="keyword">case</span>了。那超过了呢？</div><div class="line">又比如</div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">A</span> </span>&#123;</div><div class="line">    <span class="keyword">case</span> <span class="type">A0</span></div><div class="line">    <span class="keyword">case</span> <span class="type">A1</span></div><div class="line">    ....</div><div class="line">    <span class="keyword">case</span> <span class="type">A280</span></div><div class="line">&#125;</div><div class="line">此时不足以用<span class="number">1</span>个字节表示所以，size为<span class="number">2</span>，alignment为<span class="number">2</span>，strip为<span class="number">2</span>.</div></pre></td></tr></table></figure>
+<h3 id="Single-Payload-Enums"><a href="#Single-Payload-Enums" class="headerlink" title="Single-Payload Enums"></a>Single-Payload Enums</h3><p>如果enum总有多个case，但是只有一个关联了data type，其他都没有，我们称这种情况为single-payload enum。此时的原则就是尽量共用空间，无法共用时，增加额外的位来区分情况。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="number">32</span>位足够描述所有情况，就用这么多</div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">CharOrSectionMarker</span> </span>&#123; <span class="comment">//=&gt; LLVM i32</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Paragraph</span>           <span class="comment">// =&gt; i32 0x0020_0000</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Char</span>(<span class="type">UnicodeScalar</span>) <span class="comment">// =&gt; i32 (zext i21 %Char to i32)</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Chapter</span>             <span class="comment">// =&gt; i32 0x0020_0001</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="type">CharOrSectionMarker</span>.<span class="type">Char</span>('\x00') =&gt; i32 <span class="number">0x0000_0000</span></div><div class="line"><span class="type">CharOrSectionMarker</span>.<span class="type">Char</span>('\u10FFFF') =&gt; i32 <span class="number">0x0010_FFFF</span></div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">CharOrSectionMarkerOrFootnoteMarker</span> </span>&#123; =&gt; <span class="type">LLVM</span> i32</div><div class="line">  <span class="keyword">case</span> <span class="type">CharOrSectionMarker</span>(<span class="type">CharOrSectionMarker</span>) =&gt; i32 %<span class="type">CharOrSectionMarker</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Asterisk</span>                                 =&gt; i32 <span class="number">0x0020_0002</span></div><div class="line">  <span class="keyword">case</span> <span class="type">Dagger</span>                                   =&gt; i32 <span class="number">0x0020_0003</span></div><div class="line">  <span class="keyword">case</span> <span class="type">DoubleDagger</span>                             =&gt; i32 <span class="number">0x0020_0004</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//不够了，总的情况为Int描述的+2，超出了Int8字节能表示的访问，就在末尾增加一个字节来区分就是是有data还是没data。</span></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">IntOrInfinity</span> </span>&#123; =&gt; <span class="type">LLVM</span> &lt;&#123; i64, i1增加一位区分有没data type &#125;&gt;</div><div class="line">  <span class="keyword">case</span> <span class="type">NegInfinity</span>    =&gt; &lt;&#123; i64, i1 &#125;&gt; &#123;    <span class="number">0</span>, <span class="number">1</span> &#125;</div><div class="line">  <span class="keyword">case</span> <span class="type">Int</span>(<span class="type">Int</span>)       =&gt; &lt;&#123; i64, i1 &#125;&gt; &#123; %<span class="type">Int</span>, <span class="number">0</span> &#125;</div><div class="line">  <span class="keyword">case</span> <span class="type">PosInfinity</span>    =&gt; &lt;&#123; i64, i1 &#125;&gt; &#123;    <span class="number">1</span>, <span class="number">1</span> &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="type">IntOrInfinity</span>.<span class="type">Int</span>(    <span class="number">0</span>) =&gt; &lt;&#123; i64, i1 &#125;&gt; &#123;     <span class="number">0</span>, <span class="number">0</span> &#125;</div><div class="line"><span class="type">IntOrInfinity</span>.<span class="type">Int</span>(<span class="number">20721</span>) =&gt; &lt;&#123; i64, i1 &#125;&gt; &#123; <span class="number">20721</span>, <span class="number">0</span> &#125;</div><div class="line">size为<span class="number">9</span>，alignment为<span class="number">8</span>，strip为<span class="number">16</span></div></pre></td></tr></table></figure>
+<h3 id="Multi-Payload-Enums"><a href="#Multi-Payload-Enums" class="headerlink" title="Multi-Payload Enums"></a>Multi-Payload Enums</h3><p>如果有大于1个case关联了data type，那么就是Multi-Payload Enums。此时也是一样的尽量共用空间，无法共用时，增加bit进行区分。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bignum</span> </span>&#123;&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">enum</span> <span class="title">IntDoubleOrBignum</span> </span>&#123; =&gt; <span class="type">LLVM</span> &lt;&#123; i64, i2增加两位区分<span class="number">3</span>中情况 &#125;&gt;</div><div class="line">  <span class="keyword">case</span> <span class="type">Int</span>(<span class="type">Int</span>)           =&gt; &lt;&#123; i64, i2 &#125;&gt; &#123;           %<span class="type">Int</span>,            <span class="number">0</span> &#125;</div><div class="line">  <span class="keyword">case</span> <span class="type">Double</span>(<span class="type">Double</span>)     =&gt; &lt;&#123; i64, i2 &#125;&gt; &#123; (bitcast  %<span class="type">Double</span> to i64), <span class="number">1</span> &#125;</div><div class="line">  <span class="keyword">case</span> <span class="type">Bignum</span>(<span class="type">Bignum</span>)     =&gt; &lt;&#123; i64, i2 &#125;&gt; &#123; (ptrtoint %<span class="type">Bignum</span> to i64), <span class="number">2</span> &#125;</div><div class="line">&#125;</div><div class="line">size为<span class="number">9</span>，alignment为<span class="number">8</span>，strip为<span class="number">16</span></div></pre></td></tr></table></figure>
+<h2 id="Existential-Container-Layout"><a href="#Existential-Container-Layout" class="headerlink" title="Existential Container Layout"></a>Existential Container Layout</h2><p>protocol类型、组合协议类型、Any等这些无法确定大小的类型，他们都Existential Container。具有同样的layout。</p>
+<h4 id="protocol"><a href="#protocol" class="headerlink" title="protocol"></a>protocol</h4><p>Existential Containers必须容纳任意大小和对齐的值。此时使用3个指针大小的固定数据区。如果他的大小和对其都小于等于固定缓冲区的大小，则直接包含该值。如果不能包含，这存储一个指向其数据的指针。具体是什么类型，由一个类型元数据记录标识。protocol的方法在witnesstable中。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OpaqueExistentialContainer</span> </span>&#123;</div><div class="line">  void *fixedSizeBuffer[<span class="number">3</span>];<span class="comment">//数据区</span></div><div class="line">  <span class="type">Metadata</span> *type;<span class="comment">//数据区的类型</span></div><div class="line">  <span class="type">WitnessTable</span> *witnessTables[<span class="type">NUM_WITNESS_TABLES</span>];<span class="comment">//protocol的witnesstable</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">StructSmallP</span>: <span class="title">P</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">f</span><span class="params">()</span></span> &#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">g</span><span class="params">()</span></span> &#123;&#125;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">h</span><span class="params">()</span></span> &#123;&#125;</div><div class="line">    <span class="keyword">var</span> a = <span class="number">0x6c6c616d73</span></div><div class="line">    <span class="keyword">var</span> b = <span class="number">0x6c6c616d73</span></div><div class="line">&#125;</div><div class="line"><span class="keyword">let</span> p = <span class="type">StructSmallP</span>()</div><div class="line">dumpAndOpenGraph(dumping:p , maxDepth: <span class="number">4</span>, filename: <span class="string">"StructSmallP"</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-115234.png" alt="image-20180806195232768"></p>
+<p>就两个Int的空间。ok，现在我们用Existential Container来存储他：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> p:<span class="type">P</span> = <span class="type">StructSmallP</span>()<span class="comment">//定义为P</span></div><div class="line">dumpAndOpenGraph(dumping:p , maxDepth: <span class="number">4</span>, filename: <span class="string">"StructSmallP"</span>)</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-115440.png" alt="image-20180806195438131"></p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-115518.png" alt="image-20180806195516667"></p>
+<p>前两个为struct的a和b。前3个缓冲区剩余空间会用于存放valuewitnesstable，包含一些初始化函数，如果没空间了就没有这个。第四个为type，第5个为protocol witnesstable。正如我们最开始看到的那样：3个缓冲区，一个type，一个pwt。</p>
+<h4 id="AnyObject"><a href="#AnyObject" class="headerlink" title="AnyObject"></a>AnyObject</h4><p>AnyObject由于对象都是指针，所以不会存在大小不一致的情况。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> objs = [<span class="type">ClassA</span>(),<span class="type">ClassB</span>(),<span class="type">ClassC</span>()]</div></pre></td></tr></table></figure>
+<h4 id="Any"><a href="#Any" class="headerlink" title="Any"></a>Any</h4><p>和protocol类似，只是没有了protocol witness table。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">struct</span> <span class="title">OpaqueExistentialContainer</span> &#123;</span></div><div class="line">  <span class="keyword">void</span> *fixedSizeBuffer[<span class="number">3</span>];<span class="comment">//数据区</span></div><div class="line">  Metadata *type;<span class="comment">//数据区的类型</span></div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/2018-08-06-123107.png" alt="image-20180806203105238"></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">swift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/08/06/swift之typelayout/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-查看appstore被拒图片返回403" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/07/查看appstore被拒图片返回403/">查看appstore被拒图片返回403</a>
+    </h1>
+  
+
+        
+        <a href="/2018/07/07/查看appstore被拒图片返回403/" class="archive-article-date">
+  	<time datetime="2018-07-07T07:50:04.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-07-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://discussions.apple.com/thread/6684554" target="_blank" rel="external">https://discussions.apple.com/thread/6684554</a></p>
+<p>Back up all data.</p>
+<p>From the menu bar, select</p>
+<p> ▹ System Preferences… ▹ Network</p>
+<p>If the preference pane is locked, click the lock icon in the lower left corner and enter your password to unlock it. Then click the Advanced button and select the Proxies tab. If any proxy options are selected, make a note of them and then deselect them. You don’t need to change the bypass or FTP settings. Click OK and then Apply. Test. The result may be that you can’t connect to any web server. Restore the previous settings if that happens.</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">appstore</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/07/07/查看appstore被拒图片返回403/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-ios无法加载本地的html" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/26/ios无法加载本地的html/">ios无法加载本地的html</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/26/ios无法加载本地的html/" class="archive-article-date">
+  	<time datetime="2018-06-26T10:16:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天从document目录下使用WKWebView加载html，怎么都加载不出来。搜索了一下，可以参见：</p>
+<p><a href="https://stackoverflow.com/questions/24882834/wkwebview-not-loading-local-files-under-ios-8" target="_blank" rel="external">https://stackoverflow.com/questions/24882834/wkwebview-not-loading-local-files-under-ios-8</a></p>
+<p>原因是wkwebview的bug。</p>
+<p>修改方案是：</p>
+<p>在ios9以上的使用loadFileURL这个方法加载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[_transactionWebView loadFileURL:htmlUrl allowingReadAccessToURL:dirUrl];</div></pre></td></tr></table></figure>
+<p>ios8的需要将要访问的资源移动到temp目录下才能访问。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">ios wkwebview</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/26/ios无法加载本地的html/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-springmvc-文档概览" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/26/springmvc-文档概览/">springmvc-注解</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/26/springmvc-文档概览/" class="archive-article-date">
+  	<time datetime="2018-06-26T01:52:36.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-26</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-4-Annotated-Controllers"><a href="#1-4-Annotated-Controllers" class="headerlink" title="1.4. Annotated Controllers"></a>1.4. Annotated Controllers</h2><p>springmvc提供了基于注解的编程模型，比如@Controller,@RestController.</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hello"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">handle</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"Hello World!"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-4-1-Declaration"><a href="#1-4-1-Declaration" class="headerlink" title="1.4.1. Declaration"></a>1.4.1. Declaration</h3><p>对于@Controller @Component等的beans可以由spring自动检测。不过这并不是默认开启的，你还需要设置一下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//通过java config</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span>(<span class="string">"org.example.web"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">通过xml的方式</div><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></div><div class="line">        http://www.springframework.org/schema/beans</div><div class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">        http://www.springframework.org/schema/context</div><div class="line">        http://www.springframework.org/schema/context/spring-context.xsd"&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"org.example.web"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- ... --&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
+<h3 id="1-4-2-Request-Mapping"><a href="#1-4-2-Request-Mapping" class="headerlink" title="1.4.2. Request Mapping"></a>1.4.2. Request Mapping</h3><p>@RequestMapping是用来将一个request映射到一个方法上。既可以修饰方法也可以修饰controller。</p>
+<p>根据不同的http请求方法也有些简写：</p>
+<ul>
+<li><code>@GetMapping</code></li>
+<li><code>@PostMapping</code></li>
+<li><code>@PutMapping</code></li>
+<li><code>@DeleteMapping</code></li>
+<li><code>@PatchMapping</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/persons"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersonController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@PostMapping</span></div><div class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.CREATED)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(@RequestBody Person person)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="URI-patterns"><a href="#URI-patterns" class="headerlink" title="URI patterns"></a>URI patterns</h4><p>对于你匹配的url，你可以使用？、<em>、*</em>来进行模糊匹配。</p>
+<ul>
+<li>？:匹配单个字符</li>
+<li>*：匹配一个path segment中的任意多个字符</li>
+<li>**：匹配任意多个path segments。</li>
+</ul>
+<p>你还可以在path中通过{varName}指定变量,然后再方法参数中通过@PathVariable获取：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/owners/&#123;ownerId&#125;/pets/&#123;petId&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">findPet</span><span class="params">(@PathVariable Long ownerId, @PathVariable Long petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>uri变量会自动转换为你指定的类型，如果不能转换，那么会抛出TypeMismatchException异常。</p>
+<p>你还可以为变量指定正则表达式{varName:regx}</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;name:[a-z-]+&#125;-&#123;version:\\d\\.\\d\\.\\d&#125;&#123;ext:\\.[a-z]+&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(@PathVariable String version, @PathVariable String ext)</span> </span>&#123;</div><div class="line">    <span class="comment">// /spring-web-3.0.5 .jar</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>你还可以用${}来引用placeholder。</p>
+<h4 id="Pattern-comparison"><a href="#Pattern-comparison" class="headerlink" title="Pattern comparison"></a>Pattern comparison</h4><p>当一个URL同时匹配多个模式时，只会选择最匹配的一个：</p>
+<ul>
+<li>URI模式变量的数目和通配符数量的总和最少的那个路径模式更准确。比如，<code>/hotels/{hotel}/*</code>这个路径拥有一个URI变量和一个通配符，而<code>/hotels/{hotel}/**</code>这个路径则拥有一个URI变量和两个通配符，因此前者是更准确的路径模式。</li>
+<li>如果两个模式的URI模式数量和通配符数量总和一致，则路径更长的那个模式更准确。举个例子，<code>/foo/bar*</code>就被认为比<code>/foo/*</code>更准确，因为前者的路径更长。</li>
+<li>如果两个模式的数量和长度均一致，则那个具有更少通配符的模式是更加准确的。比如，<code>/hotels/{hotel}</code>就比<code>/hotels/*</code>更精确。</li>
+<li>默认的通配模式<code>/**</code>比其他所有的模式都更“不准确”。比方说，<code>/api/{a}/{b}/{c}</code>就比默认的通配模式<code>/**</code>要更准确</li>
+<li>前缀通配（比如<code>/public/**</code>)被认为比其他任何不包括双通配符的模式更不准确。比如说，<code>/public/path3/{a}/{b}/{c}</code>就比<code>/public/**</code>更准确</li>
+</ul>
+<h4 id="Consumable-media-types"><a href="#Consumable-media-types" class="headerlink" title="Consumable media types"></a>Consumable media types</h4><p>匹配request中的Content-Type</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@PostMapping</span>(path = <span class="string">"/pets"</span>, consumes = <span class="string">"application/json"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPet</span><span class="params">(@RequestBody Pet pet)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>支持！运算符，取反</p>
+<h4 id="Producible-media-types"><a href="#Producible-media-types" class="headerlink" title="Producible media types"></a>Producible media types</h4><p>匹配request中的Accept</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, produces = <span class="string">"application/json;charset=UTF-8"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">getPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="Parameters-headers"><a href="#Parameters-headers" class="headerlink" title="Parameters, headers"></a>Parameters, headers</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, params = <span class="string">"myParam=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets"</span>, headers = <span class="string">"myHeader=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="1-4-3-Handler-Methods"><a href="#1-4-3-Handler-Methods" class="headerlink" title="1.4.3. Handler Methods"></a>1.4.3. Handler Methods</h3><p>@RequestMapping修饰的方法还是有些限制的。他们的参数和返回值，只能是某些固定类型。</p>
+<h4 id="Method-Arguments"><a href="#Method-Arguments" class="headerlink" title="Method Arguments"></a>Method Arguments</h4><table>
+<thead>
+<tr>
+<th>Controller method argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WebRequest</code>, <code>NativeWebRequest</code></td>
+<td>Generic access to request parameters, request &amp; session attributes, without direct use of the Servlet API.</td>
+</tr>
+<tr>
+<td><code>javax.servlet.ServletRequest</code>, <code>javax.servlet.ServletResponse</code></td>
+<td>Choose any specific request or response type — e.g. <code>ServletRequest</code>, <code>HttpServletRequest</code>, or Spring’s <code>MultipartRequest</code>, <code>MultipartHttpServletRequest</code>.</td>
+</tr>
+<tr>
+<td><code>javax.servlet.http.HttpSession</code></td>
+<td>Enforces the presence of a session. As a consequence, such an argument is never <code>null</code>. <strong>Note:</strong> Session access is not thread-safe. Consider setting the<code>RequestMappingHandlerAdapter</code>‘s “synchronizeOnSession” flag to “true” if multiple requests are allowed to access a session concurrently.</td>
+</tr>
+<tr>
+<td><code>javax.servlet.http.PushBuilder</code></td>
+<td>Servlet 4.0 push builder API for programmatic HTTP/2 resource pushes. Note that per Servlet spec, the injected <code>PushBuilder</code> instance can be null if the client does not support that HTTP/2 feature.</td>
+</tr>
+<tr>
+<td><code>java.security.Principal</code></td>
+<td>Currently authenticated user; possibly a specific <code>Principal</code> implementation class if known.</td>
+</tr>
+<tr>
+<td><code>HttpMethod</code></td>
+<td>The HTTP method of the request.</td>
+</tr>
+<tr>
+<td><code>java.util.Locale</code></td>
+<td>The current request locale, determined by the most specific <code>LocaleResolver</code>available, in effect, the configured <code>LocaleResolver</code>/<code>LocaleContextResolver</code>.</td>
+</tr>
+<tr>
+<td><code>java.util.TimeZone</code> + <code>java.time.ZoneId</code></td>
+<td>The time zone associated with the current request, as determined by a <code>LocaleContextResolver</code>.</td>
+</tr>
+<tr>
+<td><code>java.io.InputStream</code>, <code>java.io.Reader</code></td>
+<td>For access to the raw request body as exposed by the Servlet API.</td>
+</tr>
+<tr>
+<td><code>java.io.OutputStream</code>, <code>java.io.Writer</code></td>
+<td>For access to the raw response body as exposed by the Servlet API.</td>
+</tr>
+<tr>
+<td><code>@PathVariable</code></td>
+<td>For access to URI template variables. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestmapping-uri-templates" target="_blank" rel="external">URI patterns</a>.</td>
+</tr>
+<tr>
+<td><code>@MatrixVariable</code></td>
+<td>For access to name-value pairs in URI path segments. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-matrix-variables" target="_blank" rel="external">Matrix variables</a>.</td>
+</tr>
+<tr>
+<td><code>@RequestParam</code></td>
+<td>For access to Servlet request parameters. Parameter values are converted to the declared method argument type. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestparam" target="_blank" rel="external">@RequestParam</a>.Note that use of <code>@RequestParam</code> is optional, e.g. to set its attributes. See “Any other argument” further below in this table.</td>
+</tr>
+<tr>
+<td><code>@RequestHeader</code></td>
+<td>For access to request headers. Header values are converted to the declared method argument type. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestheader" target="_blank" rel="external">@RequestHeader</a>.</td>
+</tr>
+<tr>
+<td><code>@CookieValue</code></td>
+<td>For access to cookies. Cookies values are converted to the declared method argument type. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-cookievalue" target="_blank" rel="external">@CookieValue</a>.</td>
+</tr>
+<tr>
+<td><code>@RequestBody</code></td>
+<td>For access to the HTTP request body. Body content is converted to the declared method argument type using <code>HttpMessageConverter</code>s. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestbody" target="_blank" rel="external">@RequestBody</a>.</td>
+</tr>
+<tr>
+<td><code>HttpEntity&lt;B&gt;</code></td>
+<td>For access to request headers and body. The body is converted with <code>HttpMessageConverter</code>s. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-httpentity" target="_blank" rel="external">HttpEntity</a>.</td>
+</tr>
+<tr>
+<td><code>@RequestPart</code></td>
+<td>For access to a part in a “multipart/form-data” request. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-multipart-forms" target="_blank" rel="external">Multipart</a>.</td>
+</tr>
+<tr>
+<td><code>java.util.Map</code>, <code>org.springframework.ui.Model</code>, <code>org.springframework.ui.ModelMap</code></td>
+<td>For access to the model that is used in HTML controllers and exposed to templates as part of view rendering.</td>
+</tr>
+<tr>
+<td><code>RedirectAttributes</code></td>
+<td>Specify attributes to use in case of a redirect — i.e. to be appended to the query string, and/or flash attributes to be stored temporarily until the request after redirect. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-redirecting-passing-data" target="_blank" rel="external">Redirect attributes</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-flash-attributes" target="_blank" rel="external">Flash attributes</a>.</td>
+</tr>
+<tr>
+<td><code>@ModelAttribute</code></td>
+<td>For access to an existing attribute in the model (instantiated if not present) with data binding and validation applied. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-method-args" target="_blank" rel="external">@ModelAttribute</a> as well as <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-methods" target="_blank" rel="external">Model</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-initbinder" target="_blank" rel="external">DataBinder</a>.Note that use of <code>@ModelAttribute</code> is optional, e.g. to set its attributes. See “Any other argument” further below in this table.</td>
+</tr>
+<tr>
+<td><code>Errors</code>, <code>BindingResult</code></td>
+<td>For access to errors from validation and data binding for a command object (i.e. <code>@ModelAttribute</code> argument), or errors from the validation of an <code>@RequestBody</code>or <code>@RequestPart</code> arguments; an <code>Errors</code>, or <code>BindingResult</code> argument must be declared immediately after the validated method argument.</td>
+</tr>
+<tr>
+<td><code>SessionStatus</code> + class-level <code>@SessionAttributes</code></td>
+<td>For marking form processing complete which triggers cleanup of session attributes declared through a class-level <code>@SessionAttributes</code> annotation. See<a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-sessionattributes" target="_blank" rel="external">@SessionAttributes</a> for more details.</td>
+</tr>
+<tr>
+<td><code>UriComponentsBuilder</code></td>
+<td>For preparing a URL relative to the current request’s host, port, scheme, context path, and the literal part of the servlet mapping also taking into account <code>Forwarded</code> and <code>X-Forwarded-*</code> headers. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-uri-building" target="_blank" rel="external">URI Links</a>.</td>
+</tr>
+<tr>
+<td><code>@SessionAttribute</code></td>
+<td>For access to any session attribute; in contrast to model attributes stored in the session as a result of a class-level <code>@SessionAttributes</code> declaration. See<a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-sessionattribute" target="_blank" rel="external">@SessionAttribute</a> for more details.</td>
+</tr>
+<tr>
+<td><code>@RequestAttribute</code></td>
+<td>For access to request attributes. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestattrib" target="_blank" rel="external">@RequestAttribute</a> for more details.</td>
+</tr>
+<tr>
+<td>Any other argument</td>
+<td>If a method argument is not matched to any of the above, by default it is resolved as an <code>@RequestParam</code> if it is a simple type, as determined by<a href="https://docs.spring.io/spring-framework/docs/5.0.7.RELEASE/javadoc-api/org/springframework/beans/BeanUtils.html#isSimpleProperty-java.lang.Class-" target="_blank" rel="external">BeanUtils#isSimpleProperty</a>, or as an <code>@ModelAttribute</code> otherwise.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Return-Values"><a href="#Return-Values" class="headerlink" title="Return Values"></a>Return Values</h4><p>for more details.</p>
+<table>
+<thead>
+<tr>
+<th>Controller method return value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@ResponseBody</code></td>
+<td>The return value is converted through <code>HttpMessageConverter</code>s and written to the response. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-responsebody" target="_blank" rel="external">@ResponseBody</a>.</td>
+</tr>
+<tr>
+<td><code>HttpEntity&lt;B&gt;</code>, <code>ResponseEntity&lt;B&gt;</code></td>
+<td>The return value specifies the full response including HTTP headers and body be converted through <code>HttpMessageConverter</code>s and written to the response. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-responseentity" target="_blank" rel="external">ResponseEntity</a>.</td>
+</tr>
+<tr>
+<td><code>HttpHeaders</code></td>
+<td>For returning a response with headers and no body.</td>
+</tr>
+<tr>
+<td><code>String</code></td>
+<td>A view name to be resolved with <code>ViewResolver</code>‘s and used together with the implicit model — determined through command objects and <code>@ModelAttribute</code> methods. The handler method may also programmatically enrich the model by declaring a <code>Model</code> argument (see above).</td>
+</tr>
+<tr>
+<td><code>View</code></td>
+<td>A <code>View</code> instance to use for rendering together with the implicit model — determined through command objects and <code>@ModelAttribute</code> methods. The handler method may also programmatically enrich the model by declaring a <code>Model</code> argument (see above).</td>
+</tr>
+<tr>
+<td><code>java.util.Map</code>, <code>org.springframework.ui.Model</code></td>
+<td>Attributes to be added to the implicit model with the view name implicitly determined through a <code>RequestToViewNameTranslator</code>.</td>
+</tr>
+<tr>
+<td><code>@ModelAttribute</code></td>
+<td>An attribute to be added to the model with the view name implicitly determined through a <code>RequestToViewNameTranslator</code>.Note that <code>@ModelAttribute</code> is optional. See “Any other return value” further below in this table.</td>
+</tr>
+<tr>
+<td><code>ModelAndView</code> object</td>
+<td>The view and model attributes to use, and optionally a response status.</td>
+</tr>
+<tr>
+<td><code>void</code></td>
+<td>A method with a <code>void</code> return type (or <code>null</code> return value) is considered to have fully handled the response if it also has a <code>ServletResponse</code>, or an <code>OutputStream</code> argument, or an <code>@ResponseStatus</code> annotation. The same is true also if the controller has made a positive ETag or lastModified timestamp check (see <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-caching-etag-lastmodified" target="_blank" rel="external">Controllers</a> for details).If none of the above is true, a <code>void</code> return type may also indicate “no response body” for REST controllers, or default view name selection for HTML controllers.</td>
+</tr>
+<tr>
+<td><code>DeferredResult&lt;V&gt;</code></td>
+<td>Produce any of the above return values asynchronously from any thread — e.g. possibly as a result of some event or callback. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a>and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-deferredresult" target="_blank" rel="external"><code>DeferredResult</code></a>.</td>
+</tr>
+<tr>
+<td><code>Callable&lt;V&gt;</code></td>
+<td>Produce any of the above return values asynchronously in a Spring MVC managed thread. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-callable" target="_blank" rel="external"><code>Callable</code></a>.</td>
+</tr>
+<tr>
+<td><code>ListenableFuture&lt;V&gt;</code>,<code>java.util.concurrent.CompletionStage&lt;V&gt;</code>,<code>java.util.concurrent.CompletableFuture&lt;V&gt;</code></td>
+<td>Alternative to <code>DeferredResult</code> as a convenience for example when an underlying service returns one of those.</td>
+</tr>
+<tr>
+<td><code>ResponseBodyEmitter</code>, <code>SseEmitter</code></td>
+<td>Emit a stream of objects asynchronously to be written to the response with <code>HttpMessageConverter</code>‘s; also supported as the body of a <code>ResponseEntity</code>. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-http-streaming" target="_blank" rel="external">HTTP Streaming</a>.</td>
+</tr>
+<tr>
+<td><code>StreamingResponseBody</code></td>
+<td>Write to the response <code>OutputStream</code> asynchronously; also supported as the body of a <code>ResponseEntity</code>. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-http-streaming" target="_blank" rel="external">HTTP Streaming</a>.</td>
+</tr>
+<tr>
+<td>Reactive types — Reactor, RxJava, or others via <code>ReactiveAdapterRegistry</code></td>
+<td>Alternative to <code>DeferredResult</code> with multi-value streams (e.g. <code>Flux</code>, <code>Observable</code>) collected to a <code>List</code>.For streaming scenarios — e.g. <code>text/event-stream</code>, <code>application/json+stream</code> —  <code>SseEmitter</code> and <code>ResponseBodyEmitter</code> are used instead, where <code>ServletOutputStream</code>blocking I/O is performed on a Spring MVC managed thread and back pressure applied against the completion of each write.See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-reactive-types" target="_blank" rel="external">Reactive types</a>.</td>
+</tr>
+<tr>
+<td>Any other return value</td>
+<td>If a return value is not matched to any of the above, by default it is treated as a view name, if it is <code>String</code> or <code>void</code> (default view name selection via <code>RequestToViewNameTranslator</code> applies); or as a model attribute to be added to the model, unless it is a simple type, as determined by <a href="https://docs.spring.io/spring-framework/docs/5.0.7.RELEASE/javadoc-api/org/springframework/beans/BeanUtils.html#isSimpleProperty-java.lang.Class-" target="_blank" rel="external">BeanUtils#isSimpleProperty</a> in which case it remains unresolved.</td>
+</tr>
+</tbody>
+</table>
+<p>##### </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">springmvc java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/26/springmvc-文档概览/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-springmvc-其他" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/25/springmvc-其他/">springmvc_其他</a>
+    </h1>
+  
+
+        
+        <a href="/2018/06/25/springmvc-其他/" class="archive-article-date">
+  	<time datetime="2018-06-25T11:51:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-06-25</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="如果不设置handlermapping，那么使用的是什么"><a href="#如果不设置handlermapping，那么使用的是什么" class="headerlink" title="如果不设置handlermapping，那么使用的是什么"></a>如果不设置handlermapping，那么使用的是什么</h2><p>spring mvc有一些infrastructure beans：</p>
+<ul>
+<li>HandlerMapping</li>
+<li>HandlerAdapter</li>
+<li>HandlerExceptionResolver</li>
+<li>ViewResolver</li>
+<li>LocalResolver  LocalContextResolver</li>
+<li>ThemeResolver</li>
+<li>MultipartResolver</li>
+<li>FlashMapManager</li>
+</ul>
+<p>如果没有特别指定这些类型的bean，那么会使用默认的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</div><div class="line"></div><div class="line">org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager</div></pre></td></tr></table></figure>
+<h2 id="注意对于-ResponseBody，ResponseEntity，postHandler不能处理response"><a href="#注意对于-ResponseBody，ResponseEntity，postHandler不能处理response" class="headerlink" title="注意对于@ResponseBody，ResponseEntity，postHandler不能处理response"></a>注意对于@ResponseBody，ResponseEntity，postHandler不能处理response</h2><p>对于@ResponseBody，ResponseEntity，response直接在HandlerAdapter就写回了。这个时候你想再改body或者header已经太迟了。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">spring java</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2018/06/25/springmvc-其他/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-springmvc请求处理流程" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -471,441 +1147,6 @@
 
 
   
-    <article id="post-ios的url编码问题" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/02/ios的url编码问题/">ios的url编码问题</a>
-    </h1>
-  
-
-        
-        <a href="/2018/05/02/ios的url编码问题/" class="archive-article-date">
-  	<time datetime="2018-05-02T09:43:01.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2018-05-02</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ios的url编码我们通常都直接用系统的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">[strToEncode stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLPathAllowedCharacterSet]];</div></pre></td></tr></table></figure>
-<p>可是如果发给服务端，那么会发现某些字符会不对，比如 ：+ 号会被转为空格。原因是URLPathAllowedCharacterSet包含的特殊字符集不够：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">URLFragmentAllowedCharacterSet  &quot;#%&lt;&gt;[\]^`&#123;|&#125;  </div><div class="line">URLHostAllowedCharacterSet      &quot;#%/&lt;&gt;?@\^`&#123;|&#125;  </div><div class="line">URLPasswordAllowedCharacterSet  &quot;#%/:&lt;&gt;?@[\]^`&#123;|&#125;  </div><div class="line">URLPathAllowedCharacterSet      &quot;#%;&lt;&gt;?[\]^`&#123;|&#125;  </div><div class="line">URLQueryAllowedCharacterSet     &quot;#%&lt;&gt;[\]^`&#123;|&#125;  </div><div class="line">URLUserAllowedCharacterSet      &quot;#%/:&lt;&gt;?@[\]^`</div></pre></td></tr></table></figure>
-<p>可以看到URLQueryAllowedCharacterSet并不包含+。</p>
-<p>所以我们需要自定义字符集：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">+ (NSString *)urlEncodeForStr:(NSString *)str &#123;</div><div class="line">    NSString *charactersToEscape = @&quot;?!@#$^&amp;%*+,:;=&apos;\&quot;`&lt;&gt;()[]&#123;&#125;/\\| &quot;;</div><div class="line">    NSCharacterSet *allowedCharacters = [[NSCharacterSet characterSetWithCharactersInString:charactersToEscape] invertedSet];</div><div class="line">    return [str stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">ios问题</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2018/05/02/ios的url编码问题/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-android学习-activity" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/17/android学习-activity/">android学习-activity</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/17/android学习-activity/" class="archive-article-date">
-  	<time datetime="2017-10-17T07:45:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="创建-Activity"><a href="#创建-Activity" class="headerlink" title="创建 Activity"></a>创建 Activity</h2><p>继承Activity类。并实现生命周期回调方法。</p>
-<p>两个最重要的回调方法：</p>
-<ul>
-<li>onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 <code>setContentView()</code>，以定义 Activity 用户界面的布局。</li>
-<li>onPause()系统将此方法作为用户离开activity的第一信号。您通常应该在此方法内确认在当前用户会话结束后仍然有效的任何更改（因为用户可能不会返回）。</li>
-</ul>
-<h3 id="实现用户界面"><a href="#实现用户界面" class="headerlink" title="实现用户界面"></a>实现用户界面</h3><p>界面是由view和viewgroup组成层次结构，他们控制着activity窗口内的某个矩形区域。</p>
-<p>您可以通过 <code>setContentView()</code> 将布局设置为 Activity 的 UI</p>
-<h3 id="在清单文件中声明-Activity"><a href="#在清单文件中声明-Activity" class="headerlink" title="在清单文件中声明 Activity"></a>在清单文件中声明 Activity</h3>
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/17/android学习-activity/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-android学习-应用基础知识" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/17/android学习-应用基础知识/">android学习-应用基础知识</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/17/android学习-应用基础知识/" class="archive-article-date">
-  	<time datetime="2017-10-17T07:14:40.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="应用基础知识"><a href="#应用基础知识" class="headerlink" title="应用基础知识"></a>应用基础知识</h2><h3 id="Android-应用在系统内存在方式"><a href="#Android-应用在系统内存在方式" class="headerlink" title="Android 应用在系统内存在方式"></a>Android 应用在系统内存在方式</h3><p>java代码+数据+资源 编译到一个APK中。安装到设备后，每个android应用都运行在自己的安全沙箱内。</p>
-<ul>
-<li>android系统是一种多用户Linux系统，其中每个应用都是一个不同的用户。</li>
-<li>默认情况下，系统会为每个应用分配一个唯一的linux用户id。系统为应用中的所有文件设置权限，使得只有分配给该应用的用户id才能访问。</li>
-<li>每个进程都有自己的虚拟机，因此应用代码是在与其他应用隔离的环境运行</li>
-<li>默认情况下，每个应用都在自己的linux进程内运行。</li>
-</ul>
-<p>不过，仍然可以通过其他途径与其他应用共享数据及访问系统服务</p>
-<ul>
-<li>可以安排两个应用共享同一个linux用户id，这样就可以彼此访问文件。</li>
-<li>可以请求访问权限(相机，通信录等)。</li>
-</ul>
-<h3 id="应用组件"><a href="#应用组件" class="headerlink" title="应用组件"></a>应用组件</h3><p>应用组件是android应用的基本构建基块。每个组件都是一个不同的点，系统通过他进入应用。</p>
-<p>共有四种不同的应用组件类型：</p>
-<ul>
-<li>Activity：代表具有用户界面的单一屏幕。</li>
-<li>Service: 不提供界面，在后台长时间运行。</li>
-<li>contentProvider:管理一组共享数据。其他应用通过contentprovider访问，修改。</li>
-<li>Broadcast:用于响应系统范围广播通知的组件。许多广播都是由系统发起的 — 例如，通知屏幕已关闭、电池电量不足或已拍摄照片的广播。应用也可以发起广播 — 例如，通知其他应用某些数据已下载至设备，并且可供其使用。 尽管广播接收器不会显示用户界面，但它们可以创建状态栏通知，在发生广播事件时提醒用户。 但广播接收器更常见的用途只是作为通向其他组件的“通道”，设计用于执行极少量的工作。</li>
-</ul>
-<p>没有main函数的概念，只有组件的概念，任何应用都可以启动其他应用的组件。之前提到每个应用都有自己的用户id，不能访问其他应用的文件，不过android系统却可以，所以如果你想启动另一个应用的组件，需要传递一个Intent给系统。</p>
-<h4 id="启动组件"><a href="#启动组件" class="headerlink" title="启动组件"></a>启动组件</h4><p> Activity、服务和广播接收器 — 通过名为 <em>Intent</em> 的异步消息进行启动。</p>
-<p>Intent 不会启动另一个组件类型 - 内容提供程序，后者会在成为 <code>ContentResolver</code> 的请求目标时启动。</p>
-<p>每种类型的组件有不同的启动方法：</p>
-<ul>
-<li>您可以通过将 <code>Intent</code> 传递到 <code>startActivity()</code> 或 <code>startActivityForResult()</code>（当您想让 Activity 返回结果时）来启动 Activity（或为其安排新任务）。</li>
-<li>您可以通过将　<code>Intent</code> 传递到 <code>startService()</code> 来启动服务（或对执行中的服务下达新指令）。 或者，您也可以通过将 <code>Intent</code> 传递到 <code>bindService()</code> 来绑定到该服务。</li>
-<li>您可以通过将 <code>Intent</code> 传递到 <code>sendBroadcast()</code>、<code>sendOrderedBroadcast()</code> 或 <code>sendStickyBroadcast()</code> 等方法来发起广播；</li>
-<li>您可以通过在 <code>ContentResolver</code> 上调用 <code>query()</code> 来对内容提供程序执行查询。</li>
-</ul>
-<h3 id="清单文件"><a href="#清单文件" class="headerlink" title="清单文件"></a>清单文件</h3><p>在 Android 系统启动应用组件之前，系统必须通过读取应用的 <code>AndroidManifest.xml</code> 文件（“清单”文件）确认组件存在。 您的应用必须在此文件中声明其所有组件，该文件必须位于应用项目目录的根目录中。</p>
-<p>还有权限，特性等也在manifest文件中声明。</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">android</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/17/android学习-应用基础知识/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-shell复习-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/16/shell复习-2/">shell复习-2</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/16/shell复习-2/" class="archive-article-date">
-  	<time datetime="2017-10-16T02:57:22.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-16</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="文本处理工具"><a href="#文本处理工具" class="headerlink" title="文本处理工具"></a>文本处理工具</h2><h4 id="sort命令"><a href="#sort命令" class="headerlink" title="sort命令"></a>sort命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">-b:忽略行开头的空格</div><div class="line">-u:相同行去重</div><div class="line">-n:将string作为数字排序</div><div class="line">-t:指定field分割符</div><div class="line">-k fStart.cstart,fend,cend  某个域第第cstart个字符开始到某个域的cend</div><div class="line">-r:反转排序</div><div class="line">data.txt:</div><div class="line">hello:123:world</div><div class="line">happy:456:newyear</div><div class="line">cat data.txt | sort -t: -nk 2,2 只对第二个域，将他作为数字排序</div><div class="line">cat data.txt | sort -t: -k 1.2,1对第一个域从第二个字符开始排序</div></pre></td></tr></table></figure>
-<h4 id="uniq命令"><a href="#uniq命令" class="headerlink" title="uniq命令"></a>uniq命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">行去重</div><div class="line">-c : 在每行旁边显示重复次数</div><div class="line">-d : 仅显示重复出现的行</div><div class="line">-f : 忽略比较指定的field</div><div class="line">-i :忽略大小写</div><div class="line">-s 字符位置 ：忽略从某个字符位置开始之前的部分</div></pre></td></tr></table></figure>
-<h4 id="wc命令"><a href="#wc命令" class="headerlink" title="wc命令"></a>wc命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">统计行、字符、单词</div><div class="line">wc -l 行</div><div class="line">wc -c  字符</div><div class="line">wc -w :统计单词</div></pre></td></tr></table></figure>
-<h4 id="查看部分行"><a href="#查看部分行" class="headerlink" title="查看部分行"></a>查看部分行</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">tail -n</div><div class="line">head -n</div></pre></td></tr></table></figure>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h5 id="readonly"><a href="#readonly" class="headerlink" title="readonly"></a>readonly</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">只读变量</div><div class="line">readonly var=123 #var是只读的不能为他赋值</div></pre></td></tr></table></figure>
-<h5 id="export"><a href="#export" class="headerlink" title="export"></a>export</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">设置环境变量</div><div class="line">export PATH=$PATH:/var/lib/</div></pre></td></tr></table></figure>
-<h5 id="参数展开"><a href="#参数展开" class="headerlink" title="参数展开"></a>参数展开</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span>&#123;&#125;用于参数展开。</div><div class="line"></div><div class="line">替换运算符</div><div class="line"><span class="meta">$</span>&#123;var:-word&#125; var存在且非空返回其值，否则返回word</div><div class="line"><span class="meta">$</span>&#123;var:=word&#125; var存在且非空返回其值，否则设置var为word，并返回word</div><div class="line"><span class="meta">$</span>&#123;var:?message&#125;var存在且非空返回其值,否则生成一条错误信息</div><div class="line"><span class="meta">$</span>&#123;var:+word&#125;var存在且非空返回word，否则返回null。用于测试变量是否存在并有值</div><div class="line">上面的：都是可选的，如果去掉，那么就不是“存在且非空"而是"存在”</div><div class="line"></div><div class="line">模式匹配删除运算符</div><div class="line">删除左边的字符 ，%删除右边的字符(助记：键盘上#在$左边，%在右边)</div><div class="line"><span class="meta">$</span>&#123;varname#pattern&#125; 删除第一个匹配字符串左边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname##pattern&#125; 删除最后一个匹配字符串左边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname%pattern&#125; 删除第一个匹配字符串右边的字符串</div><div class="line"><span class="meta">$</span>&#123;varname%%pattern&#125; 删除最后一个匹配字符串右边的字符串</div><div class="line"><span class="meta"></span></div><div class="line">$&#123;#varname&#125;计算varname字符数量</div></pre></td></tr></table></figure>
-<h5 id="位置参数"><a href="#位置参数" class="headerlink" title="位置参数"></a>位置参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">./my.sh arg1 arg2</div><div class="line"><span class="meta">$</span>0       $1  $2</div><div class="line">当位置参数大于10也需要用括号括起来$&#123;10&#125;</div><div class="line"></div><div class="line">"$@" 等价于 "$1" "$2" "$3"</div><div class="line">"$*" 等价于 "$1 $2 $3"</div><div class="line"><span class="meta">$</span>#总的参数个数</div></pre></td></tr></table></figure>
-<h5 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h5><h6 id="if"><a href="#if" class="headerlink" title="if"></a>if</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">if pattern(test 命令 等价于[])</div><div class="line">then</div><div class="line">   xxx</div><div class="line">elif pattern </div><div class="line">then</div><div class="line"></div><div class="line">else </div><div class="line"></div><div class="line">fi</div><div class="line">test命令只能做整数比较不能做浮点数比较，字符串比较时多加字符以防止为空的字符串。</div></pre></td></tr></table></figure>
-<h6 id="case"><a href="#case" class="headerlink" title="case"></a>case</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">case xx in</div><div class="line">  1)</div><div class="line">     ...</div><div class="line">     ;;</div><div class="line">  -d | --directory)</div><div class="line">     ..</div><div class="line">     ;;</div><div class="line">  *)</div><div class="line">   ;;</div><div class="line">esac</div></pre></td></tr></table></figure>
-<h6 id="for"><a href="#for" class="headerlink" title="for"></a>for</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for x in xxx</div><div class="line">do</div><div class="line"></div><div class="line">done</div><div class="line">break contine</div></pre></td></tr></table></figure>
-<h6 id="while"><a href="#while" class="headerlink" title="while"></a>while</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">while xx </div><div class="line">do</div><div class="line"></div><div class="line">done</div><div class="line">break contine</div></pre></td></tr></table></figure>
-<h6 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">my_func() &#123;</div><div class="line">  访问参数 $1 $2</div><div class="line">  return 0</div><div class="line">&#125;</div><div class="line">调用和使用命令一样</div><div class="line">my_func arg1 arg2</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/16/shell复习-2/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-shell复习-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/15/shell复习-1/">shell复习-1</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/15/shell复习-1/" class="archive-article-date">
-  	<time datetime="2017-10-15T04:05:26.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-15</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> 等会前后不能有空格，以字母或下划线开头</div><div class="line">file=123456</div><div class="line"><span class="meta">#</span>如果值中有空格，用引号包裹起来</div><div class="line">file="1 2 3 4 5 6"</div><div class="line"><span class="meta">#</span>取值用$</div><div class="line">echo $file</div></pre></td></tr></table></figure>
-<h4 id="输出命令"><a href="#输出命令" class="headerlink" title="输出命令"></a>输出命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">echo "hellowrorld"</div><div class="line">printf "hello %d world %s" 123 "string"</div></pre></td></tr></table></figure>
-<h4 id="tr命令"><a href="#tr命令" class="headerlink" title="tr命令"></a>tr命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">字符转换命令</div><div class="line"><span class="meta">#</span>将string1中的字符替换为string2中的字符，要替换的字符每个对应</div><div class="line">tr  string1 string2 </div><div class="line"><span class="meta">#</span>删除所有属于第一字符集的字符</div><div class="line">tr  -d string1</div><div class="line"><span class="meta">#</span>把连续重复的字符以单独一个字符表示 </div><div class="line">tr  -s string1</div></pre></td></tr></table></figure>
-<h4 id="shell脚本的参数"><a href="#shell脚本的参数" class="headerlink" title="shell脚本的参数"></a>shell脚本的参数</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">./my.sh arg1  arg2  arg3</div><div class="line"><span class="meta">$</span>0      $1    $2     $3</div></pre></td></tr></table></figure>
-<h4 id="查找与替换"><a href="#查找与替换" class="headerlink" title="查找与替换"></a>查找与替换</h4><h5 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">解析输入，找到符合某个正则的行</div><div class="line">grep用于简单匹配，使用基本正则(BRE)</div><div class="line">egrep 使用扩展正则(ERE)</div><div class="line">-A  n ：额外显示匹配行后面的n行。</div><div class="line">-B  n :显示匹配的行和之前的n行</div><div class="line">-C n：等价于-A N -B n,显示之前和之后的n行</div><div class="line">-c :打印匹配的个数</div><div class="line">-E 使用扩展正则，等价于egrep</div><div class="line">-e 表达式 ：指定匹配的东西,当有多个表达式时很有用</div><div class="line">-i:忽略大小写</div><div class="line">-v:反转</div><div class="line">-n:显示行号</div><div class="line">-l:显示匹配的文件的名称，而不是行,-L取反</div><div class="line">-d:指定查找的是目录而非文件</div><div class="line">-r:递归目录查找</div><div class="line">--exclude:忽略某些文件(--exclude *.&#123;php,html&#125;)</div><div class="line">--exclude-dir:忽略某些文件夹</div><div class="line">--include ：只在某些文件中搜索</div><div class="line">--include-dir：</div><div class="line">注意BRE和ERE有些区别。</div></pre></td></tr></table></figure>
-<h5 id="sed命令"><a href="#sed命令" class="headerlink" title="sed命令"></a>sed命令</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>s命令:替换</div><div class="line">sed 's/hello/world/' 将第一个hello替换为world</div><div class="line">sed 's/hello/world/g' 将所有的hello替换为world</div><div class="line">sed 's/hello/world/3' 将第三个hello替换为world</div><div class="line">sed 's/hello/world/2g' 从第二个hello开始所有hello替换为world</div><div class="line"><span class="meta">#</span>定界符,可自定义，如果替换中有，那么需要转义</div><div class="line">sed 's:hello:world:g'</div><div class="line"><span class="meta">#</span>d命令：删除操作</div><div class="line">sed '/^hello/d' 删除以hello开头的行</div><div class="line">sed '2d'删除第二行</div><div class="line">sed '2,5d' 删除2-5行</div><div class="line">sed '2,$d' 删除2到最后一行</div><div class="line"><span class="meta">#</span>已匹配字符串标记&amp;</div><div class="line">sed 's/hello/&amp;world/g' 将hello替换为helloworld</div><div class="line"><span class="meta">#</span>选定行的范围：,（逗号）</div><div class="line">sed -n '/test/,/check/p'</div><div class="line">注意sed的正则是BRE。</div></pre></td></tr></table></figure>
-<h4 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">做子串提取，获取域分割</div><div class="line">-d: 指定分割符</div><div class="line">-f：显示指定字段的内容</div><div class="line">echo "field1:field2:field3" | cut -d : -f 2 </div><div class="line">输出:field2</div><div class="line">-c </div><div class="line">echo "field1:field2:field3" | cut -c3-7 剪切3-7的子串</div></pre></td></tr></table></figure>
-<h4 id="awk命令"><a href="#awk命令" class="headerlink" title="awk命令"></a>awk命令</h4><h6 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">awk [options] 'script' var=value file(s) </div><div class="line">awk [options] -f scriptfile var=value file(s)</div></pre></td></tr></table></figure>
-<h6 id="常用命令选项"><a href="#常用命令选项" class="headerlink" title="常用命令选项"></a>常用命令选项</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-F fs：指定分割符</div><div class="line">-v var=value ：赋值一个用户定义变量，将外部变量传递给awk。</div><div class="line">-f filescript： 从文件中读取awk命令</div></pre></td></tr></table></figure>
-<h6 id="awk基本结构"><a href="#awk基本结构" class="headerlink" title="awk基本结构"></a>awk基本结构</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">awk 'BEGIN&#123; print "start" &#125; pattern&#123; commands &#125; END&#123; print "end" &#125;' file</div><div class="line">先自行BEGIN语句块，读取一行执行pattern&#123;commands&#125;，到文件末尾执行END&#123;&#125;。</div><div class="line"></div><div class="line"></div><div class="line">print 在awk中：</div><div class="line">print a,b,c  输出是以空格分割，可以用""连接多个变量。</div></pre></td></tr></table></figure>
-<h6 id="awk的内置变量"><a href="#awk的内置变量" class="headerlink" title="awk的内置变量"></a>awk的内置变量</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span>0 整行</div><div class="line"><span class="meta">$</span>1,$2...第n个field</div><div class="line">FILENAME ：输入文件的名称</div><div class="line">FS：分割符</div><div class="line">NF：总的字段数</div><div class="line">NR: 当前的行号</div></pre></td></tr></table></figure>
-<h6 id="参数传递-v选项"><a href="#参数传递-v选项" class="headerlink" title="参数传递-v选项"></a>参数传递-v选项</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">echo "hello world" | awk -v name='happy new year' '&#123; print name &#125;'</div><div class="line">或者不加-v，放在末尾</div><div class="line">echo "hello world" | awk  '&#123; print name &#125;END&#123;print aa&#125;' aa='helloworld' name='hapy new year'</div></pre></td></tr></table></figure>
-<h6 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">基本上的c运算符都支持。</div><div class="line">特殊的:</div><div class="line">^ 求幂 2^3  = 8</div><div class="line">~ 正则匹配</div><div class="line">~!正则不匹配</div><div class="line">in 判断数组是否含有某个key:arry["a"]=123;if( "a" in arry )&#123;xxx&#125;</div></pre></td></tr></table></figure>
-<h6 id="高级输入输出"><a href="#高级输入输出" class="headerlink" title="高级输入输出"></a>高级输入输出</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">next</div><div class="line">next直接进行下一次匹配</div><div class="line"></div><div class="line"></div><div class="line">getline函数  </div><div class="line">如果左右有重定向符"|"，"&lt;",那么表示从重定向的文件中获取输入行。</div><div class="line">express|getline var  从express命令的结果中获取一行赋值给var。</div><div class="line">awk 'BEGIN&#123;while("ls"|getline var)&#123; print var &#125;&#125;'</div><div class="line">如果没有的话，那就是从当前文件中读取，会造成隔行读取。</div><div class="line">awk '&#123;getline var;print var&#125;'只会打印偶数行。</div><div class="line"></div><div class="line">close函数</div><div class="line">关闭文件(getline可以打开文件)</div><div class="line">允许重定向符的使用</div><div class="line"><span class="meta">&gt;</span> 和&gt;&gt;</div></pre></td></tr></table></figure>
-<h6 id="流程控制"><a href="#流程控制" class="headerlink" title="流程控制"></a>流程控制</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">基本和C一样</div><div class="line">for支持for(key in array)</div></pre></td></tr></table></figure>
-<h6 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">awk的数组类似一个字典。Index可以是任意值。</div><div class="line">arry["key1"]="value1"</div><div class="line">arry["key2"]="value1"</div><div class="line">arry[3]="value1"</div><div class="line"></div><div class="line">相关函数:</div><div class="line">length()</div><div class="line">awk '&#123;line[NR]=$0&#125;END&#123;print length(line)&#125;' aa.sh</div><div class="line">多维数组</div><div class="line">array[1,2]=12</div></pre></td></tr></table></figure>
-<h6 id="内置函数"><a href="#内置函数" class="headerlink" title="内置函数"></a>内置函数</h6><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line">算术函数：</div><div class="line">log()</div><div class="line">sin()</div><div class="line">cos()</div><div class="line">...</div><div class="line">rand()返回任意数字 n，其中 0 &lt;= n &lt; 1。</div><div class="line"></div><div class="line"></div><div class="line">字符串函数</div><div class="line"><span class="meta">#</span>字符串替换</div><div class="line">sub( Ere, Repl, [ In ] )</div><div class="line">in:如果不指定，默认$0，将in中第一个匹配ERE的字符串替换为Repl</div><div class="line">gsub( Ere, Repl, [ In ] ) 不是替换第一个，而是替换所有</div><div class="line">cat data.txt|awk '&#123;gsub(2,100,$0);print $0&#125;'将所有的</div><div class="line"><span class="meta">#</span>字符串查找</div><div class="line">index(string1,string2) string1是否包含string2,返回起始位置</div><div class="line"><span class="meta">#</span>字符串正则匹配查找</div><div class="line">match(string,ERE)</div><div class="line"><span class="meta">#</span>字符串长度</div><div class="line">length(string)</div><div class="line"><span class="meta">#</span>字符串截取</div><div class="line">substr(string,开始位置,长度)</div><div class="line"><span class="meta">#</span>字符串分割</div><div class="line">split( String, A, [Ere] )将字符串str以ERE匹配的作为分隔符，分割的结果放到数组A中</div><div class="line"><span class="meta">#</span>格式化</div><div class="line">toupper(string)</div><div class="line">tolower(strong)</div><div class="line">sprintf("",arg1,arg2...)</div><div class="line"></div><div class="line"></div><div class="line">一般函数：</div><div class="line">system()：执行shell命令，返回退出状态</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/15/shell复习-1/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
-    <article id="post-shell重拾" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/03/shell重拾/">shell重拾</a>
-    </h1>
-  
-
-        
-        <a href="/2017/07/03/shell重拾/" class="archive-article-date">
-  	<time datetime="2017-07-03T07:56:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>以字母或下划线开头</div><div class="line"><span class="meta">#</span>=前后不能有空格</div><div class="line"><span class="meta">#</span>值中有空格用引号</div><div class="line">first=hello</div><div class="line">second=world</div><div class="line">full="$first lalala $second"</div><div class="line">echo $full</div><div class="line"><span class="meta">#</span>显示hello lalala worldn</div><div class="line"><span class="meta">#</span>printf命令用法和标准库函数的用法一致</div><div class="line">printf "hello is %s int is %d other str is %s" hello 123 world</div></pre></td></tr></table></figure>
-<h5 id="访问shell脚本的参数"><a href="#访问shell脚本的参数" class="headerlink" title="访问shell脚本的参数"></a>访问shell脚本的参数</h5><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>/bin/bash</div><div class="line">echo "arg is $0 $1 $2 $3"</div><div class="line"></div><div class="line"></div><div class="line">./test.sh first second third</div><div class="line">输出</div><div class="line">arg is ./test.sh first second third</div></pre></td></tr></table></figure>
-<h3 id="查找与替换"><a href="#查找与替换" class="headerlink" title="查找与替换"></a>查找与替换</h3><h4 id="grep命令"><a href="#grep命令" class="headerlink" title="grep命令"></a>grep命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">-E : 使用扩展正则表达式</div><div class="line">-F ：使用固定字符串进行匹配</div><div class="line">-e ；正则表达式</div><div class="line">-f :将file中的内容作为正则表达式</div><div class="line">-i : 匹配时忽略大小写</div><div class="line">-l :列出匹配的文件的名称而不是行</div><div class="line">-q :静默模式，不会显示结果到标准输出</div><div class="line">-s:不显示错误信息</div><div class="line">-v :反转，显示不匹配的行</div></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>正则表达,注意区分bre和ere</div><div class="line">^xyz  : 以xyz开头的行</div><div class="line"><span class="meta">xyz$</span>  :以xyz结束的行</div><div class="line">. : 匹配任意一个字符</div><div class="line">？ ：匹配0个或者1个字符</div><div class="line">+ : 1个或者多个前面的字符</div><div class="line">* ：0个或者任意多个字符</div><div class="line">[] ：匹配括号内的任意一个字符</div><div class="line">\&#123;n,m\&#125; :匹配前一个字符出现n到m次。</div><div class="line">\(\)：标识()内的内容</div><div class="line">[:alpha:]  : 任意字母</div><div class="line">[:alnum:]  :任意数字</div><div class="line">[:lower:]</div><div class="line">[:upper:]</div><div class="line">|:或者 优先级最低</div><div class="line"></div><div class="line">ere</div><div class="line">&#123;n,m&#125;</div><div class="line">()</div><div class="line">\&lt;:单词开头</div><div class="line">\&gt;：单词结束</div><div class="line">\w: [[:alnum:]_]</div></pre></td></tr></table></figure>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">tr 命令</div><div class="line">-d 删除后面的字符串出现的字符</div><div class="line">-s 浓缩为1个后面字符集中出现的连续的字符</div></pre></td></tr></table></figure>
-<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-07-04%20%E4%B8%8A%E5%8D%889.53.55.png" alt=""></p>
-<h4 id="Sed命令"><a href="#Sed命令" class="headerlink" title="Sed命令"></a>Sed命令</h4><p>通常用于处理输入流的文本替换</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span>删除行</div><div class="line">cat exampleFile | sed '1,5d' #删除1到5行  ‘2d’删除第二行</div><div class="line">sed '2,$d' xxx 删除第二行到文件末尾</div><div class="line">sed '$d'删除最后一行</div><div class="line">cat ls |sed '/^hel/'d 删除匹配正则的行</div><div class="line">cat ls |sed 's/hel/yyy/g' 替换每一行的hel为ggg，不加g只替换第一个</div><div class="line"><span class="meta">#</span> &amp;代表匹配的字符串，将开头192.168.0.1替换为192.168.0.1localhost</div><div class="line">sed 's/^192.168.0.1/&amp;localhost/' example </div><div class="line">sed -n 's/^test/mytest/p' example 只打印发生替换的行</div><div class="line">sed -n 's/\(love\)able/\1rs/p' example-----love被标记为1，所有loveable会被替换成lovers，而且替换的行会被打印出来。 </div><div class="line">sed 's#10#100#g' example-----不论什么字符，紧跟着s命令的都被认为是新的分隔符，所以，“#”在这里是分隔符，代替了默认的“/”分隔符。表示把所有10替换成100。</div><div class="line">sed -e '1,5d' -e 's/test/check/' example-----(-e)选项允许在同一行里执行多条命令。如例子所示，第一条命令删除1至5行，第二条命令用check替换test。命令的执 行顺序对结果有影响。如果两个命令都是替换命令，那么第一个替换命令将影响第二个替换命令的结果。  </div><div class="line">sed '/test/r file' example-----file里的内容被读进来，显示在与test匹配的行后面，如果匹配多行，每个匹配行下面都将添加</div><div class="line">sed -n '/test/w file' 将匹配的行写到file中</div><div class="line">/test/! 匹配不满足模式的行</div></pre></td></tr></table></figure>
-<h4 id="cut命令"><a href="#cut命令" class="headerlink" title="cut命令"></a>cut命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">cut -c 1-10 获取每行的前10个字符</div><div class="line">echo 12:00:01 | cut -d ':' -f 2 以冒号为分隔符，取第二列</div></pre></td></tr></table></figure>
-<h4 id="awk命令"><a href="#awk命令" class="headerlink" title="awk命令"></a>awk命令</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">-F'-' 修改默认分隔符为-,多余1个字符才会视为正则表达式</div><div class="line">字符串连接并不需要额外的运算符，多个连续的字符串会自动拼接，所以</div><div class="line">awk '&#123;print "str1" "str2" $2 $3&#125;' 打印的东西会自动拼接在一起</div><div class="line">ENVIRON["HOME"]访问Home环境变量</div><div class="line"></div><div class="line">m模式匹配 $1 ~ /jones/ 第一个字段包含jones的</div><div class="line"></div><div class="line">print时如果用,分割，那么显示的分隔符是OFS</div><div class="line">echo "one two three four five" |awk '&#123;print $1,$2,$3,$4&#125;'</div><div class="line">one two three four</div><div class="line"></div><div class="line">for循环</div><div class="line">for(name in array) name是key值，要取真正的值用array[name]</div><div class="line"></div><div class="line">数组成员测试(key in array)，为真时返回1</div><div class="line">测试元素不会如果不存在也不会建立，但是如果你是引用了，那么就会建立</div><div class="line">if("hell" in array)&#123; print "hell in array" &#125;</div><div class="line">if(array["hell"] != "")&#123; print "hell in array" &#125;//会建立</div><div class="line"></div><div class="line">awk '&#123;system("ls -al")&#125;'' 执行系统命令</div></pre></td></tr></table></figure>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">shell</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/07/03/shell重拾/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
@@ -1006,11 +1247,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+                <a href="javascript:void(0)" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1018,11 +1259,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">rxswift</a>
+                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">rxswift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1038,7 +1287,15 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">appstore</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">springmvc java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
             
             <div class="clearfix"></div>

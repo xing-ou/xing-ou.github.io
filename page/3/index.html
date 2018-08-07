@@ -158,6 +158,522 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-rxswift学习-Observable之创建" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/07/rxswift学习-Observable之创建/">rxswift学习-Observable之创建</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/07/rxswift学习-Observable之创建/" class="archive-article-date">
+  	<time datetime="2017-06-07T07:11:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="create操作符"><a href="#create操作符" class="headerlink" title="create操作符"></a>create操作符</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">create</span><span class="params">(<span class="number">_</span> subscribe: @escaping <span class="params">(AnyObserver&lt;E&gt;)</span></span></span> -&gt; <span class="type">Disposable</span>) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">AnonymousObservable</span>(subscribe)</div><div class="line">&#125;</div><div class="line"><span class="comment">//----------------------------------------</span></div><div class="line"><span class="keyword">let</span> myObservable =  <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.create &#123; (observer) -&gt; <span class="type">Disposable</span> <span class="keyword">in</span></div><div class="line">            observer.onNext(<span class="number">1</span>)</div><div class="line">            observer.onNext(<span class="number">2</span>)</div><div class="line">            observer.onNext(<span class="number">3</span>)</div><div class="line">            observer.onNext(<span class="number">4</span>)</div><div class="line">            observer.onNext(<span class="number">5</span>)</div><div class="line">            observer.onCompleted()</div><div class="line">            <span class="keyword">return</span> <span class="type">Disposables</span>.create()</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        myObservable.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">            <span class="built_in">print</span>(event)</div><div class="line">        &#125;.disposed(by: bag)</div><div class="line"><span class="comment">//--------------------------------------------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">next(<span class="number">5</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="Empty-Error-Never操作符"><a href="#Empty-Error-Never操作符" class="headerlink" title="Empty, Error, Never操作符"></a>Empty, Error, Never操作符</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="type">Empty</span>: 只收到一个.completed </div><div class="line"><span class="type">Error</span>: 只收到一个.error </div><div class="line"><span class="type">Never</span>: 永远也不会结束。</div></pre></td></tr></table></figure>
+<h4 id="just"><a href="#just" class="headerlink" title="just"></a>just</h4><p>返回一个只包含一个element的sequnce。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(<span class="number">_</span> element: E)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(<span class="number">_</span> element: E, </span></span></div><div class="line">scheduler: ImmediateSchedulerType) <span class="comment">//这个element需要在哪个scheduler上emit。</span></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="of"><a href="#of" class="headerlink" title="of"></a>of</h4><p>返回一个包含elements的sequence,并在scheduler上emit他们。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">of</span><span class="params">(<span class="number">_</span> elements: E ..., scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//--------</span></div><div class="line"><span class="keyword">let</span> never = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.of(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>)</div></pre></td></tr></table></figure>
+<h4 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h4><p>返回一个observable sequence，每当有人subscribe他时，就会调用observableFactory生成一个observable，并subscribe他。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">deferred</span><span class="params">(<span class="number">_</span> observableFactory: @escaping <span class="params">()</span></span></span> <span class="keyword">throws</span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;)</div><div class="line">        -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//------------------example----------</span></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">SomeType</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> value:<span class="type">String</span> = <span class="string">""</span></div><div class="line">    </div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">valueObservable</span><span class="params">()</span></span>-&gt;<span class="type">Observable</span>&lt;<span class="type">String</span>&gt; &#123;</div><div class="line">        <span class="keyword">return</span> <span class="type">Observable</span>.deferred(&#123; [<span class="keyword">weak</span> <span class="keyword">self</span>] () -&gt; <span class="type">Observable</span>&lt;<span class="type">String</span>&gt; <span class="keyword">in</span></div><div class="line">            <span class="keyword">let</span> value = <span class="keyword">self</span> == <span class="literal">nil</span> ? <span class="string">""</span> : <span class="keyword">self</span>!.value</div><div class="line">            <span class="keyword">return</span> <span class="type">Observable</span>&lt;<span class="type">String</span>&gt;.just(value)</div><div class="line">        &#125;)</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"><span class="comment">//-------------------</span></div><div class="line"><span class="keyword">let</span> someType = <span class="type">SomeType</span>()</div><div class="line">someType.value = <span class="string">"helloworld"</span></div><div class="line">someType.valueObservable()</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"></div><div class="line">someType.value = <span class="string">"happyNewYear"</span></div><div class="line">someType.valueObservable()</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-------------结果-------</span></div><div class="line">next(helloworld)</div><div class="line">completed</div><div class="line">next(happyNewYear)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="generate"><a href="#generate" class="headerlink" title="generate"></a>generate</h4><p>通过条件循环来生成elements。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">generate</span><span class="params">(</span></span></div><div class="line">  initialState: E, //初始状态</div><div class="line">  condition: @escaping <span class="params">(E)</span> <span class="keyword">throws</span> -&gt; <span class="type">Bool</span>, <span class="comment">//循环条件，为false时结束生成</span></div><div class="line">  scheduler: <span class="type">ImmediateSchedulerType</span> = <span class="type">CurrentThreadScheduler</span>.instance, <span class="comment">//emit的scheduler</span></div><div class="line">  iterate: @escaping (<span class="type">E</span>) <span class="keyword">throws</span> -&gt; <span class="type">E</span>) <span class="comment">//迭代函数</span></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//---------------------</span></div><div class="line"><span class="keyword">let</span> numObservable = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.generate(initialState: <span class="number">1</span>,</div><div class="line">condition: &#123; $<span class="number">0</span> &lt; <span class="number">100</span> &#125;, </div><div class="line">iterate: &#123; $<span class="number">0</span> + <span class="number">10</span> &#125;)</div><div class="line"></div><div class="line">numObservable</div><div class="line">.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">            <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-----------------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">11</span>)</div><div class="line">next(<span class="number">21</span>)</div><div class="line">next(<span class="number">31</span>)</div><div class="line">next(<span class="number">41</span>)</div><div class="line">next(<span class="number">51</span>)</div><div class="line">next(<span class="number">61</span>)</div><div class="line">next(<span class="number">71</span>)</div><div class="line">next(<span class="number">81</span>)</div><div class="line">next(<span class="number">91</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="repeat"><a href="#repeat" class="headerlink" title="repeat"></a>repeat</h4><p>生成一个observable sequence无限重复某个element。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">repeatElement</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> element: E, //重复的element</div><div class="line">  scheduler: ImmediateSchedulerType = //在哪个schduler上emit</div><div class="line">  CurrentThreadScheduler.instance) </div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="using"><a href="#using" class="headerlink" title="using"></a>using</h4><p>将resource的生命周期和observable的生命周期绑定。当你调用subscribe时，using会调用这两个factory method。当sequence退出的时候，resource会dispose掉。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">using</span>&lt;Resource: Disposable&gt;<span class="params">(</span></span></div><div class="line"><span class="number">_</span> resourceFactory: @escaping <span class="params">()</span> <span class="keyword">throws</span> -&gt; <span class="type">Resource</span>, observableFactory: @escaping (<span class="type">Resource</span>) <span class="keyword">throws</span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;) </div><div class="line"></div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+<h4 id="range"><a href="#range" class="headerlink" title="range"></a>range</h4><p>对整数的扩展,返回一个包含某个范围内的elements的sequence</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">range</span><span class="params">(</span></span></div><div class="line">  start: E,//起始值</div><div class="line">  <span class="built_in">count</span>: E,//总共element的个数</div><div class="line">  scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="comment">//-----------</span></div><div class="line"><span class="keyword">let</span> range = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.range(start: <span class="number">10</span>, <span class="built_in">count</span>: <span class="number">3</span>)</div><div class="line">range.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//------------        </span></div><div class="line">next(<span class="number">10</span>)</div><div class="line">next(<span class="number">11</span>)</div><div class="line">next(<span class="number">12</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<h4 id="from"><a href="#from" class="headerlink" title="from"></a>from</h4><p>将一个数组转换为observable dequence。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> array: [E], </div><div class="line">  scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; </div><div class="line"><span class="comment">//------</span></div><div class="line"> <span class="keyword">let</span> from = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.from([<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>])</div><div class="line">from.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//-------</span></div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">next(<span class="number">5</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<p>将一个sequence转换为observable sequence。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span>&lt;S: Sequence&gt;<span class="params">(</span></span></div><div class="line"><span class="number">_</span> sequence: S, </div><div class="line">scheduler: ImmediateSchedulerType = CurrentThreadScheduler.instance</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; <span class="keyword">where</span> <span class="type">S</span>.<span class="type">Iterator</span>.<span class="type">Element</span> == <span class="type">E</span> </div><div class="line"><span class="comment">//-----</span></div><div class="line"><span class="keyword">let</span> from = <span class="type">Observable</span>&lt;<span class="type">Int</span>&gt;.from(<span class="type">Set</span>.<span class="keyword">init</span>(arrayLiteral: <span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>))</div><div class="line">from.subscribe &#123; (event) <span class="keyword">in</span></div><div class="line">    <span class="built_in">print</span>(event)</div><div class="line">&#125;.disposed(by: bag)</div><div class="line"><span class="comment">//---</span></div><div class="line">next(<span class="number">5</span>)</div><div class="line">next(<span class="number">2</span>)</div><div class="line">next(<span class="number">3</span>)</div><div class="line">next(<span class="number">1</span>)</div><div class="line">next(<span class="number">4</span>)</div><div class="line">completed</div></pre></td></tr></table></figure>
+<p>将某个optional值转化为一个observable sequence。如果为nil，那么直接发送.completed否则发送value和.completed。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(<span class="number">_</span> <span class="keyword">optional</span>: E?)</span></span> -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">from</span><span class="params">(</span></span></div><div class="line">  <span class="number">_</span> <span class="keyword">optional</span>: E?, </div><div class="line">  scheduler: ImmediateSchedulerType</div><div class="line">) -&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt;</div></pre></td></tr></table></figure>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/07/rxswift学习-Observable之创建/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-rxswift学习-Observable初探" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/06/rxswift学习-Observable初探/">rxswift学习-Observable初探</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/06/rxswift学习-Observable初探/" class="archive-article-date">
+  	<time datetime="2017-06-06T03:39:59.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是Observable"><a href="#什么是Observable" class="headerlink" title="什么是Observable?"></a>什么是Observable?</h3><p>observable sequence也是一个sequence。</p>
+<ul>
+<li>Observable等价于sequence</li>
+<li>Observable的subscribe方法等价于sequence的makeIterator方法</li>
+<li>传入subscribe方法的observer用来接收elements 等价于 sequence的iterator的next()方法来获取elements。</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> sequence = <span class="number">0</span>..&lt;<span class="number">3</span></div><div class="line"><span class="keyword">var</span> iterator = sequence.makeIterator()</div><div class="line"><span class="keyword">while</span> <span class="keyword">let</span> n = iterator.next() &#123;</div><div class="line">	<span class="built_in">print</span>(n)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">let</span> one = <span class="number">1</span></div><div class="line"><span class="keyword">let</span> two = <span class="number">2</span></div><div class="line"><span class="keyword">let</span> three = <span class="number">3</span></div><div class="line"><span class="keyword">let</span> observable = <span class="type">Observable</span>.of(one, two, three)</div><div class="line">observable.subscribe &#123; event <span class="keyword">in</span></div><div class="line">	<span class="built_in">print</span>(event)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果遇到.completed和.error将不会再emit elements。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.00.png" alt=""></p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8810.32.09.png" alt=""></p>
+<p>这些都比较官方话，现在还是没什么概念。先看看关系图：</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-07%20%E4%B8%8A%E5%8D%8811.10.31.png" alt=""></p>
+<p>先选一个详细看看</p>
+<h4 id="Just操作符"><a href="#Just操作符" class="headerlink" title="Just操作符"></a>Just操作符</h4><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">func</span> <span class="title">just</span><span class="params">(</span></span></div><div class="line"><span class="number">_</span> element: E, </div><div class="line">scheduler: ImmediateSchedulerType) </div><div class="line">-&gt; <span class="type">Observable</span>&lt;<span class="type">E</span>&gt; &#123;</div><div class="line">    <span class="keyword">return</span> <span class="type">JustScheduled</span>(element: element, scheduler: scheduler)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再看看JustScheduled</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JustScheduled</span>&lt;<span class="title">Element</span>&gt; : <span class="title">Producer</span>&lt;<span class="title">Element</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> _scheduler: <span class="type">ImmediateSchedulerType</span></div><div class="line">    <span class="keyword">fileprivate</span> <span class="keyword">let</span> _element: <span class="type">Element</span></div><div class="line">    <span class="comment">///由于just的emit一个element，所以传入需要emit的element</span></div><div class="line">    <span class="keyword">init</span>(element: <span class="type">Element</span>, scheduler: <span class="type">ImmediateSchedulerType</span>) &#123;</div><div class="line">        _scheduler = scheduler</div><div class="line">        _element = element</div><div class="line">    &#125;</div><div class="line"></div><div class="line">  <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">run</span>&lt;O : ObserverType&gt;<span class="params">(<span class="number">_</span> observer: O, cancel: Cancelable)</span></span> -&gt; (sink: <span class="type">Disposable</span>, subscription: <span class="type">Disposable</span>) <span class="keyword">where</span> <span class="type">O</span>.<span class="type">E</span> == <span class="type">E</span> &#123;</div><div class="line">   <span class="comment">///关于这段代码，有些不是太懂，除了这个操作符，很多其他的操作符都会先创建一个sink对象，然后调用他的run方法，然后返回。至于为什么要将observer、cancelable封装成sink对象？不大明白，只能理解为是对流程的一个抽象，将具体的emit操作交给sink完成，然后统一暴露一个run方法来执行emit，这样其他操作符也可以统一按照这个抽象执行。如果要新增一个操作符，那么可以创建一个对应的sink对象，然后调用run方法，具体的逻辑已经被封装到了sink对象中,这里的run方法就能够保证有统一的行为。</span></div><div class="line">      <span class="keyword">let</span> sink = <span class="type">JustScheduledSink</span>(parent: <span class="keyword">self</span>, observer: observer, cancel: cancel)</div><div class="line">      <span class="keyword">let</span> subscription = sink.run()</div><div class="line">      <span class="keyword">return</span> (sink: sink, subscription: subscription)</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">JustScheduledSink</span>&lt;<span class="title">O</span>: <span class="title">ObserverType</span>&gt; : <span class="title">Sink</span>&lt;<span class="title">O</span>&gt; </span>&#123;</div><div class="line">    <span class="keyword">typealias</span> <span class="type">Parent</span> = <span class="type">JustScheduled</span>&lt;<span class="type">O</span>.<span class="type">E</span>&gt;</div><div class="line"></div><div class="line">    <span class="keyword">private</span> <span class="keyword">let</span> _parent: <span class="type">Parent</span></div><div class="line">    <span class="comment">/**</span></div><div class="line">    将所有emit需要的东西作为参数传入,</div><div class="line">    parent包含了需要emit的element和scheduler</div><div class="line">    observer包含了处理element的eventHanlder,</div><div class="line">    cancel:是一个SinkDisposer，不太明白为什么要传入这个，用到它的地方是sink的dispose方法。因为本来就是SinkDisposer的dispose方法会调用sink的dispose方法。现在sink的dispose方法又调用了SinkDisposer的dispose方法。还好SinkDisposer的dispose方法中有判断，不然就是一个循环调用了。</div><div class="line">    */</div><div class="line">    <span class="keyword">init</span>(parent: <span class="type">Parent</span>, observer: <span class="type">O</span>, cancel: <span class="type">Cancelable</span>) &#123;</div><div class="line">        _parent = parent</div><div class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>(observer: observer, cancel: cancel)</div><div class="line">    &#125;</div><div class="line">    <span class="comment">///再来看看sink的run方法，通过parent拿到scheduler，在sheduler中调用forwardOn将element emite出去。最后返回一个disposable。</span></div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">run</span><span class="params">()</span></span> -&gt; <span class="type">Disposable</span> &#123;</div><div class="line">        <span class="keyword">let</span> scheduler = _parent._scheduler</div><div class="line">        <span class="keyword">return</span> scheduler.schedule(_parent._element) &#123; element <span class="keyword">in</span></div><div class="line">            <span class="keyword">self</span>.forwardOn(.next(element))</div><div class="line">            <span class="keyword">return</span> scheduler.schedule(()) &#123; <span class="number">_</span> <span class="keyword">in</span></div><div class="line">                <span class="keyword">self</span>.forwardOn(.completed)</div><div class="line">                <span class="keyword">self</span>.dispose()</div><div class="line">                <span class="keyword">return</span> <span class="type">Disposables</span>.create()</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>实际上很多操作符都是这种模式。创建对应的sink类，在run方法中去emit element，再返回一个disposable。我们在学习操作符时就可以猜测他怎么实现的，在看源码进行比较，这样记忆会深刻一点。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/06/rxswift学习-Observable初探/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-rxswift学习-Observer" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/06/rxswift学习-Observer/">rxswift学习-Observer</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/06/rxswift学习-Observer/" class="archive-article-date">
+  	<time datetime="2017-06-06T02:35:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-06%20%E4%B8%8A%E5%8D%8811.34.20.png" alt=""></p>
+<h4 id="什么是Observer"><a href="#什么是Observer" class="headerlink" title="什么是Observer ?"></a>什么是Observer ?</h4><p>从上面的图可以看到ObserverType核心的就是一个接收事件的函数</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">on</span><span class="params">(<span class="number">_</span> event: Event&lt;E&gt;)</span></span></div></pre></td></tr></table></figure>
+<p>他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。</p>
+<p>先简单了解到这点。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/06/rxswift学习-Observer/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-rxswift学习-scheduler" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/05/rxswift学习-scheduler/">rxswift学习-scheduler</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/05/rxswift学习-scheduler/" class="archive-article-date">
+  	<time datetime="2017-06-05T09:39:25.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-05</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="什么是scheduler"><a href="#什么是scheduler" class="headerlink" title="什么是scheduler?"></a>什么是scheduler?</h3><p>在开始使用scheduler之前，首先要明白他是什么。</p>
+<p>总的来说，scheduler是一个任务执行的上下文。这个上下文可能是一个thread、dispatchqueue、OperationQueue等。</p>
+<p>一个常见的误解是：scheduler等价于线程。但实际并不是这样 。如果你自定义一个scheduler（虽然并不推荐自定义）,你可以创建多个scheduler共用一个线程,或者一个scheduler构建在多个线程上(虽然比较奇怪,但确实可以)。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%885.47.01.png" alt=""></p>
+<p>总之，scheduler并不是线程，他和线程并没有一对一的关系。</p>
+<h3 id="关于scheduler的两个操作符"><a href="#关于scheduler的两个操作符" class="headerlink" title="关于scheduler的两个操作符"></a>关于scheduler的两个操作符</h3><p>Rx最重要的能力之一就是能够在任何时间切换scheduler。</p>
+<h4 id="subscribeOn"><a href="#subscribeOn" class="headerlink" title="subscribeOn"></a>subscribeOn</h4><p>有时你希望改变 observable 生成element的代码的执行上下文环境( 比如：对于Observable.create{ … }，就是闭包中的那段代码 )。这个时候就可以使用subscribeOn操作符。</p>
+<h4 id="observeOn"><a href="#observeOn" class="headerlink" title="observeOn"></a>observeOn</h4><p>如果你希望改变subscribe函数执行的上下文，那么你可以使用observeOn操作符。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-05%20%E4%B8%8B%E5%8D%886.03.12.png" alt=""></p>
+<h3 id="Hot-and-Cold-Observable"><a href="#Hot-and-Cold-Observable" class="headerlink" title="Hot and Cold Observable"></a>Hot and Cold Observable</h3><p>一个Observable什么时候开始发送他的elements呢？这取决于Observable。一个“Hot Observable”会在他创建完成后就开始emit elements，这样之后subscribe他的observer就能够在中间开始接收elements。一个“Cold Observable”会等到有Observer subscribe他时才开始emit elements，这样就保证了observer能够收到从头开始的所有elements。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Hot Observales</th>
+<th style="text-align:left">ColdObservables</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">都是sequence</td>
+<td style="text-align:left">都是sequence</td>
+</tr>
+<tr>
+<td style="text-align:left">不管有没有Observer subscribe他，都会使用资源</td>
+<td style="text-align:left">不会使用资源，直到有Observer subscribe他。</td>
+</tr>
+<tr>
+<td style="text-align:left">Variables / properties / constants, tap coordinates, mouse coordinates, UI control values, current time</td>
+<td style="text-align:left">Async operations, HTTP Connections, TCP connections, streams</td>
+</tr>
+<tr>
+<td style="text-align:left">通常包含N个element</td>
+<td style="text-align:left">通常包含1个element</td>
+</tr>
+<tr>
+<td style="text-align:left">不管有没有observer subscribe他都会产生sequence element</td>
+<td style="text-align:left">有observer subscribe他才产生sequence elements。</td>
+</tr>
+<tr>
+<td style="text-align:left">sequence的计算资源通常是所有observer共享的</td>
+<td style="text-align:left">sequence的计算资源通常是每个Observer分配一份</td>
+</tr>
+<tr>
+<td style="text-align:left">通常都是有状态的</td>
+<td style="text-align:left">通常都是无状态的</td>
+</tr>
+</tbody>
+</table>
+<h5 id="陷阱"><a href="#陷阱" class="headerlink" title="陷阱"></a>陷阱</h5><p>对于cold observable我们确实可以通过subscibeOn操作符来控制element在哪个线程上产生，因为他是在subscribe时才去生成elements的。但是对于一些Hot Observable，如果你想通过subscibeOn去切换scheduler，你会发现并不起作用，因为elements的生成在Observable创建时就会生成，之后我们就不能控制他的scheduler。</p>
+<h3 id="内置的scheduler"><a href="#内置的scheduler" class="headerlink" title="内置的scheduler"></a>内置的scheduler</h3><h5 id="CurrentThreadScheduler"><a href="#CurrentThreadScheduler" class="headerlink" title="CurrentThreadScheduler"></a>CurrentThreadScheduler</h5><p>抽象了在当前线程上执行的任务。如果你没有执行scheduler，那么这个就是默认的scheduler。</p>
+<h5 id="SerialDispatchQueueScheduler"><a href="#SerialDispatchQueueScheduler" class="headerlink" title="SerialDispatchQueueScheduler"></a>SerialDispatchQueueScheduler</h5><p>抽象了某个需要在    serial DispatchQueue上执行某个任务。他能够保证即使你传入的是一个Concurrent queue，他也会把他转化成serial。</p>
+<p>非常重要的一点是这个scheduler是serial的，因为某些操作符会根据这个进行优化。</p>
+<p>因为不能够检测到传入的是concurrent的还是serial的，所以在内部都会创建一个serail queue，然后所有的任务都是在这个内部的serail queue上执行。</p>
+<h5 id="MainScheduler"><a href="#MainScheduler" class="headerlink" title="MainScheduler"></a>MainScheduler</h5><p>抽象了在主线程上执行任务，这个scheduler通常用于执行某些UI操作。继承自SerialDispatchQueueScheduler。这个scheduler对ObserveOn操作符有优化，所以如果你想要subscribe函数在主线程上执行，那么用MainScheduler。另外还有一个ConcurrentMainScheduler，这个scheduler对subscibeOn操作符有优化，所以，你如果希望element的产生在主线程上，那么用ConcurrentMainScheduler。</p>
+<h5 id="ConcurrentDispatchQueueScheduler"><a href="#ConcurrentDispatchQueueScheduler" class="headerlink" title="ConcurrentDispatchQueueScheduler"></a>ConcurrentDispatchQueueScheduler</h5><p>抽象了在某个concurrent dispatchqueue上执行的任务。这个scheduler通常用于某些需要在后台执行的任务。</p>
+<h5 id="OperationQueueScheduler"><a href="#OperationQueueScheduler" class="headerlink" title="OperationQueueScheduler"></a>OperationQueueScheduler</h5><p>抽象了在某个OperationQueue上执行的任务。这个sechulder适合当你想要控制并发数量时用。</p>
+<p>​    </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/05/rxswift学习-scheduler/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-rxswift学习-Disposable" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/01/rxswift学习-Disposable/">rxswift学习-Disposable</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/01/rxswift学习-Disposable/" class="archive-article-date">
+  	<time datetime="2017-06-01T11:39:24.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我觉得rxswift是对事件流动的一个抽象。首先在大多数情况下，消息的流动过程可以这么划分：</p>
+<ul>
+<li>消息的产生(对应着observable的create相关函数)<ul>
+<li>既能产生消息又能处理消息的对象(subjects相关)</li>
+</ul>
+</li>
+<li>消息的转换(对应着各种operation)</li>
+<li>消息的传递(对应着observableType的subscribe方法)</li>
+<li>消息的处理(对应着observer)</li>
+<li>资源的清理(对应着disposable)</li>
+<li>如果还希望控制线程相关（schedule）。</li>
+</ul>
+<p>这基本上包含了rxswift的大多数类了。</p>
+<p>Ok，先从相关性小的学起。</p>
+<h3 id="Disposable"><a href="#Disposable" class="headerlink" title="Disposable"></a>Disposable</h3><p>他是对资源清理这一步的抽象。抽象也很简单，就是一个dispose方法。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="function"><span class="keyword">func</span> <span class="title">dispose</span><span class="params">()</span></span> <span class="comment">///销毁</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">protocol</span> <span class="title">Cancelable</span> : <span class="title">Disposable</span> </span>&#123;</div><div class="line">    <span class="keyword">var</span> isDisposed: <span class="type">Bool</span> &#123; <span class="keyword">get</span> &#125; <span class="comment">//是否被销毁了。</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>但是具体要怎么清理呢？先看看大部分disposable的基类：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DisposeBase</span> </span>&#123;</div><div class="line">    <span class="keyword">init</span>() &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.incrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    <span class="keyword">deinit</span> &#123;</div><div class="line">#<span class="keyword">if</span> <span class="type">TRACE_RESOURCES</span></div><div class="line">    <span class="keyword">let</span> <span class="number">_</span> = <span class="type">Resources</span>.decrementTotal()</div><div class="line">#endif</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看到基类什么也没干，ok，我们又看看具体的子类。都是继承自DisposeBase，并实现了Cancelable接口</p>
+<h5 id="AnonymousDisposable"><a href="#AnonymousDisposable" class="headerlink" title="AnonymousDisposable"></a>AnonymousDisposable</h5><p>代表着一个 会在销毁时执行某个action的disposable。</p>
+<h5 id="BinaryDisposable"><a href="#BinaryDisposable" class="headerlink" title="BinaryDisposable"></a>BinaryDisposable</h5><p>将两个disposable包裹为一个，在BinaryDisposable销毁时，同时释放两个包含的disposable。</p>
+<h5 id="BooleanDisposable"><a href="#BooleanDisposable" class="headerlink" title="BooleanDisposable"></a>BooleanDisposable</h5><p>代表一个可以检查dispose状态的disposable.</p>
+<h5 id="CompositeDisposavle"><a href="#CompositeDisposavle" class="headerlink" title="CompositeDisposavle"></a>CompositeDisposavle</h5><p>包裹了 一组disposables，在CompositeDisposable销毁时同时销毁所有的disposable。</p>
+<h5 id="RefCountDisposable"><a href="#RefCountDisposable" class="headerlink" title="RefCountDisposable"></a>RefCountDisposable</h5><p>与某个disposable绑定，只有当绑定的disposable销毁时，才销毁自己。</p>
+<h5 id="ScheduledDisposable"><a href="#ScheduledDisposable" class="headerlink" title="ScheduledDisposable"></a>ScheduledDisposable</h5><p>让销毁操作在某个线程上执行。</p>
+<h5 id="SerialDisposable"><a href="#SerialDisposable" class="headerlink" title="SerialDisposable"></a>SerialDisposable</h5><p>底层的disposable是可替换的，当替换时，会自动dispose前一个disposable。</p>
+<h5 id="SingleAssignmentDisposable"><a href="#SingleAssignmentDisposable" class="headerlink" title="SingleAssignmentDisposable"></a>SingleAssignmentDisposable</h5><p>只能对底层的disposabel赋值一次，再次赋值将抛出异常。</p>
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><h5 id="disposeBag"><a href="#disposeBag" class="headerlink" title="disposeBag"></a>disposeBag</h5><p>相当于一个disposables的容器，当bag释放时，会自动dispose其包含的disposable。</p>
+<h5 id="NopDisposable"><a href="#NopDisposable" class="headerlink" title="NopDisposable"></a>NopDisposable</h5><p>代表销毁时什么也不执行的disposable。</p>
+<h5 id="Disposables"><a href="#Disposables" class="headerlink" title="Disposables"></a>Disposables</h5><p>相当于一个公共方法结构体。包含一些常用的创建disposable方法。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>ok，上面的类基本是disposable所有的类了。我们看到，他的类主要抽象了销毁时我们应该执行什么操作以及处理需要销毁多个disposable的类。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/06/01/rxswift学习-Disposable/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
+    <article id="post-rxswift学习_先看看" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/05/31/rxswift学习_先看看/">rxswift学习_先看看</a>
+    </h1>
+  
+
+        
+        <a href="/2017/05/31/rxswift学习_先看看/" class="archive-article-date">
+  	<time datetime="2017-05-31T11:41:49.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-31</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当然首先第一个资源是raywenderlich的<strong>Reactive programming with swift</strong>。</p>
+<p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-05-31%20%E4%B8%8B%E5%8D%887.47.22.png" alt=""></p>
+<h4 id="什么是rxswift"><a href="#什么是rxswift" class="headerlink" title="什么是rxswift?"></a>什么是rxswift?</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">RxSwift is a library for composing asynchronous and event-based code by using observable sequences and functional style operators, allowing for parameterized execution via schedulers.</div><div class="line">rxswift是一个用observable序列和函数式操作符让你编写异步的基于事件的代码的一个库，。。。</div></pre></td></tr></table></figure>
+<p>不大懂，没关系，一步一步来,竟然提到了异步，那么先来看看异步编程的术语，rxswift和异步，响应式，函数式编程等紧紧相关，所以如果你知道一些术语，能够帮助你更好的理解rxswift。</p>
+<h4 id="异步编程术语"><a href="#异步编程术语" class="headerlink" title="异步编程术语"></a>异步编程术语</h4><h5 id="1-状态-state-特别是共享的可变状态-shared-mutable-state"><a href="#1-状态-state-特别是共享的可变状态-shared-mutable-state" class="headerlink" title="1. 状态(state) ,特别是共享的可变状态(shared mutable state)"></a>1. 状态(state) ,特别是共享的可变状态(shared mutable state)</h5><p>状态比较难定义，我们看下面的例子：</p>
+<p>当你打开你的笔记本电脑，他正常运行。但是你用了几天或者几周后，他可能就变得有些异常，突然卡顿或者拒绝响应等。硬件和软件都是一样的，但是<strong>状态</strong>变了。只要你重启，同样的软件和硬件又能正常工作。</p>
+<p>内存中的数据，磁盘上的数据，用户输入的响应以及所有从服务器拉取数据后残留的痕迹等，—-他们的总和就是你笔记本的<strong>状态</strong>。</p>
+<h5 id="2-命令式编程-Imperative-programming"><a href="#2-命令式编程-Imperative-programming" class="headerlink" title="2. 命令式编程(Imperative programming)"></a>2. 命令式编程(Imperative programming)</h5><p>Imperative programming是一种 用陈述式语句来改变程序状态的一种范式。就像你和你的狗狗玩耍时说的：“过来” “躺下” “装死”。你也通过命令式的代码告诉你的app什么时候做什么事。不过这种命令式的代码会给我们带来许多问题，特别是在处理复杂的，异步的逻辑时。比如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidAppear</span><span class="params">(<span class="number">_</span> animated: Bool)</span></span> &#123;</div><div class="line">  <span class="keyword">super</span>.viewDidAppear(animated)</div><div class="line">  setupUI()</div><div class="line">  connectUIControls()</div><div class="line">  createDataSource()</div><div class="line">  listenForChanges()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这里并不知道这些方法到底干了什么，会改变viewcontroller的某个属性么？更让人不安的是，他们调用的顺序对么？如果某个人交换了他们的顺序并提交到git上。那么app可能因为函数的交换就不能正常运行了。</p>
+<h5 id="3-副作用（side-effects）"><a href="#3-副作用（side-effects）" class="headerlink" title="3.副作用（side effects）"></a>3.副作用（side effects）</h5><p>副作用是当前作用域外的状态的改变。比如上面例子中的connectUIControls。他可能会为UI绑定时间，这就产生了副作用，因为view的状态改变了：函数调用前的行为和调用后的行为不一样了。任何时候你存储数据到磁盘或者更新label的text都引起了副作用。</p>
+<p>副作用并不是指坏的影响。总之，我们的最终目的就是产生副作用。你的程序运行后需要改变状态。</p>
+<p>副作用的问题在于是否已一种可控的方式执行(doing it in a controlled way)。你必须能够确定哪部分代码产生副作用，哪些是仅仅处理和输出数据。</p>
+<p>Rxswift会解决上面的问题，我们看看下面的rxswift的一些概念。</p>
+<h5 id="4-描述式的代码（declarative-code）"><a href="#4-描述式的代码（declarative-code）" class="headerlink" title="4.描述式的代码（declarative code）"></a>4.描述式的代码（declarative code）</h5><p>描述式的代码定义了一坨行为(behavior)，rxswift会在相关的事件到达时运行这些behavior，并且提供给behavior的输入是可以确定不变的。</p>
+<p>这种方式也适用于异步代码。你不用再怀疑你的代码是否是按顺序，确定的执行的了。</p>
+<h5 id="5-响应式系统-reactive-system"><a href="#5-响应式系统-reactive-system" class="headerlink" title="5.响应式系统(reactive system)"></a>5.响应式系统(reactive system)</h5><p>他具有以下特性：</p>
+<ul>
+<li>Responsive: 总是保持UI是最新的。</li>
+<li>resilient：每种行为(behavior)都是隔离的，而且有一定的错误恢复机制</li>
+<li>Elastic：代码能够处理各种负载，这些特性包括：event throttling ，resource sharing等。</li>
+<li>Message driven：各个组件都通过事件来交流，从而实现重用和隔离，将类的生命周期和实现解耦。</li>
+</ul>
+<p>rxswift的代码由三部分组成：Observables,operators，schedulers。</p>
+<h4 id="Observales"><a href="#Observales" class="headerlink" title="Observales"></a>Observales</h4><p>一个Observale能够发射三种类型的值：</p>
+<ul>
+<li>.next : 带有最新值得事件</li>
+<li>.completed：表示生命周期正常结束，不会再产生其他事件</li>
+<li>.error: 产生了错误退出，不会再产生任何事件</li>
+</ul>
+<h4 id="Operator"><a href="#Operator" class="headerlink" title="Operator"></a>Operator</h4><p>Rxswift提供了许多操作符：map,flatmap,zip,timer等，能让我们用描述的方式编写代码，以后再看</p>
+<h4 id="schedulers"><a href="#schedulers" class="headerlink" title="schedulers"></a>schedulers</h4><p>scheduler等价于rx的dispatch queue实现。能帮助我们处理各种异步事件。</p>
+<p>这一章主要就是介绍了rxswift想要解决的问题，对rxswift有个大概的了解，明天继续看Observables。</p>
+<p>​<br>​<br>​    </p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">rxswift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/05/31/rxswift学习_先看看/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+  
     <article id="post-first" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -317,11 +833,11 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+                <a href="javascript:void(0)" class="js-tag color5">springmvc</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -329,11 +845,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">rxswift</a>
+                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">springmvc</a>
+                <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">rxswift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -349,7 +873,15 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+                <a href="javascript:void(0)" class="js-tag color4">appstore</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">springmvc java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">swift</a>
               </li>
             
             <div class="clearfix"></div>
