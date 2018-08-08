@@ -184,8 +184,8 @@
 <p>其他必须为popover，否则会抛出异常。</p>
 <p>UIAlertController为ActionSheet时，在ipad上必须用popover。</p>
 <p>适配代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">UIImagePickerController *pic = [[UIImagePickerController alloc] init];</div><div class="line">pic.sourceType = UIImagePickerControllerSourceTypeCamera;</div><div class="line">pic.modalPresentationStyle = UIModalPresentationPopover;</div><div class="line">pic.delegate = weakSelf;</div><div class="line">UIPopoverPresentationController *popover = pic.popoverPresentationController;</div><div class="line">if (popover) &#123;</div><div class="line">    popover.sourceView = v;</div><div class="line">    popover.sourceRect = v.bounds;</div><div class="line">    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;</div><div class="line">&#125;</div><div class="line">[weakSelf presentViewController:pic animated:YES completion:nil];</div></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">UIPopoverPresentationController *popover = alertController.popoverPresentationController;</div><div class="line">if (popover) &#123;</div><div class="line">    popover.sourceView = v;</div><div class="line">    popover.sourceRect = v.bounds;</div><div class="line">    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">UIImagePickerController *pic = [[UIImagePickerController alloc] init];</div><div class="line">pic.sourceType = UIImagePickerControllerSourceTypeCamera;</div><div class="line">pic.modalPresentationStyle = UIModalPresentationPopover;</div><div class="line">pic.delegate = weakSelf;</div><div class="line">UIPopoverPresentationController *popover = pic.popoverPresentationController;</div><div class="line">if (popover) &#123;</div><div class="line">    popover.sourceView = v;</div><div class="line">    popover.sourceRect = v.bounds;</div><div class="line">    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;</div><div class="line">&#125;</div><div class="line">[weakSelf presentViewController:pic animated:YES completion:nil];</div></pre></td></tr></table></figure></p>
+<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">UIPopoverPresentationController *popover = alertController.popoverPresentationController;</div><div class="line">if (popover) &#123;</div><div class="line">    popover.sourceView = v;</div><div class="line">    popover.sourceRect = v.bounds;</div><div class="line">    popover.permittedArrowDirections = UIPopoverArrowDirectionAny;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 
       
 
@@ -417,19 +417,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
               </li>
              
               <li class="article-tag-list-item">

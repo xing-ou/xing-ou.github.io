@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>springmvc-注解 | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="1.4. Annotated Controllersspringmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#1">
+  <meta name="description" content="1.4. Annotated Controllers springmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#">
 <meta name="keywords" content="springmvc java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springmvc-注解">
 <meta property="og:url" content="http://yoursite.com/2018/06/26/springmvc-文档概览/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="1.4. Annotated Controllersspringmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#1">
+<meta property="og:description" content="1.4. Annotated Controllers springmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#">
 <meta property="og:updated_time" content="2018-06-26T03:14:13.228Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc-注解">
-<meta name="twitter:description" content="1.4. Annotated Controllersspringmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#1">
+<meta name="twitter:description" content="1.4. Annotated Controllers springmvc提供了基于注解的编程模型，比如@Controller,@RestController. 123456789@Controllerpublic class HelloController &amp;#123;    @GetMapping(&quot;/hello&quot;)    public String handle(Model model) &amp;#">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -178,12 +178,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="1-4-Annotated-Controllers"><a href="#1-4-Annotated-Controllers" class="headerlink" title="1.4. Annotated Controllers"></a>1.4. Annotated Controllers</h2><p>springmvc提供了基于注解的编程模型，比如@Controller,@RestController.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hello"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">handle</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"Hello World!"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="1-4-1-Declaration"><a href="#1-4-1-Declaration" class="headerlink" title="1.4.1. Declaration"></a>1.4.1. Declaration</h3><p>对于@Controller @Component等的beans可以由spring自动检测。不过这并不是默认开启的，你还需要设置一下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//通过java config</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span>(<span class="string">"org.example.web"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">通过xml的方式</div><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></div><div class="line">        http://www.springframework.org/schema/beans</div><div class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">        http://www.springframework.org/schema/context</div><div class="line">        http://www.springframework.org/schema/context/spring-context.xsd"&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"org.example.web"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- ... --&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure>
-<h3 id="1-4-2-Request-Mapping"><a href="#1-4-2-Request-Mapping" class="headerlink" title="1.4.2. Request Mapping"></a>1.4.2. Request Mapping</h3><p>@RequestMapping是用来将一个request映射到一个方法上。既可以修饰方法也可以修饰controller。</p>
+        <h2>1.4. Annotated Controllers</h2>
+<p>springmvc提供了基于注解的编程模型，比如@Controller,@RestController.</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@Controller</span></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HelloController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/hello"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">handle</span><span class="params">(Model model)</span> </span>&#123;</div><div class="line">        model.addAttribute(<span class="string">"message"</span>, <span class="string">"Hello World!"</span>);</div><div class="line">        <span class="keyword">return</span> <span class="string">"index"</span>;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3>1.4.1. Declaration</h3>
+<p>对于@Controller @Component等的beans可以由spring自动检测。不过这并不是默认开启的，你还需要设置一下：</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//通过java config</span></div><div class="line"><span class="meta">@Configuration</span></div><div class="line"><span class="meta">@ComponentScan</span>(<span class="string">"org.example.web"</span>)</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WebConfig</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">通过xml的方式</div><div class="line">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</div><div class="line"><span class="tag">&lt;<span class="name">beans</span> <span class="attr">xmlns</span>=<span class="string">"http://www.springframework.org/schema/beans"</span></span></div><div class="line">    <span class="attr">xmlns:xsi</span>=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></div><div class="line">    <span class="attr">xmlns:p</span>=<span class="string">"http://www.springframework.org/schema/p"</span></div><div class="line">    <span class="attr">xmlns:context</span>=<span class="string">"http://www.springframework.org/schema/context"</span></div><div class="line">    <span class="attr">xsi:schemaLocation</span>=<span class="string">"</span></div><div class="line">        http://www.springframework.org/schema/beans</div><div class="line">        http://www.springframework.org/schema/beans/spring-beans.xsd</div><div class="line">        http://www.springframework.org/schema/context</div><div class="line">        http://www.springframework.org/schema/context/spring-context.xsd"&gt;</div><div class="line"></div><div class="line">    <span class="tag">&lt;<span class="name">context:component-scan</span> <span class="attr">base-package</span>=<span class="string">"org.example.web"</span>/&gt;</span></div><div class="line"></div><div class="line">    <span class="comment">&lt;!-- ... --&gt;</span></div><div class="line"></div><div class="line"><span class="tag">&lt;/<span class="name">beans</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h3>1.4.2. Request Mapping</h3>
+<p>@RequestMapping是用来将一个request映射到一个方法上。既可以修饰方法也可以修饰controller。</p>
 <p>根据不同的http请求方法也有些简写：</p>
 <ul>
 <li><code>@GetMapping</code></li>
@@ -192,20 +195,22 @@
 <li><code>@DeleteMapping</code></li>
 <li><code>@PatchMapping</code></li>
 </ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/persons"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersonController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@PostMapping</span></div><div class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.CREATED)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(@RequestBody Person person)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="URI-patterns"><a href="#URI-patterns" class="headerlink" title="URI patterns"></a>URI patterns</h4><p>对于你匹配的url，你可以使用？、<em>、*</em>来进行模糊匹配。</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@RestController</span></div><div class="line"><span class="meta">@RequestMapping</span>(<span class="string">"/persons"</span>)</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">PersonController</span> </span>&#123;</div><div class="line"></div><div class="line">    <span class="meta">@GetMapping</span>(<span class="string">"/&#123;id&#125;"</span>)</div><div class="line">    <span class="function"><span class="keyword">public</span> Person <span class="title">getPerson</span><span class="params">(@PathVariable Long id)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="meta">@PostMapping</span></div><div class="line">    <span class="meta">@ResponseStatus</span>(HttpStatus.CREATED)</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(@RequestBody Person person)</span> </span>&#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4>URI patterns</h4>
+<p>对于你匹配的url，你可以使用？、*、**来进行模糊匹配。</p>
 <ul>
 <li>？:匹配单个字符</li>
 <li>*：匹配一个path segment中的任意多个字符</li>
 <li>**：匹配任意多个path segments。</li>
 </ul>
 <p>你还可以在path中通过{varName}指定变量,然后再方法参数中通过@PathVariable获取：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/owners/&#123;ownerId&#125;/pets/&#123;petId&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">findPet</span><span class="params">(@PathVariable Long ownerId, @PathVariable Long petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/owners/&#123;ownerId&#125;/pets/&#123;petId&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">findPet</span><span class="params">(@PathVariable Long ownerId, @PathVariable Long petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>uri变量会自动转换为你指定的类型，如果不能转换，那么会抛出TypeMismatchException异常。</p>
 <p>你还可以为变量指定正则表达式{varName:regx}</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;name:[a-z-]+&#125;-&#123;version:\\d\\.\\d\\.\\d&#125;&#123;ext:\\.[a-z]+&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(@PathVariable String version, @PathVariable String ext)</span> </span>&#123;</div><div class="line">    <span class="comment">// /spring-web-3.0.5 .jar</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(<span class="string">"/&#123;name:[a-z-]+&#125;-&#123;version:\\d\\.\\d\\.\\d&#125;&#123;ext:\\.[a-z]+&#125;"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handle</span><span class="params">(@PathVariable String version, @PathVariable String ext)</span> </span>&#123;</div><div class="line">    <span class="comment">// /spring-web-3.0.5 .jar</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>你还可以用${}来引用placeholder。</p>
-<h4 id="Pattern-comparison"><a href="#Pattern-comparison" class="headerlink" title="Pattern comparison"></a>Pattern comparison</h4><p>当一个URL同时匹配多个模式时，只会选择最匹配的一个：</p>
+<h4>Pattern comparison</h4>
+<p>当一个URL同时匹配多个模式时，只会选择最匹配的一个：</p>
 <ul>
 <li>URI模式变量的数目和通配符数量的总和最少的那个路径模式更准确。比如，<code>/hotels/{hotel}/*</code>这个路径拥有一个URI变量和一个通配符，而<code>/hotels/{hotel}/**</code>这个路径则拥有一个URI变量和两个通配符，因此前者是更准确的路径模式。</li>
 <li>如果两个模式的URI模式数量和通配符数量总和一致，则路径更长的那个模式更准确。举个例子，<code>/foo/bar*</code>就被认为比<code>/foo/*</code>更准确，因为前者的路径更长。</li>
@@ -213,15 +218,20 @@
 <li>默认的通配模式<code>/**</code>比其他所有的模式都更“不准确”。比方说，<code>/api/{a}/{b}/{c}</code>就比默认的通配模式<code>/**</code>要更准确</li>
 <li>前缀通配（比如<code>/public/**</code>)被认为比其他任何不包括双通配符的模式更不准确。比如说，<code>/public/path3/{a}/{b}/{c}</code>就比<code>/public/**</code>更准确</li>
 </ul>
-<h4 id="Consumable-media-types"><a href="#Consumable-media-types" class="headerlink" title="Consumable media types"></a>Consumable media types</h4><p>匹配request中的Content-Type</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@PostMapping</span>(path = <span class="string">"/pets"</span>, consumes = <span class="string">"application/json"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPet</span><span class="params">(@RequestBody Pet pet)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4>Consumable media types</h4>
+<p>匹配request中的Content-Type</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@PostMapping</span>(path = <span class="string">"/pets"</span>, consumes = <span class="string">"application/json"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addPet</span><span class="params">(@RequestBody Pet pet)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>支持！运算符，取反</p>
-<h4 id="Producible-media-types"><a href="#Producible-media-types" class="headerlink" title="Producible media types"></a>Producible media types</h4><p>匹配request中的Accept</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, produces = <span class="string">"application/json;charset=UTF-8"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">getPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="Parameters-headers"><a href="#Parameters-headers" class="headerlink" title="Parameters, headers"></a>Parameters, headers</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, params = <span class="string">"myParam=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets"</span>, headers = <span class="string">"myHeader=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="1-4-3-Handler-Methods"><a href="#1-4-3-Handler-Methods" class="headerlink" title="1.4.3. Handler Methods"></a>1.4.3. Handler Methods</h3><p>@RequestMapping修饰的方法还是有些限制的。他们的参数和返回值，只能是某些固定类型。</p>
-<h4 id="Method-Arguments"><a href="#Method-Arguments" class="headerlink" title="Method Arguments"></a>Method Arguments</h4><table>
+<h4>Producible media types</h4>
+<p>匹配request中的Accept</p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, produces = <span class="string">"application/json;charset=UTF-8"</span>)</div><div class="line"><span class="meta">@ResponseBody</span></div><div class="line"><span class="function"><span class="keyword">public</span> Pet <span class="title">getPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h4>Parameters, headers</h4>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets/&#123;petId&#125;"</span>, params = <span class="string">"myParam=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="meta">@GetMapping</span>(path = <span class="string">"/pets"</span>, headers = <span class="string">"myHeader=myValue"</span>)</div><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">findPet</span><span class="params">(@PathVariable String petId)</span> </span>&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h3>1.4.3. Handler Methods</h3>
+<p>@RequestMapping修饰的方法还是有些限制的。他们的参数和返回值，只能是某些固定类型。</p>
+<h4>Method Arguments</h4>
+<table>
 <thead>
 <tr>
 <th>Controller method argument</th>
@@ -239,7 +249,7 @@
 </tr>
 <tr>
 <td><code>javax.servlet.http.HttpSession</code></td>
-<td>Enforces the presence of a session. As a consequence, such an argument is never <code>null</code>. <strong>Note:</strong> Session access is not thread-safe. Consider setting the<code>RequestMappingHandlerAdapter</code>‘s “synchronizeOnSession” flag to “true” if multiple requests are allowed to access a session concurrently.</td>
+<td>Enforces the presence of a session. As a consequence, such an argument is never <code>null</code>. <strong>Note:</strong> Session access is not thread-safe. Consider setting the<code>RequestMappingHandlerAdapter</code>'s &quot;synchronizeOnSession&quot; flag to &quot;true&quot; if multiple requests are allowed to access a session concurrently.</td>
 </tr>
 <tr>
 <td><code>javax.servlet.http.PushBuilder</code></td>
@@ -279,7 +289,7 @@
 </tr>
 <tr>
 <td><code>@RequestParam</code></td>
-<td>For access to Servlet request parameters. Parameter values are converted to the declared method argument type. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestparam" target="_blank" rel="external">@RequestParam</a>.Note that use of <code>@RequestParam</code> is optional, e.g. to set its attributes. See “Any other argument” further below in this table.</td>
+<td>For access to Servlet request parameters. Parameter values are converted to the declared method argument type. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-requestparam" target="_blank" rel="external">@RequestParam</a>.Note that use of <code>@RequestParam</code> is optional, e.g. to set its attributes. See &quot;Any other argument&quot; further below in this table.</td>
 </tr>
 <tr>
 <td><code>@RequestHeader</code></td>
@@ -299,7 +309,7 @@
 </tr>
 <tr>
 <td><code>@RequestPart</code></td>
-<td>For access to a part in a “multipart/form-data” request. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-multipart-forms" target="_blank" rel="external">Multipart</a>.</td>
+<td>For access to a part in a &quot;multipart/form-data&quot; request. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-multipart-forms" target="_blank" rel="external">Multipart</a>.</td>
 </tr>
 <tr>
 <td><code>java.util.Map</code>, <code>org.springframework.ui.Model</code>, <code>org.springframework.ui.ModelMap</code></td>
@@ -311,7 +321,7 @@
 </tr>
 <tr>
 <td><code>@ModelAttribute</code></td>
-<td>For access to an existing attribute in the model (instantiated if not present) with data binding and validation applied. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-method-args" target="_blank" rel="external">@ModelAttribute</a> as well as <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-methods" target="_blank" rel="external">Model</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-initbinder" target="_blank" rel="external">DataBinder</a>.Note that use of <code>@ModelAttribute</code> is optional, e.g. to set its attributes. See “Any other argument” further below in this table.</td>
+<td>For access to an existing attribute in the model (instantiated if not present) with data binding and validation applied. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-method-args" target="_blank" rel="external">@ModelAttribute</a> as well as <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-modelattrib-methods" target="_blank" rel="external">Model</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-initbinder" target="_blank" rel="external">DataBinder</a>.Note that use of <code>@ModelAttribute</code> is optional, e.g. to set its attributes. See &quot;Any other argument&quot; further below in this table.</td>
 </tr>
 <tr>
 <td><code>Errors</code>, <code>BindingResult</code></td>
@@ -339,7 +349,8 @@
 </tr>
 </tbody>
 </table>
-<h4 id="Return-Values"><a href="#Return-Values" class="headerlink" title="Return Values"></a>Return Values</h4><p>for more details.</p>
+<h4>Return Values</h4>
+<p>for more details.</p>
 <table>
 <thead>
 <tr>
@@ -362,7 +373,7 @@
 </tr>
 <tr>
 <td><code>String</code></td>
-<td>A view name to be resolved with <code>ViewResolver</code>‘s and used together with the implicit model — determined through command objects and <code>@ModelAttribute</code> methods. The handler method may also programmatically enrich the model by declaring a <code>Model</code> argument (see above).</td>
+<td>A view name to be resolved with <code>ViewResolver</code>'s and used together with the implicit model — determined through command objects and <code>@ModelAttribute</code> methods. The handler method may also programmatically enrich the model by declaring a <code>Model</code> argument (see above).</td>
 </tr>
 <tr>
 <td><code>View</code></td>
@@ -374,7 +385,7 @@
 </tr>
 <tr>
 <td><code>@ModelAttribute</code></td>
-<td>An attribute to be added to the model with the view name implicitly determined through a <code>RequestToViewNameTranslator</code>.Note that <code>@ModelAttribute</code> is optional. See “Any other return value” further below in this table.</td>
+<td>An attribute to be added to the model with the view name implicitly determined through a <code>RequestToViewNameTranslator</code>.Note that <code>@ModelAttribute</code> is optional. See &quot;Any other return value&quot; further below in this table.</td>
 </tr>
 <tr>
 <td><code>ModelAndView</code> object</td>
@@ -382,7 +393,7 @@
 </tr>
 <tr>
 <td><code>void</code></td>
-<td>A method with a <code>void</code> return type (or <code>null</code> return value) is considered to have fully handled the response if it also has a <code>ServletResponse</code>, or an <code>OutputStream</code> argument, or an <code>@ResponseStatus</code> annotation. The same is true also if the controller has made a positive ETag or lastModified timestamp check (see <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-caching-etag-lastmodified" target="_blank" rel="external">Controllers</a> for details).If none of the above is true, a <code>void</code> return type may also indicate “no response body” for REST controllers, or default view name selection for HTML controllers.</td>
+<td>A method with a <code>void</code> return type (or <code>null</code> return value) is considered to have fully handled the response if it also has a <code>ServletResponse</code>, or an <code>OutputStream</code> argument, or an <code>@ResponseStatus</code> annotation. The same is true also if the controller has made a positive ETag or lastModified timestamp check (see <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-caching-etag-lastmodified" target="_blank" rel="external">Controllers</a> for details).If none of the above is true, a <code>void</code> return type may also indicate &quot;no response body&quot; for REST controllers, or default view name selection for HTML controllers.</td>
 </tr>
 <tr>
 <td><code>DeferredResult&lt;V&gt;</code></td>
@@ -398,7 +409,7 @@
 </tr>
 <tr>
 <td><code>ResponseBodyEmitter</code>, <code>SseEmitter</code></td>
-<td>Emit a stream of objects asynchronously to be written to the response with <code>HttpMessageConverter</code>‘s; also supported as the body of a <code>ResponseEntity</code>. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-http-streaming" target="_blank" rel="external">HTTP Streaming</a>.</td>
+<td>Emit a stream of objects asynchronously to be written to the response with <code>HttpMessageConverter</code>'s; also supported as the body of a <code>ResponseEntity</code>. See <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async" target="_blank" rel="external">Async Requests</a> and <a href="https://docs.spring.io/spring/docs/5.0.7.RELEASE/spring-framework-reference/web.html#mvc-ann-async-http-streaming" target="_blank" rel="external">HTTP Streaming</a>.</td>
 </tr>
 <tr>
 <td><code>StreamingResponseBody</code></td>
@@ -414,7 +425,7 @@
 </tr>
 </tbody>
 </table>
-<p>##### </p>
+<h5></h5>
 
       
 
@@ -646,19 +657,19 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
+                <a href="javascript:void(0)" class="js-tag color4">ios wkwebview</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">ios问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">rxswift,rxcocoa</a>
               </li>
              
               <li class="article-tag-list-item">
