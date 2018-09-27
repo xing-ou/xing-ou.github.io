@@ -8,18 +8,18 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>rxswift学习-Observer | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="什么是Observer ? 从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 先简单了解到这点。">
+  <meta name="description" content="什么是Observer ?从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 AnoymousObserver我们使用过程中经常用subscribe(一个block )这样的函数。起始其中的block会被">
 <meta name="keywords" content="rxswift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="rxswift学习-Observer">
 <meta property="og:url" content="http://yoursite.com/2017/06/06/rxswift学习-Observer/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="什么是Observer ? 从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 先简单了解到这点。">
+<meta property="og:description" content="什么是Observer ?从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 AnoymousObserver我们使用过程中经常用subscribe(一个block )这样的函数。起始其中的block会被">
 <meta property="og:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-06%20%E4%B8%8A%E5%8D%8811.34.20.png">
-<meta property="og:updated_time" content="2017-06-07T07:06:35.000Z">
+<meta property="og:updated_time" content="2018-08-10T01:21:24.860Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="rxswift学习-Observer">
-<meta name="twitter:description" content="什么是Observer ? 从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 先简单了解到这点。">
+<meta name="twitter:description" content="什么是Observer ?从上面的图可以看到ObserverType核心的就是一个接收事件的函数 1func on(_ event: Event&amp;lt;E&amp;gt;) 他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。 AnoymousObserver我们使用过程中经常用subscribe(一个block )这样的函数。起始其中的block会被">
 <meta name="twitter:image" content="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-06%20%E4%B8%8A%E5%8D%8811.34.20.png">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
@@ -181,11 +181,11 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p><img src="http://xingou.oss-cn-shanghai.aliyuncs.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-06-06%20%E4%B8%8A%E5%8D%8811.34.20.png" alt=""></p>
-<h4>什么是Observer ?</h4>
-<p>从上面的图可以看到ObserverType核心的就是一个接收事件的函数</p>
-<p><figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">on</span><span class="params">(<span class="number">_</span> event: Event&lt;E&gt;)</span></span></div></pre></td></tr></table></figure></p>
+<h4 id="什么是Observer"><a href="#什么是Observer" class="headerlink" title="什么是Observer ?"></a>什么是Observer ?</h4><p>从上面的图可以看到ObserverType核心的就是一个接收事件的函数</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">on</span><span class="params">(<span class="number">_</span> event: Event&lt;E&gt;)</span></span></div></pre></td></tr></table></figure>
 <p>他是对事件处理者的抽象。通过on方法拿到事件，至于具体要怎么处理这个事件，就由实现这个协议的东西决定了。</p>
-<p>先简单了解到这点。</p>
+<h4 id="AnoymousObserver"><a href="#AnoymousObserver" class="headerlink" title="AnoymousObserver"></a>AnoymousObserver</h4><p>我们使用过程中经常用subscribe(一个block )这样的函数。起始其中的block会被封装为一个AnoymousObserver对象。这个对象既是一个observer也是一个disposable。为什么要加上disposable呢？observer的on也不需要返回disposable呀？其实是考虑到当sequence dispose之后，防止on方法仍然继续执行。所以他保存了一个isStopped变量。当dispose之后将其设置为true。并在on方法中加入判断，如果isstoped为true，将不执行on。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">dispose</span><span class="params">()</span></span> &#123;</div><div class="line">    <span class="number">_</span> = <span class="type">AtomicCompareAndSwap</span>(<span class="number">0</span>, <span class="number">1</span>, &amp;_isStopped)</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">func</span> <span class="title">on</span><span class="params">(<span class="number">_</span> event: Event&lt;E&gt;)</span></span> &#123;</div><div class="line">    <span class="keyword">switch</span> event &#123;</div><div class="line">    <span class="keyword">case</span> .next:</div><div class="line">        <span class="keyword">if</span> _isStopped == <span class="number">0</span> &#123;</div><div class="line">            onCore(event)</div><div class="line">        &#125;</div><div class="line">    <span class="keyword">case</span> .error, .completed:</div><div class="line">        <span class="keyword">if</span> <span class="type">AtomicCompareAndSwap</span>(<span class="number">0</span>, <span class="number">1</span>, &amp;_isStopped) &#123;</div><div class="line">            onCore(event)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
       
 
@@ -413,6 +413,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
              
@@ -446,6 +450,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">video</a>
               </li>
              
               <li class="article-tag-list-item">

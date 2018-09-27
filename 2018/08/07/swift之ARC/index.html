@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>swift之ARC | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="swift的ARC 在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过">
+  <meta name="description" content="swift的ARC在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过额">
 <meta name="keywords" content="swift">
 <meta property="og:type" content="article">
 <meta property="og:title" content="swift之ARC">
 <meta property="og:url" content="http://yoursite.com/2018/08/07/swift之ARC/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="swift的ARC 在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过">
+<meta property="og:description" content="swift的ARC在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过额">
 <meta property="og:updated_time" content="2018-08-08T02:25:44.770Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="swift之ARC">
-<meta name="twitter:description" content="swift的ARC 在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过">
+<meta name="twitter:description" content="swift的ARC在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。  Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过额">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -178,8 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2>swift的ARC</h2>
-<p>在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。</p>
+        <h2 id="swift的ARC"><a href="#swift的ARC" class="headerlink" title="swift的ARC"></a>swift的ARC</h2><p>在swift中，一个对象在概念上有三种refcount。strong和unowned存在inlineref字段中，weak存在sidetable的refcount中。</p>
 <ul>
 <li>Strong RC : 记录这个对象的强引用。当强引用为0时，这个对象被deinited。此时读取unowned reference会出错，读取weak reference会得到nil。Strong RC是通过额外引用计数extra记录的，也就是说，extra为0，代表实际的引用计数为1。</li>
 <li>Unowned RC: 记录对象的无主引用。无主引用初始化为1。在deinite完成后-1，当无主引用为0时，这个对象分配的内存会被free掉。</li>
@@ -195,13 +194,11 @@
 <p>强引用和无主引用指向这个对象。</p>
 <p>弱引用指向这个对象的side table(声明一个weak变量相当于定义了一个WeakRefrence对象，这个对象会持有一个WeakReferenceBits, WeakReferenceBits是通过sidetableentry初始化的，sidetableentry包含了引用对象的指针和引用计数，所以当strongRC为0时，对象可以通过HeapObject的ref找到sidetableentry，并把其中的对象指针设置为nil，这样弱引用访问拿到的都是nil)。</p>
 <p>swift中每个对象都是一个HeapObject。下面是他的定义：</p>
-<p><figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">struct HeapObject &#123;</div><div class="line">  /// This is always a valid pointer to a metadata object.</div><div class="line">  HeapMetadata const *metadata;//等价于isa</div><div class="line"></div><div class="line">  InlineRefCounts refCounts;//记录引用计数，并提供了操作引用计数的方法</div><div class="line"></div><div class="line">#ifdef __cplusplus</div><div class="line">  HeapObject() = default;</div><div class="line"></div><div class="line">  // Initialize a HeapObject header as appropriate for a newly-allocated object.</div><div class="line">  constexpr HeapObject(HeapMetadata const *newMetadata) </div><div class="line">    : metadata(newMetadata)</div><div class="line">    , refCounts(InlineRefCounts::Initialized)</div><div class="line">  &#123; &#125;</div><div class="line"></div><div class="line">#ifndef NDEBUG</div><div class="line">  void dump() const LLVM_ATTRIBUTE_USED;</div><div class="line">#endif</div><div class="line"></div><div class="line">#endif // __cplusplus</div><div class="line">&#125;;</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">  HeapObject &#123;</div><div class="line">    isa</div><div class="line">    InlineRefCounts &#123;</div><div class="line">      atomic&lt;InlineRefCountBits&gt; &#123;</div><div class="line">        strong RC + unowned RC + flags</div><div class="line">        OR</div><div class="line">        HeapObjectSideTableEntry*</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  HeapObjectSideTableEntry &#123;</div><div class="line">    SideTableRefCounts &#123;</div><div class="line">      object pointer</div><div class="line">      atomic&lt;SideTableRefCountBits&gt; &#123;</div><div class="line">        strong RC + unowned RC + weak RC + flags</div><div class="line">      &#125;</div><div class="line">    &#125;   </div><div class="line">  &#125;</div><div class="line">总的来说就是：InlineRefCounts会尝试自己处理引用计数，如果有side table了，那么会调HeapObjectSideTableEntry 的相关方法，HeapObjectSideTableEntry又调用SideTableRefCounts 的相关方法。</div></pre></td></tr></table></figure></p>
-<p><figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeakReference</span> &#123;</span></div><div class="line">  <span class="keyword">union</span> &#123;</div><div class="line">    <span class="built_in">std</span>::atomic&lt;WeakReferenceBits&gt; nativeValue;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> SWIFT_OBJC_INTEROP</span></div><div class="line">    id nonnativeValue;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">  &#125;;</div><div class="line">   <span class="function"><span class="keyword">void</span> <span class="title">nativeInit</span><span class="params">(HeapObject *object)</span> </span>&#123;</div><div class="line">    <span class="comment">//初始化时通过refCount生成sidetable，并更改refCount的bit为sidetable的指针+flag  </span></div><div class="line">    <span class="keyword">auto</span> side = object ? object-&gt;refCounts.formWeakReference() : <span class="literal">nullptr</span>;</div><div class="line">    nativeValue.store(WeakReferenceBits(side), <span class="built_in">std</span>::memory_order_relaxed);</div><div class="line">  &#125;</div><div class="line">    ....</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeakReferenceBits</span> &#123;</span></div><div class="line">  <span class="keyword">uintptr_t</span> bits;</div><div class="line">    ....</div><div class="line">  WeakReferenceBits(HeapObjectSideTableEntry *newValue) &#123;</div><div class="line">    setNativeOrNull(newValue);</div><div class="line">  &#125;</div><div class="line">    .....</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h3>对象的生命周期状态机</h3>
-<ul>
-<li>
-<p><code>Live</code> (没有side table):</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">struct HeapObject &#123;</div><div class="line">  /// This is always a valid pointer to a metadata object.</div><div class="line">  HeapMetadata const *metadata;//等价于isa</div><div class="line"></div><div class="line">  InlineRefCounts refCounts;//记录引用计数，并提供了操作引用计数的方法</div><div class="line"></div><div class="line">#ifdef __cplusplus</div><div class="line">  HeapObject() = default;</div><div class="line"></div><div class="line">  // Initialize a HeapObject header as appropriate for a newly-allocated object.</div><div class="line">  constexpr HeapObject(HeapMetadata const *newMetadata) </div><div class="line">    : metadata(newMetadata)</div><div class="line">    , refCounts(InlineRefCounts::Initialized)</div><div class="line">  &#123; &#125;</div><div class="line"></div><div class="line">#ifndef NDEBUG</div><div class="line">  void dump() const LLVM_ATTRIBUTE_USED;</div><div class="line">#endif</div><div class="line"></div><div class="line">#endif // __cplusplus</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">  HeapObject &#123;</div><div class="line">    isa</div><div class="line">    InlineRefCounts &#123;</div><div class="line">      atomic&lt;InlineRefCountBits&gt; &#123;</div><div class="line">        strong RC + unowned RC + flags</div><div class="line">        OR</div><div class="line">        HeapObjectSideTableEntry*</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  HeapObjectSideTableEntry &#123;</div><div class="line">    SideTableRefCounts &#123;</div><div class="line">      object pointer</div><div class="line">      atomic&lt;SideTableRefCountBits&gt; &#123;</div><div class="line">        strong RC + unowned RC + weak RC + flags</div><div class="line">      &#125;</div><div class="line">    &#125;   </div><div class="line">  &#125;</div><div class="line">总的来说就是：InlineRefCounts会尝试自己处理引用计数，如果有side table了，那么会调HeapObjectSideTableEntry 的相关方法，HeapObjectSideTableEntry又调用SideTableRefCounts 的相关方法。</div></pre></td></tr></table></figure>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeakReference</span> &#123;</span></div><div class="line">  <span class="keyword">union</span> &#123;</div><div class="line">    <span class="built_in">std</span>::atomic&lt;WeakReferenceBits&gt; nativeValue;</div><div class="line"><span class="meta">#<span class="meta-keyword">if</span> SWIFT_OBJC_INTEROP</span></div><div class="line">    id nonnativeValue;</div><div class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></div><div class="line">  &#125;;</div><div class="line">   <span class="function"><span class="keyword">void</span> <span class="title">nativeInit</span><span class="params">(HeapObject *object)</span> </span>&#123;</div><div class="line">    <span class="comment">//初始化时通过refCount生成sidetable，并更改refCount的bit为sidetable的指针+flag  </span></div><div class="line">    <span class="keyword">auto</span> side = object ? object-&gt;refCounts.formWeakReference() : <span class="literal">nullptr</span>;</div><div class="line">    nativeValue.store(WeakReferenceBits(side), <span class="built_in">std</span>::memory_order_relaxed);</div><div class="line">  &#125;</div><div class="line">    ....</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">WeakReferenceBits</span> &#123;</span></div><div class="line">  <span class="keyword">uintptr_t</span> bits;</div><div class="line">    ....</div><div class="line">  WeakReferenceBits(HeapObjectSideTableEntry *newValue) &#123;</div><div class="line">    setNativeOrNull(newValue);</div><div class="line">  &#125;</div><div class="line">    .....</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="对象的生命周期状态机"><a href="#对象的生命周期状态机" class="headerlink" title="对象的生命周期状态机"></a>对象的生命周期状态机</h3><ul>
+<li><p><code>Live</code> (没有side table):</p>
 <p>对象的refcounts被初始化为：strong 1， unowned 1 ,weak 1。</p>
 <p>Strong varibale正常工作。</p>
 <p>unowned variable正常工作。</p>
@@ -209,13 +206,11 @@
 <p>如果你声明了一个weak variable，那么会添加side table，对象变成Live with side table状态。</p>
 <p>当strong RC变为0了，会调用deinit()，然后对象状态变为<code>DEINITING</code>。</p>
 </li>
-<li>
-<p><code>Live</code>(有side table)</p>
+<li><p><code>Live</code>(有side table)</p>
 <p>weak variable正常工作。</p>
 <p>其他的和Live相同。</p>
 </li>
-<li>
-<p><code>DEINITING</code>(没有side table)</p>
+<li><p><code>DEINITING</code>(没有side table)</p>
 <p>deinit()正在进行。</p>
 <p>强引用变量将不能使用。</p>
 <p>使用unowned variable会引发swift_abortRetainUnowned() 错误。</p>
@@ -224,13 +219,11 @@
 <p>weak  variable的赋值会存为nil。</p>
 <p>当deinit()完成后,会调用swift_deallocObject 。swift_deallocObject 会调用canBeFreedNow() 来检查还有没有weak或者unowned references。如果canBeFreedNow返回yes，那么这个对象被free掉，对象变为<code>DEAD</code>，否则，将减少无主引用，对象变为<code>DEINITED</code>状态。</p>
 </li>
-<li>
-<p><code>DEINITING</code>有side table</p>
+<li><p><code>DEINITING</code>有side table</p>
 <p>weak varibale为nil。canBeFreedNow 会一直返回false，所以这种情况不可能直接变为DEAD。</p>
 <p>其他同上。</p>
 </li>
-<li>
-<p><code>DEINITED</code>没有side table。</p>
+<li><p><code>DEINITED</code>没有side table。</p>
 <p>deinit()完成了，不过无主引用unowned references还存在。</p>
 <p>Strong variable的操作(store和load)不可能发生。</p>
 <p>Unowned varibale的store不可能发生。</p>
@@ -238,19 +231,16 @@
 <p>weak variable的操作不能执行。</p>
 <p>如果unowned RC为0了，对象会被free掉，然后变为<code>DEAD</code></p>
 </li>
-<li>
-<p><code>DEINITED</code>有side table。</p>
+<li><p><code>DEINITED</code>有side table。</p>
 <p>weak variable的load会返回nil。</p>
 <p>Weak variable的store不可能发生。</p>
 <p>当unowned RC为0时，对象被free掉。减少weak RC, 对象变为FREED。</p>
 <p>其他的同上。</p>
 </li>
-<li>
-<p><code>FREED</code>没有side table</p>
+<li><p><code>FREED</code>没有side table</p>
 <p>不可能发生，因为FREED需要weak RC, 有weak RC就一定有side table。</p>
 </li>
-<li>
-<p><code>FREED</code>有side table。</p>
+<li><p><code>FREED</code>有side table。</p>
 <p>对象虽然free了，但是指向side table的weak references还存在。</p>
 <p>strong variable的操作不可能发生。</p>
 <p>unowned variable的操作不可能发生。</p>
@@ -258,13 +248,11 @@
 <p>Weak variable的store不可能发生。</p>
 <p>当weak RC为0时，side table entry会free掉，对象变为<code>DEAD</code></p>
 </li>
-<li>
-<p><code>DEAD</code></p>
+<li><p><code>DEAD</code></p>
 <p>对象和他的side table都释放了。</p>
 </li>
 </ul>
-<h4>循环强引用</h4>
-<p>循环强引用，导致了strongRC永远都不会为0，所以对象永远也不会deinit，也就不会free，sidetable有的话也不会释放掉。</p>
+<h4 id="循环强引用"><a href="#循环强引用" class="headerlink" title="循环强引用"></a>循环强引用</h4><p>循环强引用，导致了strongRC永远都不会为0，所以对象永远也不会deinit，也就不会free，sidetable有的话也不会释放掉。</p>
 <p>我们可以使用weak或者unowned来打破，那什么时候使用呢？其实根据weak和unowned的特性，我们就能知道：</p>
 <ul>
 <li>weak会在对象deinit后将sidetable中的对象指针置为nil，所以我们用weak引用不会出现访问野指针的情况，不过缺点也很明显，用了weak，引用计数就需要通过sidetable来记录，分配了更多的空间(sidetableentry)，调用的层级也深一点(ref的操作最终都交给了sidetableentry)。</li>
@@ -499,6 +487,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
              
@@ -532,6 +524,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">video</a>
               </li>
              
               <li class="article-tag-list-item">

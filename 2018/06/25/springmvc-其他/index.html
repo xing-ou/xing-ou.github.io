@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>springmvc_其他 | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="如果不设置handlermapping，那么使用的是什么 spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
+  <meta name="description" content="如果不设置handlermapping，那么使用的是什么spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
 <meta name="keywords" content="spring java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="springmvc_其他">
 <meta property="og:url" content="http://yoursite.com/2018/06/25/springmvc-其他/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="如果不设置handlermapping，那么使用的是什么 spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
+<meta property="og:description" content="如果不设置handlermapping，那么使用的是什么spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
 <meta property="og:updated_time" content="2018-06-25T12:05:07.883Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="springmvc_其他">
-<meta name="twitter:description" content="如果不设置handlermapping，那么使用的是什么 spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
+<meta name="twitter:description" content="如果不设置handlermapping，那么使用的是什么spring mvc有一些infrastructure beans：  HandlerMapping HandlerAdapter HandlerExceptionResolver ViewResolver LocalResolver  LocalContextResolver ThemeResolver MultipartResolver">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -178,8 +178,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2>如果不设置handlermapping，那么使用的是什么</h2>
-<p>spring mvc有一些infrastructure beans：</p>
+        <h2 id="如果不设置handlermapping，那么使用的是什么"><a href="#如果不设置handlermapping，那么使用的是什么" class="headerlink" title="如果不设置handlermapping，那么使用的是什么"></a>如果不设置handlermapping，那么使用的是什么</h2><p>spring mvc有一些infrastructure beans：</p>
 <ul>
 <li>HandlerMapping</li>
 <li>HandlerAdapter</li>
@@ -191,9 +190,8 @@
 <li>FlashMapManager</li>
 </ul>
 <p>如果没有特别指定这些类型的bean，那么会使用默认的：</p>
-<p><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</div><div class="line"></div><div class="line">org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager</div></pre></td></tr></table></figure></p>
-<h2>注意对于@ResponseBody，ResponseEntity，postHandler不能处理response</h2>
-<p>对于@ResponseBody，ResponseEntity，response直接在HandlerAdapter就写回了。这个时候你想再改body或者header已经太迟了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">org.springframework.web.servlet.LocaleResolver=org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.ThemeResolver=org.springframework.web.servlet.theme.FixedThemeResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerMapping=org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerAdapter=org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter,\</div><div class="line">	org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter</div><div class="line"></div><div class="line">org.springframework.web.servlet.HandlerExceptionResolver=org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.annotation.ResponseStatusExceptionResolver,\</div><div class="line">	org.springframework.web.servlet.mvc.support.DefaultHandlerExceptionResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.RequestToViewNameTranslator=org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator</div><div class="line"></div><div class="line">org.springframework.web.servlet.ViewResolver=org.springframework.web.servlet.view.InternalResourceViewResolver</div><div class="line"></div><div class="line">org.springframework.web.servlet.FlashMapManager=org.springframework.web.servlet.support.SessionFlashMapManager</div></pre></td></tr></table></figure>
+<h2 id="注意对于-ResponseBody，ResponseEntity，postHandler不能处理response"><a href="#注意对于-ResponseBody，ResponseEntity，postHandler不能处理response" class="headerlink" title="注意对于@ResponseBody，ResponseEntity，postHandler不能处理response"></a>注意对于@ResponseBody，ResponseEntity，postHandler不能处理response</h2><p>对于@ResponseBody，ResponseEntity，response直接在HandlerAdapter就写回了。这个时候你想再改body或者header已经太迟了。</p>
 
       
 
@@ -421,6 +419,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
              
@@ -454,6 +456,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">video</a>
               </li>
              
               <li class="article-tag-list-item">

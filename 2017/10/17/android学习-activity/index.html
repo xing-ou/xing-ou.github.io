@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>android学习-activity | fa的学习之路</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="创建 Activity 继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activ">
+  <meta name="description" content="创建 Activity继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activi">
 <meta name="keywords" content="android">
 <meta property="og:type" content="article">
 <meta property="og:title" content="android学习-activity">
 <meta property="og:url" content="http://yoursite.com/2017/10/17/android学习-activity/index.html">
 <meta property="og:site_name" content="fa的学习之路">
-<meta property="og:description" content="创建 Activity 继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activ">
+<meta property="og:description" content="创建 Activity继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activi">
 <meta property="og:updated_time" content="2017-10-17T07:53:45.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="android学习-activity">
-<meta name="twitter:description" content="创建 Activity 继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activ">
+<meta name="twitter:description" content="创建 Activity继承Activity类。并实现生命周期回调方法。 两个最重要的回调方法：  onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 setContentView()，以定义 Activity 用户界面的布局。 onPause()系统将此方法作为用户离开activi">
   
     <link rel="alternative" href="/atom.xml" title="fa的学习之路" type="application/atom+xml">
   
@@ -178,18 +178,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2>创建 Activity</h2>
-<p>继承Activity类。并实现生命周期回调方法。</p>
+        <h2 id="创建-Activity"><a href="#创建-Activity" class="headerlink" title="创建 Activity"></a>创建 Activity</h2><p>继承Activity类。并实现生命周期回调方法。</p>
 <p>两个最重要的回调方法：</p>
 <ul>
 <li>onCreate() 必须实现此方法，系统会在创建activity时调用这个方法。您应该在实现内初始化 Activity 的必需组件。 最重要的是，您必须在此方法内调用 <code>setContentView()</code>，以定义 Activity 用户界面的布局。</li>
 <li>onPause()系统将此方法作为用户离开activity的第一信号。您通常应该在此方法内确认在当前用户会话结束后仍然有效的任何更改（因为用户可能不会返回）。</li>
 </ul>
-<h3>实现用户界面</h3>
-<p>界面是由view和viewgroup组成层次结构，他们控制着activity窗口内的某个矩形区域。</p>
+<h3 id="实现用户界面"><a href="#实现用户界面" class="headerlink" title="实现用户界面"></a>实现用户界面</h3><p>界面是由view和viewgroup组成层次结构，他们控制着activity窗口内的某个矩形区域。</p>
 <p>您可以通过 <code>setContentView()</code> 将布局设置为 Activity 的 UI</p>
-<h3>在清单文件中声明 Activity</h3>
-
+<h3 id="在清单文件中声明-Activity"><a href="#在清单文件中声明-Activity" class="headerlink" title="在清单文件中声明 Activity"></a>在清单文件中声明 Activity</h3>
       
 
       
@@ -416,6 +413,10 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">git</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">android</a>
               </li>
              
@@ -449,6 +450,14 @@ return o(t,i(n),arguments.length<3?void 0:u(arguments[2]))}})},function(t,n,r){v
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">ios</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">video</a>
               </li>
              
               <li class="article-tag-list-item">
